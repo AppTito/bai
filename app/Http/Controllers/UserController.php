@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -25,12 +24,12 @@ class UserController extends Controller
 
     public function index(): Response
     {
-        $users = User::all();
-        $usersWithRoles = $users->map(function ($user) {
+        $users = User::latest()->paginate(4); // Utiliza paginate directamente para simplificar
+        $users->map(function ($user) {
             $user->roles = $user->getRoleNames();
             return $user;
         });
-        return Inertia::render('Users/Index', ['users' => $usersWithRoles]);
+        return Inertia::render('Users/Index', ['users' => $users]);
     }
 
     public function create(): Response
@@ -39,7 +38,7 @@ class UserController extends Controller
         return Inertia::render('Users/Create', ['roles' => $roles]);
     }
 
-    public function store(UserRequest $request)
+    public function store(UserRequest $request): RedirectResponse
     {
         $input = $request->validated();
         $input['password'] = Hash::make($input['password']);

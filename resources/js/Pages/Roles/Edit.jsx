@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import {useCheckboxPermissions} from "@/hooks/useCheckboxPermissions.js";
@@ -30,7 +30,8 @@ export default function Edit(props) {
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit User</h2>} >
+            // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit User</h2>}
+        >
             <Head title="Edit User" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">

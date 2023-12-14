@@ -14,8 +14,7 @@ export default function Create ( props ){
     }
 
     return (
-        <AuthenticatedLayout user={props.auth.user} errors={props.errors}
-             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Create User</h2>}>
+        <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Create User"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">

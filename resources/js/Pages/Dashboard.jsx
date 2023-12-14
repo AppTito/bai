@@ -5,10 +5,7 @@ export default function Dashboard(props) {
     const { auth } = usePage().props
 
     return (
-        <AuthenticatedLayout
-            user={auth.user}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
+        <AuthenticatedLayout user={auth.user}>
             <Head title="Dashboard" />
 
             <div className="py-12">
