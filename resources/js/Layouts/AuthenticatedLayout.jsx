@@ -47,7 +47,13 @@ export default function Authenticated({ user, header, children }) {
                                         </NavLink>
                                     )
                                 }
-
+                                {
+                                    (hasRole('super-admin') || hasPermission('permission-list')) && (
+                                        <NavLink href={route('posts.index')} active={route().current('posts.index')}>
+                                            Posts
+                                        </NavLink>
+                                    )
+                                }
 
                             </div>
                         </div>
@@ -130,6 +136,13 @@ export default function Authenticated({ user, header, children }) {
                             (hasRole('super-admin') || hasPermission('permission-list')) && (
                                 <ResponsiveNavLink href={route('permissions.index')} active={route().current('permissions.index')}>
                                     Permissions
+                                </ResponsiveNavLink>
+                            )
+                        }
+                        {
+                            (hasRole('super-admin') || hasPermission('permission-list')) && (
+                                <ResponsiveNavLink href={route('posts.index')} active={route().current('posts.index')}>
+                                    Config
                                 </ResponsiveNavLink>
                             )
                         }
