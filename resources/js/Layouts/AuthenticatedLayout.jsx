@@ -47,7 +47,13 @@ export default function Authenticated({ user, header, children }) {
                                         </NavLink>
                                     )
                                 }
-
+                                {
+                                    (hasRole('super-admin') || hasPermission('permission-list')) && (
+                                        <NavLink href={route('permissions.index')} active={route().current('permissions.index')}>
+                                            Permission
+                                        </NavLink>
+                                    )
+                                }
 
                             </div>
                         </div>
