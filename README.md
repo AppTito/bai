@@ -74,7 +74,7 @@ sudo  chmod -R 775 ''
 chmod -R 755 storage chmod -R 755 bootstrap/cache
 ```
 
-[!Important]
+>.[!Important]
 ### React correctly on mac with Laravel
 
 ```bash
