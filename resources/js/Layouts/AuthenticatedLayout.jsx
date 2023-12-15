@@ -48,25 +48,15 @@ export default function Authenticated({ user, header, children }) {
                                         </NavLink>
                                     )
                                 }
-<<<<<<< HEAD
-                                {
-                                    (hasRole('super-admin') || hasPermission('permission-list')) && (
-                                        <NavLink href={route('permissions.index')} active={route().current('permissions.index')}>
-                                            Permission
-                                        </NavLink>
-                                    )
-                                }
-=======
-                                {/* Super-Admin y Admin */}
+                                {/* SuperAdmin y Admin */}
                                 {
                                     (hasRole('super-admin')  || hasRole('admin') || hasPermission('permission-list')) && (
-                                        <NavLink href={route('permissions.index')} active={route().current('permissions.index')}>
+                                        <NavLink href={route('categories.index')} active={route().current('categories.index')}>
                                             Categorias
                                         </NavLink>
                                     )
                                 }
                                
->>>>>>> 4c39d35 (Add navigation links for super-admin and admin users)
 
                             </div>
                         </div>
