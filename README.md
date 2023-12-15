@@ -56,7 +56,7 @@ php artisan serve
 
 ### You can now access the server at http://localhost:8000
 
-[!Note]
+.[!Note].
 Solo para Mac
 
 ### Laravel Log Error
@@ -74,7 +74,7 @@ sudo  chmod -R 775 ''
 chmod -R 755 storage chmod -R 755 bootstrap/cache
 ```
 
->.[!Important]
+.[!Important].
 ### React correctly on mac with Laravel
 
 ```bash
