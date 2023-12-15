@@ -48,6 +48,7 @@ export default function Authenticated({ user, header, children }) {
                                         </NavLink>
                                     )
                                 }
+<<<<<<< refs/remotes/origin/development
 <<<<<<< HEAD
                                 {
                                     (hasRole('super-admin') || hasPermission('permission-list')) && (
@@ -67,6 +68,15 @@ export default function Authenticated({ user, header, children }) {
                                 }
                                
 >>>>>>> 4c39d35 (Add navigation links for super-admin and admin users)
+=======
+                                {
+                                    (hasRole('super-admin') || hasPermission('donor-list')) && (
+                                        <NavLink href={route('donors.index')} active={route().current('donors.index')}>
+                                            Donors
+                                        </NavLink>
+                                    )
+                                }
+>>>>>>> donors complete
 
                             </div>
                         </div>
@@ -149,6 +159,13 @@ export default function Authenticated({ user, header, children }) {
                             (hasRole('super-admin') || hasPermission('permission-list')) && (
                                 <ResponsiveNavLink href={route('permissions.index')} active={route().current('permissions.index')}>
                                     Permissions
+                                </ResponsiveNavLink>
+                            )
+                        }
+                        {
+                            (hasRole('super-admin') || hasPermission('donor-list')) && (
+                                <ResponsiveNavLink href={route('donors.index')} active={route().current('donors.index')}>
+                                    Donors
                                 </ResponsiveNavLink>
                             )
                         }
