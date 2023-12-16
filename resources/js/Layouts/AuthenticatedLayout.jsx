@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
@@ -13,10 +13,8 @@ import { Icon } from "@iconify/react";
 import TitleLineSlideBar from "@/Components/TitleLineSlideBar";
 
 export default function Authenticated({ user, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] =
-        useState(false);
     const { hasPermission, hasRole } = usePermissions();
-    const [showDropdown, setShowDropdown] = useState(false);
+    const [showDropdown, setShowDropdown] = useState();
 
     return (
         <div className="flex h-screen bg-gray-200">
@@ -233,5 +231,6 @@ export default function Authenticated({ user, header, children }) {
                 </main>
             </div>
         </div>
+        
     );
 }
