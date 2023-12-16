@@ -10,7 +10,7 @@ export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
     const { hasPermission, hasRole } = usePermissions();
-
+    const [showDropdown, setShowDropdown] = useState(false);
     return (
         <div className="flex h-screen bg-gray-200">
             {/* Left Sidebar */}
@@ -32,48 +32,102 @@ export default function Authenticated({ user, header, children }) {
                     <nav className="flex-1 px-2 py-4 bg-white">
                         <ul className="space-y-2">
                             <NavLink
+                                className="w-full"
                                 href={route("dashboard")}
                                 active={route().current("dashboard")}
                             >
                                 Dashboard
                             </NavLink>
-                            <br />
                             {/* Super-admin */}
-                            {(hasRole("super-admin") ||
-                                hasPermission("user-list")) && (
-                                <NavLink
-                                    href={route("users.index")}
-                                    active={route().current("users.index")}
-                                >
-                                    Users
-                                </NavLink>
-                            )}
-                            <br />
-                            {(hasRole("super-admin") ||
-                                hasPermission("role-list")) && (
-                                <NavLink
-                                    href={route("roles.index")}
-                                    active={route().current("roles.index")}
-                                >
-                                    Roles
-                                </NavLink>
-                            )}
-                            <br />
+                            {/* Menú desplegable para Users, Roles y Permissions */}
                             {(hasRole("super-admin") ||
                                 hasPermission("permission-list")) && (
-                                <NavLink
-                                    href={route("permissions.index")}
-                                    active={route().current(
-                                        "permissions.index"
+                                <li className="relative group">
+                                    <button
+                                        className={`w-full flex items-center px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none ${
+                                            showDropdown
+                                                ? 'text-green-700 bg-indigo-100 border-l-4 border-green-500'
+                                                : 'text-gray-600 hover:text-gray-800 hover:bg-green-100'
+                                        }`}
+                                        onClick={() =>
+                                            setShowDropdown(!showDropdown)
+                                        }
+                                    >
+                                        <span className="w-full">
+                                            Administrar
+                                        </span>
+                                        <svg
+                                            className={`${
+                                                showDropdown
+                                                    ? "transform rotate-180"
+                                                    : ""
+                                            } w-5 h-5 ml-1 text-gray-500 group-hover:text-gray-600 transition-transform duration-150 ease-in-out`}
+                                            fill="currentColor"
+                                            viewBox="0 0 20 20"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                clipRule="evenodd"
+                                                d="M6 8l4 4 4-4"
+                                            />
+                                        </svg>
+                                    </button>
+
+                                    {/* Contenido del menú desplegable */}
+                                    {showDropdown && (
+                                        <ul className="space-y-2 ml-4">
+                                            {/* Super-admin */}
+                                            {(hasRole("super-admin") ||
+                                                hasPermission("user-list")) && (
+                                                <NavLink
+                                                    className="w-full"
+                                                    href={route("users.index")}
+                                                    active={route().current(
+                                                        "users.index"
+                                                    )}
+                                                >
+                                                    Users
+                                                </NavLink>
+                                            )}
+                                            {(hasRole("super-admin") ||
+                                                hasPermission("role-list")) && (
+                                                <NavLink
+                                                    className="w-full"
+                                                    href={route("roles.index")}
+                                                    active={route().current(
+                                                        "roles.index"
+                                                    )}
+                                                >
+                                                    Roles
+                                                </NavLink>
+                                            )}
+
+                                            {(hasRole("super-admin") ||
+                                                hasPermission(
+                                                    "permission-list"
+                                                )) && (
+                                                <NavLink
+                                                    className="w-full"
+                                                    href={route(
+                                                        "permissions.index"
+                                                    )}
+                                                    active={route().current(
+                                                        "permissions.index"
+                                                    )}
+                                                >
+                                                    Permissions
+                                                </NavLink>
+                                            )}
+                                        </ul>
                                     )}
-                                >
-                                    Permissions
-                                </NavLink>
+                                </li>
                             )}
+
                             {/* SuperAdmin y Admin */}
                             {(hasRole("super-admin") ||
                                 hasPermission("permission-list")) && (
                                 <NavLink
+                                    className="w-full"
                                     href={route("categories.index")}
                                     active={route().current("categories.index")}
                                 >
@@ -108,8 +162,7 @@ export default function Authenticated({ user, header, children }) {
                             -> users
                             -> roles
                             */}
-                            </label>
-                            
+                        </label>
                     </span>
                     <div className="flex items-center">
                         {/* Toggle sidebar button */}
