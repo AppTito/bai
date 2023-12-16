@@ -8,7 +8,7 @@ import Pagination from "@/Components/Pagination.jsx";
 export default function Index( props ) {
     const { roles } = usePage().props
     const { hasPermission, hasRole } = usePermissions()
-    console.log(roles)
+
     function destroy(e) {
         if (confirm("Are you sure you want to delete this roles?")) {
             Inertia.delete(route("roles.destroy", e.currentTarget.id));

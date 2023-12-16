@@ -26,6 +26,7 @@ export default function Authenticated({ user, header, children }) {
                                 <NavLink href={route('dashboard')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
+
                                 {
                                     (hasRole('super-admin') || hasPermission('user-list')) && (
                                         <NavLink href={route('users.index')} active={route().current('users.index')}>
@@ -33,6 +34,7 @@ export default function Authenticated({ user, header, children }) {
                                         </NavLink>
                                     )
                                 }
+
                                 {
                                     (hasRole('super-admin') || hasPermission('role-list')) && (
                                         <NavLink href={route('roles.index')} active={route().current('roles.index')}>
@@ -40,6 +42,7 @@ export default function Authenticated({ user, header, children }) {
                                         </NavLink>
                                     )
                                 }
+
                                 {
                                     (hasRole('super-admin') || hasPermission('permission-list')) && (
                                         <NavLink href={route('permissions.index')} active={route().current('permissions.index')}>
@@ -48,6 +51,21 @@ export default function Authenticated({ user, header, children }) {
                                     )
                                 }
 
+                                {
+                                    (hasRole('super-admin')  || hasRole('admin') || hasPermission('permission-list')) && (
+                                        <NavLink href={route('permissions.index')} active={route().current('permissions.index')}>
+                                            Categories
+                                        </NavLink>
+                                    )
+                                }
+
+                                {
+                                    (hasRole('super-admin') || hasPermission('donor-list')) && (
+                                        <NavLink href={route('donors.index')} active={route().current('donors.index')}>
+                                            Donors
+                                        </NavLink>
+                                    )
+                                }
 
                             </div>
                         </div>
@@ -130,6 +148,13 @@ export default function Authenticated({ user, header, children }) {
                             (hasRole('super-admin') || hasPermission('permission-list')) && (
                                 <ResponsiveNavLink href={route('permissions.index')} active={route().current('permissions.index')}>
                                     Permissions
+                                </ResponsiveNavLink>
+                            )
+                        }
+                        {
+                            (hasRole('super-admin') || hasPermission('donor-list')) && (
+                                <ResponsiveNavLink href={route('donors.index')} active={route().current('donors.index')}>
+                                    Donors
                                 </ResponsiveNavLink>
                             )
                         }

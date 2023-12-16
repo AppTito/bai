@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DonorController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -29,6 +30,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UserController::class);
     Route::resource('permissions', PermissionController::class);
     Route::resource('roles', RoleController::class);
+    Route::resource('donors', DonorController::class);
 });
 
 require __DIR__.'/auth.php';

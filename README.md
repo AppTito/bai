@@ -55,3 +55,32 @@ php artisan serve
 ```
 
 ### You can now access the server at http://localhost:8000
+
+.[!Note]
+Solo para Mac
+
+### Laravel Log Error
+```bash
+sudo chown -R daemon:daemon ''
+```
+
+### Error Git Init
+```bash
+sudo  chmod -R 775 ''
+```
+
+### BoostrapCache
+```bash
+chmod -R 755 storage chmod -R 755 bootstrap/cache
+```
+
+.[!Important]
+### React correctly on mac with Laravel
+
+```bash
+php artisan storage:link
+```
+
+```bash
+npm run dev
+```
