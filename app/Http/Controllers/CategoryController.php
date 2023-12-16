@@ -64,6 +64,7 @@ class CategoryController extends Controller
     }
     public function destroy(Request $request, Category $category): RedirectResponse
     {
+        //cambia el estado de las categorías a 0
         $inactivo = [
             'status' => 0
         ];
@@ -74,6 +75,7 @@ class CategoryController extends Controller
 
     public function destroy1(Category $category): RedirectResponse
     {
+        //borra la categoría de la bdd, pero este método no se está llamando en ningún lado
         $category->delete();
         return redirect()->route('categories.index');
     }
