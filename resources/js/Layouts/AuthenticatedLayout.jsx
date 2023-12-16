@@ -7,61 +7,80 @@ import { Link } from "@inertiajs/react";
 import { usePermissions } from "@/hooks/usePermissions.js";
 
 export default function Authenticated({ user, header, children }) {
-    const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
+    const [showingNavigationDropdown, setShowingNavigationDropdown] =
+        useState(false);
     const { hasPermission, hasRole } = usePermissions();
 
     return (
         <div className="flex h-screen bg-gray-200">
             {/* Left Sidebar */}
-            <div className="flex flex-col flex-shrink-0 text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800" style={{ width: "250px" }}>
-                <div className="flex flex-col items-center flex-shrink-0 py-4">
+            <div
+                className="flex flex-col flex-shrink-0 text-gray-700 bg-white dark-mode:text-gray-200 dark-mode:bg-gray-800"
+                style={{ width: "200px" }}
+            >
+                <div className="flex flex-row items-center flex-shrink-0 py-4 m-4">
                     <Link href="/">
-                        <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 rounded-full" />
+                        <div className="flex items-center">
+                            <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 rounded-full" />
+                            <span className="ml-2 decoration-inherit font-semibold text-green-800 ">
+                                BADI
+                            </span>
+                        </div>
                     </Link>
                 </div>
-                <div className="flex flex-col justify-between flex-1 h-1 overflow-y-auto">
-                    <nav className="flex-1 px-2 py-4 bg-white bg-gray-800">
-                        <NavLink
-                            href={route("dashboard")}
-                            active={route().current("dashboard")}
-                        >
-                            Dashboard
-                        </NavLink>
-                        {/* Super-admin */}
-                        {(hasRole("super-admin") || hasPermission("user-list")) && (
+                <div className="flex flex-col flex-1 overflow-y-auto">
+                    <nav className="flex-1 px-2 py-4 bg-white">
+                        <ul className="space-y-2">
                             <NavLink
-                                href={route("users.index")}
-                                active={route().current("users.index")}
+                                href={route("dashboard")}
+                                active={route().current("dashboard")}
                             >
-                                Users
+                                Dashboard
                             </NavLink>
-                        )}
-                        {(hasRole("super-admin") || hasPermission("role-list")) && (
-                            <NavLink
-                                href={route("roles.index")}
-                                active={route().current("roles.index")}
-                            >
-                                Roles
-                            </NavLink>
-                        )}
-
-                        {(hasRole("super-admin") || hasPermission("permission-list")) && (
-                            <NavLink
-                                href={route("permissions.index")}
-                                active={route().current("permissions.index")}
-                            >
-                                Permissions
-                            </NavLink>
-                        )}
-                        {/* SuperAdmin y Admin */}
-                        {(hasRole("super-admin") || hasPermission("permission-list")) && (
-                            <NavLink
-                                href={route("categories.index")}
-                                active={route().current("categories.index")}
-                            >
-                                Categorias
-                            </NavLink>
-                        )}
+                            <br />
+                            {/* Super-admin */}
+                            {(hasRole("super-admin") ||
+                                hasPermission("user-list")) && (
+                                <NavLink
+                                    href={route("users.index")}
+                                    active={route().current("users.index")}
+                                >
+                                    Users
+                                </NavLink>
+                            )}
+                            <br />
+                            {(hasRole("super-admin") ||
+                                hasPermission("role-list")) && (
+                                <NavLink
+                                    href={route("roles.index")}
+                                    active={route().current("roles.index")}
+                                >
+                                    Roles
+                                </NavLink>
+                            )}
+                            <br />
+                            {(hasRole("super-admin") ||
+                                hasPermission("permission-list")) && (
+                                <NavLink
+                                    href={route("permissions.index")}
+                                    active={route().current(
+                                        "permissions.index"
+                                    )}
+                                >
+                                    Permissions
+                                </NavLink>
+                            )}
+                            {/* SuperAdmin y Admin */}
+                            {(hasRole("super-admin") ||
+                                hasPermission("permission-list")) && (
+                                <NavLink
+                                    href={route("categories.index")}
+                                    active={route().current("categories.index")}
+                                >
+                                    Categorias
+                                </NavLink>
+                            )}
+                        </ul>
                     </nav>
                     <div className="flex-shrink-0 px-2 py-4 space-y-2">
                         <ResponsiveNavLink
@@ -80,11 +99,26 @@ export default function Authenticated({ user, header, children }) {
             {/* Main Content Area */}
             <div className="flex flex-col flex-1 overflow-hidden">
                 {/* Top Header */}
-                <header className="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-indigo-600">
+                <header className="flex justify-between items-center py-4 px-6 bg-white border-b-4 border-green-600">
+                    <span>
+                        <label className="text-xl font-semibold text-green-800">
+                            Banco de Alimentos Imbabura
+                            {/* Aqui puede ir para indicar la ruta
+                            -> dashboard
+                            -> users
+                            -> roles
+                            */}
+                            </label>
+                            
+                    </span>
                     <div className="flex items-center">
                         {/* Toggle sidebar button */}
                         <button
-                            onClick={() => setShowingNavigationDropdown(!showingNavigationDropdown)}
+                            onClick={() =>
+                                setShowingNavigationDropdown(
+                                    !showingNavigationDropdown
+                                )
+                            }
                             className="text-gray-500 focus:outline-none lg:hidden"
                         >
                             <svg
@@ -110,30 +144,6 @@ export default function Authenticated({ user, header, children }) {
                                 )}
                             </svg>
                         </button>
-
-                        {/* Search input */}
-                        <div className="hidden mx-10 lg:flex lg:items-center">
-                            <span className="text-gray-400">
-                                <svg
-                                    className="h-5 w-5"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        clipRule="evenodd"
-                                        d="M8.25 14.5a6.25 6.25 0 100-12.5 6.25 6.25 0 000 12.5zM14.5 9.75a4.25 4.25 0 11-8.5 0 4.25 4.25 0 018.5 0z"
-                                        fill="#A0AEC0"
-                                    />
-                                </svg>
-                            </span>
-
-                            <input
-                                className="hidden lg:block bg-gray-200 text-sm text-gray-700 placeholder-gray-600 border-0 border-gray-200 focus:ring-0 focus:outline-none w-32 h-10 pl-2 rounded-md"
-                                type="text"
-                                placeholder="Search..."
-                            />
-                        </div>
                     </div>
 
                     {/* User Dropdown */}
@@ -141,37 +151,23 @@ export default function Authenticated({ user, header, children }) {
                         <div className="ms-3 relative">
                             <Dropdown>
                                 <Dropdown.Trigger>
-                                    <button className="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
-                                        <img
-                                            className="h-8 w-8 rounded-full object-cover"
-                                            src={user.profile_photo_url}
-                                            alt={user.name}
-                                        />
+                                    <button className="flex text-sm border-2 border-transparent focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                        <span className="ml-2 text-gray-700 text-sm font-medium">
+                                            {user.name}
+                                        </span>
                                     </button>
                                 </Dropdown.Trigger>
                                 <Dropdown.Content>
                                     {/* Account Management */}
                                     <div className="block px-4 py-2 text-xs text-gray-400">
-                                        Manage Account
+                                        Administrar Cuenta
                                     </div>
 
                                     <Dropdown.Link
                                         href="/user/profile"
                                         icon="user-circle"
                                     >
-                                        Profile
-                                    </Dropdown.Link>
-                                    <Dropdown.Link
-                                        href="/user/settings"
-                                        icon="cog"
-                                    >
-                                        Settings
-                                    </Dropdown.Link>
-                                    <Dropdown.Link
-                                        href="/user/api-tokens"
-                                        icon="key"
-                                    >
-                                        API Tokens
+                                        Perfil
                                     </Dropdown.Link>
 
                                     <div className="border-t border-gray-100"></div>
@@ -183,7 +179,7 @@ export default function Authenticated({ user, header, children }) {
                                             method="post"
                                             icon="logout"
                                         >
-                                            Logout
+                                            Cerrar Sesión
                                         </Dropdown.Link>
                                     </form>
                                 </Dropdown.Content>
@@ -194,7 +190,11 @@ export default function Authenticated({ user, header, children }) {
                     {/* Mobile Toggle Button */}
                     <div className="-me-2 flex items-center sm:hidden">
                         <button
-                            onClick={() => setShowingNavigationDropdown(!showingNavigationDropdown)}
+                            onClick={() =>
+                                setShowingNavigationDropdown(
+                                    !showingNavigationDropdown
+                                )
+                            }
                             className="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-white hover:bg-gray-600 focus:outline-none focus:bg-gray-600 focus:text-white transition duration-150 ease-in-out"
                         >
                             {/* Menu open: "hidden", Menu closed: "block" */}
