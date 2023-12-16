@@ -10,6 +10,7 @@ import AlterResponsiveNavLink from "@/Components/AlterResponsiveNavLink";
 import AlterNavLink from "@/Components/AlterNavLink";
 import LineSlideBar from "@/Components/LineSlideBar"; // Linea Horizontal Divisoria
 import { Icon } from "@iconify/react";
+import TitleLineSlideBar from "@/Components/TitleLineSlideBar";
 
 export default function Authenticated({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
@@ -35,6 +36,8 @@ export default function Authenticated({ user, header, children }) {
                     </Link>
                 </div>
                 <LineSlideBar />
+                <TitleLineSlideBar>Menú</TitleLineSlideBar>
+                
                 <div className="flex flex-col flex-1 overflow-y-auto">
                     <nav className="flex-1 px-2 py-4 border-green-600">
                         <ul className="space-y-2">
@@ -133,6 +136,9 @@ export default function Authenticated({ user, header, children }) {
                                 </li>
                             )}
                             <LineSlideBar />
+                            <TitleLineSlideBar>
+                                Administración
+                            </TitleLineSlideBar>
                             {(hasRole("super-admin") ||
                                 hasPermission("permission-list")) && (
                                 <NavLink
