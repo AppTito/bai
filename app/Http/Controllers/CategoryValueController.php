@@ -17,7 +17,7 @@ class CategoryValueController extends Controller
         $this->middleware('permission:config-delete', ['only' => ['destroy']]);
     }
     public function index(){
-        $categories = CategoryValue::with('category')->get();
+        $categories = CategoryValue::with('category')->paginate(5);
         //return $categories;
         return Inertia::render("Configuration/Index", ["categoryValue"=>$categories]);
     }

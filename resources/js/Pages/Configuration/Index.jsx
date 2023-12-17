@@ -62,7 +62,7 @@ export default function Index( props ) {
                                                     </tr>
                                                     </thead>
                                                     <tbody className="bg-white divide-y divide-gray-200">
-                                                    {categoryValue.map(({id,category,value}) => (
+                                                    {categoryValue.data.map(({id,category,value}) => (
                                                         <tr key={id}>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                                 {id}
@@ -100,7 +100,7 @@ export default function Index( props ) {
                                         </div>
                                     </div>
                                 </div>
-                                {/* <Pagination class="mt-6" links={permissions.links} /> */}
+                                <Pagination class="mt-6" links={categoryValue.links} />
                             </div>
                         </div>
                     </div>
