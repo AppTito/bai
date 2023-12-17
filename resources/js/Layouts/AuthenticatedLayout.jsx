@@ -45,7 +45,7 @@ export default function Authenticated({ user, header, children }) {
                                 href={route("dashboard")}
                                 active={route().current("dashboard")}
                             >
-                                <Icon icon="mdi:home" />
+                                <Icon icon="mdi:home" className={"mr-2"} />
                                 Dashboard
                             </NavLink>
 
@@ -65,7 +65,7 @@ export default function Authenticated({ user, header, children }) {
                                         }
                                     >
                                         <span className="flex items-center w-full text-orange-50">
-                                            <Icon icon="mdi:account-group" />
+                                            <Icon icon="mdi:account-group" className={"mr-2"} />
                                             <span className="ml-1 hover:text-orange-700">
                                                 Administrar
                                             </span>
@@ -118,9 +118,7 @@ export default function Authenticated({ user, header, children }) {
                                                 hasPermission(
                                                     "permission-list"
                                                 )) && (
-                                                <AlterNavLink
-                                                    className="w-full"
-                                                    href={route(
+                                                <AlterNavLink className="w-full" href={route(
                                                         "permissions.index"
                                                     )}
                                                     active={route().current(
@@ -140,21 +138,23 @@ export default function Authenticated({ user, header, children }) {
                             </TitleLineSlideBar>
                             {(hasRole("super-admin") ||
                                 hasPermission("category-list")) && (
-                                <NavLink
-                                    className="w-full"
-                                    href={route("categories.index")}
-                                    active={route().current("categories.index")}
-                                >
-                                    <Icon icon="mdi:category" />
+                                <NavLink className="w-full" href={route("categories.index")} >
+                                    <Icon icon="mdi:category" className={"mr-2"} />
                                     Categorías
                                 </NavLink>
-                            )}{
-                            (hasRole('super-admin') || hasPermission('organizations-list')) && (
+                            )}
+                            {(hasRole('super-admin') || hasPermission('organizations-list')) && (
+                                <NavLink href={route('donors.index')} active={route().current('donors.index')}>
+                                    <Icon icon="streamline:give-gift-solid" className={"mr-2"} />
+                                    Donantes
+                                </NavLink>
+                            )}
+                            {(hasRole('super-admin') || hasPermission('organizations-list')) && (
                             <NavLink href={route('organizations.index')} active={route().current('organizations.index')}>
+                                <Icon icon="mdi:building" className={"mr-2"}/>
                                 Organizaciones
                             </NavLink>
-                            )
-                            }
+                            )}
                         </ul>
                     </nav>
                     <LineSlideBar />
@@ -202,17 +202,10 @@ export default function Authenticated({ user, header, children }) {
                                     <div className="border-t border-gray-100"></div>
 
                                     <div className="mt-3 space-y-1">
-                                        <ResponsiveNavLink
-                                            href={route("profile.edit")}
-                                        >
+                                        <ResponsiveNavLink href={route("profile.edit")} >
                                             Perfil
                                         </ResponsiveNavLink>
-
-                                        <ResponsiveNavLink
-                                            method="post"
-                                            href={route("logout")}
-                                            as="button"
-                                        >
+                                        <ResponsiveNavLink method="post" href={route("logout")} as="button" >
                                             Cerrar Sesion
                                         </ResponsiveNavLink>
                                     </div>

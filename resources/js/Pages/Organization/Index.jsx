@@ -58,7 +58,7 @@ export default function Index( props ) {
                                                     </tr>
                                                     </thead>
                                                     <tbody className="bg-white divide-y divide-gray-200">
-                                                    {organization.map(({id, code, address, ruc  }) => (
+                                                    {organization.data.map(({id, code, address, ruc  }) => (
                                                         <tr key={id}>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                                 {code}
@@ -69,14 +69,14 @@ export default function Index( props ) {
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                                 {ruc}
                                                             </td>
-                                                            {(hasRole('super-admin') || hasPermission('permission-edit') || hasPermission('permission-delete')) && (
+                                                            {(hasRole('super-admin') || hasPermission('organizations-edit') || hasPermission('organizations-delete')) && (
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center space-x-2">
-                                                                    {(hasRole('super-admin') || hasPermission('permission-edit')) && (
+                                                                    {(hasRole('super-admin') || hasPermission('organizations-edit')) && (
                                                                         <Link tabIndex="1" className="px-4 py-2 text-sm text-white bg-sky-800
                                                                         rounded mr-2"
                                                                               href={route("organizations.edit", id)}>Editar</Link>
                                                                     )}
-                                                                    {(hasRole('super-admin') || hasPermission('permission-delete')) && (
+                                                                    {(hasRole('super-admin') || hasPermission('organizations-delete')) && (
                                                                         <button onClick={destroy} id={id} tabIndex="-1"
                                                                                 type="button"
                                                                                 className="mx-1 px-4 py-2 text-sm text-white bg-rose-500 rounded mr-2 ">
@@ -92,8 +92,8 @@ export default function Index( props ) {
                                         </div>
                                     </div>
                                 </div>
-{/*                                  <Pagination class="mt-6" links={permissions.links} />
- */}                             </div>
+                                  <Pagination class="mt-6" links={organization.links} />
+                             </div>
                         </div>
                     </div>
                 </div>
