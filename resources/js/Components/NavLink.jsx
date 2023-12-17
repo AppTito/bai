@@ -4,7 +4,7 @@ export default function NavLink({ active = false, className = '', children, ...p
     return (
         <Link
             {...props}
-            className={`inline-flex items-center justify-center px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none
+            className={`inline-flex items-center justify-start px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none
                          rounded-md focus:shadow-outline text-orange-50 hover:text-orange-700 hover:bg-orange-100 focus:text-orange-800 focus:bg-orange-200
                         ${active
                             ? 'text-indigo-700 bg-indigo-100 border-l-4 border-indigo-500 focus:text-indigo-800 focus:bg-indigo-200'
