@@ -106,6 +106,7 @@ export default function Authenticated({ user, header, children }) {
                             <TitleLineSlideBar>
                                 Administración
                             </TitleLineSlideBar>
+
                             {(hasRole("super-admin") ||
                                 hasPermission("category-list")) && (
                                 <NavLink
@@ -144,6 +145,29 @@ export default function Authenticated({ user, header, children }) {
                                         icon="mdi:building"
                                         className={"mr-2"}
                                     />
+
+                            {(hasRole("super-admin") || hasPermission("category-list")) && (
+                                <NavLink className="w-full" href={route("categories.index")} >
+                                    <Icon icon="mdi:category" className={"mr-2"} />
+                                    Categorías
+                                </NavLink>
+                            )}
+                            {(hasRole('super-admin') || hasPermission('product-list')) && (
+                                <NavLink className="w-full" href={route('products.index')} active={route().current('products.index')}>
+                                    <Icon icon="mdi:cart" className={"mr-2"}/>
+                                    Productos
+                                </NavLink>
+                            )}
+                            {(hasRole('super-admin') || hasPermission('organizations-list')) && (
+                                <NavLink className="w-full" href={route('donors.index')} active={route().current('donors.index')}>
+                                    <Icon icon="streamline:give-gift-solid" className={"mr-2"} />
+                                    Donantes
+                                </NavLink>
+                            )}
+                            {(hasRole('super-admin') || hasPermission('organizations-list')) && (
+                                <NavLink className="w-full" href={route('organizations.index')} active={route().current('organizations.index')}>
+                                    <Icon icon="mdi:building" className={"mr-2"}/>
+
                                     Organizaciones
                                 </NavLink>
                             )}
@@ -207,12 +231,17 @@ export default function Authenticated({ user, header, children }) {
                                         >
                                             Perfil
                                         </ResponsiveNavLink>
+
                                         <ResponsiveNavLink
                                             method="post"
                                             href={route("logout")}
                                             as="button"
                                         >
                                             Cerrar Sesion
+
+                                        <ResponsiveNavLink method="post" href={route("logout")} as="button" >
+                                            Cerrar Sesión
+
                                         </ResponsiveNavLink>
                                     </div>
                                 </Dropdown.Content>

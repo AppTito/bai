@@ -12,6 +12,8 @@ export default function Edit(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
+        console.log(organization)
+        console.log(data)
         put(route("organizations.update", organization.id));
     }
     return (
@@ -40,7 +42,7 @@ export default function Edit(props) {
                                         <span className="text-red-600">
                                             {errors.code}
                                         </span>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="flex flex-col">
                                     <div className="mb-4">
@@ -54,7 +56,7 @@ export default function Edit(props) {
                                         <span className="text-red-600">
                                             {errors.address}
                                         </span>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="flex flex-col">
                                     <div className="mb-4">
@@ -68,7 +70,7 @@ export default function Edit(props) {
                                         <span className="text-red-600">
                                             {errors.ruc}
                                         </span>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="mt-4">
                                     <button type="submit"

@@ -16,6 +16,7 @@ export default function Edit ( props ){
 
     function handleSubmit(e) {
         e.preventDefault();
+        console.log(data);
         put(route("users.update", user.id));
     }
 
