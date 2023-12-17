@@ -38,7 +38,7 @@ export default function Authenticated({ user, header, children }) {
                 <TitleLineSlideBar>Menú</TitleLineSlideBar>
 
                 <div className="flex flex-col flex-1 overflow-y-auto">
-                    <nav className="flex-1 px-2 py-4 border-green-600">
+                    <nav className="flex-1 px-2 border-green-600">
                         <ul className="space-y-2">
                             <NavLink
                                 className="w-full"
