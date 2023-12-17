@@ -67,8 +67,8 @@ export default function Authenticated({ user, header, children }) {
                                     )
                                 }
                                 {
-                                    (hasRole('super-admin') || hasPermission('organizaciones-list')) && (
-                                        <NavLink href={route('organizaciones.index')} active={route().current('organizaciones.index')}>
+                                    (hasRole('super-admin') || hasPermission('organizations-list')) && (
+                                        <NavLink href={route('organizations.index')} active={route().current('organizations.index')}>
                                             Organizaciones
                                         </NavLink>
                                     )
@@ -166,8 +166,8 @@ export default function Authenticated({ user, header, children }) {
                             )
                         }
                         {
-                            (hasRole('super-admin') || hasPermission('organizaciones-list')) && (
-                                <NavLink href={route('organizaciones.index')} active={route().current('organizaciones.index')}>
+                            (hasRole('super-admin') || hasPermission('organizations-list')) && (
+                                <NavLink href={route('organizations.index')} active={route().current('organizations.index')}>
                                     Organizaciones
                                 </NavLink>
                             )

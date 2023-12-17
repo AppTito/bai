@@ -12,7 +12,7 @@ export default function Create ( props ){
 
     function handleSubmit(e) {
         e.preventDefault();
-        post(route("organizaciones.store"));
+        post(route("organizations.store"));
     }
 
     return (
@@ -25,7 +25,7 @@ export default function Create ( props ){
 
                             <div className="flex items-center justify-between mb-6">
                                 <Link className="px-6 py-2 text-white bg-blue-500 rounded-md focus:outline-none"
-                                    href={route("organizaciones.index")}> Back
+                                    href={route("organizations.index")}> Back
                                 </Link>
                             </div>
 

@@ -4,9 +4,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 
 export default function Edit(props) {
     const { organization } = usePage().props;
-
     const { data, setData, errors, put } = useForm({
-        //id: organization.id || "",
         code:organization.code || "",
         address:organization.address || "",
         ruc:organization.ruc || "",
@@ -14,20 +12,19 @@ export default function Edit(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        put(route("organizaciones.update", organization.id));
+        put(route("organizations.update", organization.id));
     }
-
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
-            <Head title="Edit User" />
+            <Head title="Editar organización" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         <div className="p-6 bg-white border-b border-gray-200">
                             <div className="flex items-center justify-between mb-6">
                                 <Link className="px-6 py-2 text-white bg-blue-500 rounded-md focus:outline-none"
-                                    href={route("organizaciones.index")} >
-                                    Back
+                                    href={route("organizations.index")} >
+                                    Regresar
                                 </Link>
                             </div>
                             <form name="createForm" onSubmit={handleSubmit}>
@@ -76,7 +73,7 @@ export default function Edit(props) {
                                 <div className="mt-4">
                                     <button type="submit"
                                         className="px-6 py-2 font-bold text-white bg-green-500 rounded" >
-                                        Save
+                                        Guardar
                                     </button>
                                 </div>
                             </form>

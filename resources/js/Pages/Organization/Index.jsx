@@ -10,8 +10,8 @@ export default function Index( props ) {
     const { hasPermission, hasRole } = usePermissions()
 
     function destroy(e) {
-        if (confirm("Are you sure you want to delete this permissions?")) {
-            Inertia.delete(route("permissions.destroy", e.currentTarget.id));
+        if (confirm("Are you sure you want to delete this organization?")) {
+            Inertia.delete(route("organizations.destroy", e.currentTarget.id));
         }
     }
 
@@ -27,7 +27,7 @@ export default function Index( props ) {
                                     <div className="flex items-center justify-between mb-6">
                                         <Link
                                             className="px-6 py-2 text-white bg-emerald-600 rounded-md focus:outline-none"
-                                            href={route("organizaciones.create")}>Agregar Organización</Link>
+                                            href={route("organizations.create")}>Agregar Organización</Link>
                                     </div>
                                 )}
                                 <div className="flex flex-col">
@@ -74,7 +74,7 @@ export default function Index( props ) {
                                                                     {(hasRole('super-admin') || hasPermission('permission-edit')) && (
                                                                         <Link tabIndex="1" className="px-4 py-2 text-sm text-white bg-sky-800
                                                                         rounded mr-2"
-                                                                              href={route("organizaciones.edit", id)}>Editar</Link>
+                                                                              href={route("organizations.edit", id)}>Editar</Link>
                                                                     )}
                                                                     {(hasRole('super-admin') || hasPermission('permission-delete')) && (
                                                                         <button onClick={destroy} id={id} tabIndex="-1"

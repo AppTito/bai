@@ -24,29 +24,24 @@ class OrganizationController extends Controller
         ]);
         $organization = new Organization($request->input());
         $organization->save();
-        return redirect()->route('organizaciones.index');
+        return redirect()->route('organizations.index');
     }
     public function edit(Organization $organization){
-        //$organization = Organization::find($id);
         return Inertia::render('Organization/Edit', ['organization'=>$organization]);
     }
     public function update(Request $request, $id) {
-        /*$request->validate([
+        $request->validate([
             'code'=>'required|max:20',
             'address'=>'required|max:255',
             'ruc'=>'required|max:13',
         ]);
-        $organization->update($request->all());*/
-        //$organization->fill($request->input())->saveOrFail();
-        $validatedData = $request->validated();
         $organization = Organization::find($id);
-        $organization->update($validatedData);
-        return redirect('organizaciones');
+        $organization->update($request->all());
+        return redirect()->route('organizations.index');
         
     }
-    public function destroy($id) {
-        $organization = Organization::find($id);
+    public function destroy(Organization $organization) {
         $organization->delete();
-        return redirect('organizaciones');
+        return redirect()->route('organizations.index');
     }
 }

@@ -32,7 +32,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('permissions', PermissionController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('donors', DonorController::class);
-    Route::resource('organizaciones', OrganizationController::class);
+    Route::resource('organizations', OrganizationController::class);
 });
 
 require __DIR__.'/auth.php';
