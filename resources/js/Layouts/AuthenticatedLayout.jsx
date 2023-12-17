@@ -31,70 +31,12 @@ export default function Authenticated({ user, header, children }) {
                             <span className="ml-2 decoration-inherit font-semibold text-white">
                                 BADI
                             </span>
-
-        <div className="min-h-screen bg-gray-100">
-            <nav className="bg-white border-b border-gray-100">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
-                            <div className="shrink-0 flex items-center">
-                                <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800 rounded-full" />
-                                </Link>
-                            </div>
-
-                            <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-
-                                {
-                                    (hasRole('super-admin') || hasPermission('user-list')) && (
-                                        <NavLink href={route('users.index')} active={route().current('users.index')}>
-                                            Users
-                                        </NavLink>
-                                    )
-                                }
-
-                                {
-                                    (hasRole('super-admin') || hasPermission('role-list')) && (
-                                        <NavLink href={route('roles.index')} active={route().current('roles.index')}>
-                                            Roles
-                                        </NavLink>
-                                    )
-                                }
-
-                                {
-                                    (hasRole('super-admin') || hasPermission('permission-list')) && (
-                                        <NavLink href={route('permissions.index')} active={route().current('permissions.index')}>
-                                            Permissions
-                                        </NavLink>
-                                    )
-                                }
-
-                                {
-                                    (hasRole('super-admin')  || hasRole('admin') || hasPermission('permission-list')) && (
-                                        <NavLink href={route('permissions.index')} active={route().current('permissions.index')}>
-                                            Categories
-                                        </NavLink>
-                                    )
-                                }
-
-                                {
-                                    (hasRole('super-admin') || hasPermission('donor-list')) && (
-                                        <NavLink href={route('donors.index')} active={route().current('donors.index')}>
-                                            Donors
-                                        </NavLink>
-                                    )
-                                }
-
-                            </div>
                         </div>
                     </Link>
                 </div>
                 <LineSlideBar />
                 <TitleLineSlideBar>Menú</TitleLineSlideBar>
-                
+
                 <div className="flex flex-col flex-1 overflow-y-auto">
                     <nav className="flex-1 px-2 py-4 border-green-600">
                         <ul className="space-y-2">
@@ -197,14 +139,14 @@ export default function Authenticated({ user, header, children }) {
                                 Administración
                             </TitleLineSlideBar>
                             {(hasRole("super-admin") ||
-                                hasPermission("permission-list")) && (
+                                hasPermission("category-list")) && (
                                 <NavLink
                                     className="w-full"
                                     href={route("categories.index")}
                                     active={route().current("categories.index")}
                                 >
                                     <Icon icon="mdi:category" />
-                                    Categorias
+                                    Categorías
                                 </NavLink>
                             )}
                         </ul>
@@ -235,41 +177,6 @@ export default function Authenticated({ user, header, children }) {
                             Banco de Alimentos Imbabura
                         </label>
                     </span>
-                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
-                    <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
-                        </ResponsiveNavLink>
-                        {
-                            (hasRole('super-admin') || hasPermission('user-list')) && (
-                                <ResponsiveNavLink href={route('roles.index')} active={route().current('roles.index')}>
-                                    Users
-                                </ResponsiveNavLink>
-                            )
-                        }
-                        {
-                            (hasRole('super-admin') || hasPermission('role-list')) && (
-                                <ResponsiveNavLink href={route('users.index')} active={route().current('users.index')}>
-                                    Roles
-                                </ResponsiveNavLink>
-                            )
-                        }
-                        {
-                            (hasRole('super-admin') || hasPermission('permission-list')) && (
-                                <ResponsiveNavLink href={route('permissions.index')} active={route().current('permissions.index')}>
-                                    Permissions
-                                </ResponsiveNavLink>
-                            )
-                        }
-                        {
-                            (hasRole('super-admin') || hasPermission('donor-list')) && (
-                                <ResponsiveNavLink href={route('donors.index')} active={route().current('donors.index')}>
-                                    Donors
-                                </ResponsiveNavLink>
-                            )
-                        }
-                    </div>
-
                     {/* Menú desplegable de usuario */}
                     <div className="hidden sm:flex sm:items-center sm:ms-6">
                         <div className="ms-3 relative">
@@ -324,6 +231,6 @@ export default function Authenticated({ user, header, children }) {
                 </main>
             </div>
         </div>
-        
+
     );
 }

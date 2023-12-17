@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RoleRequest;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
-use Spatie\Permission\Models\Role;
 use Inertia\Inertia;
 use Spatie\Permission\Models\Permission;
 
@@ -17,11 +15,11 @@ class CategoryController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:user-list|user-create|user-edit|user-delete',
+        $this->middleware('permission:category-list|category-create|category-edit|category-delete',
             ['only' => ['index', 'show']]);
-        $this->middleware('permission:user-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:user-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:category-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:category-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:category-delete', ['only' => ['destroy']]);
     }
 
     public function index(): Response
