@@ -66,6 +66,13 @@ export default function Authenticated({ user, header, children }) {
                                         </NavLink>
                                     )
                                 }
+                                {
+                                    (hasRole('super-admin') || hasPermission('organizaciones-list')) && (
+                                        <NavLink href={route('organizaciones.index')} active={route().current('organizaciones.index')}>
+                                            Organizaciones
+                                        </NavLink>
+                                    )
+                                }
 
                             </div>
                         </div>
@@ -156,6 +163,13 @@ export default function Authenticated({ user, header, children }) {
                                 <ResponsiveNavLink href={route('donors.index')} active={route().current('donors.index')}>
                                     Donors
                                 </ResponsiveNavLink>
+                            )
+                        }
+                        {
+                            (hasRole('super-admin') || hasPermission('organizaciones-list')) && (
+                                <NavLink href={route('organizaciones.index')} active={route().current('organizaciones.index')}>
+                                    Organizaciones
+                                </NavLink>
                             )
                         }
                     </div>

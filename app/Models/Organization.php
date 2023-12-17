@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Organization extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'code',
+        'address',
+        'ruc',
+        'status',
+    ];
 }
