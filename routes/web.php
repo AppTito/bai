@@ -3,6 +3,7 @@
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('donors', DonorController::class);
     Route::resource('organizations', OrganizationController::class);
+    Route::resource('products', ProductController::class);
 });
 
 require __DIR__.'/auth.php';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrganizationRequest;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,32 +26,29 @@ class OrganizationController extends Controller
         $organization = Organization::where('status', 1)->latest()->paginate(4);
         return Inertia::render('Organization/Index',['organization'=>$organization]);
     }
-    public function create(){
+
+    public function create(): Response
+    {
         return Inertia::render('Organization/Create');
     }
-    public function store(Request $request) : RedirectResponse
+
+    public function store(OrganizationRequest $request ) : RedirectResponse
     {
-        $request->validate([
-            'code'=>'required|max:20',
-            'address'=>'required|max:255',
-            'ruc'=>'required|max:13',
-        ]);
-        $organization = new Organization($request->input());
-        $organization->save();
+        $validatedData = $request->validated();
+        Organization::create($validatedData);
         return redirect()->route('organizations.index');
     }
-    public function edit(Organization $organization){
+
+    public function edit(Organization $organization): Response
+    {
         return Inertia::render('Organization/Edit', ['organization'=>$organization]);
     }
-    public function update(Request $request, $id) : RedirectResponse
+
+    public function update(OrganizationRequest $request, $id) : RedirectResponse
     {
-        $request->validate([
-            'code'=>'required|max:20',
-            'address'=>'required|max:255',
-            'ruc'=>'required|max:13',
-        ]);
+        $validatedData = $request->validated();
         $organization = Organization::find($id);
-        $organization->update($request->all());
+        $organization->update($validatedData);
         return redirect()->route('organizations.index');
 
     }
