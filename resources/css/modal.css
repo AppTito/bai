@@ -1,0 +1,29 @@
+.modal-custom {
+    border-radius: 5px;
+    position: fixed;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    padding: 6px 200px; /* px-6 py-2 */
+    color: #fff; /* text-white */
+    border-radius: 4px; /* rounded-md */
+    outline: none; /* focus:outline-none */
+  }
+  
+  .modal-header {
+    background-color: #15803d;
+    color: white;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 10px 120px;
+    border-radius: 4px 4px 0 0; /* top corners only */
+  }
+  
+  .modal-body {
+    background-color: #f2f2f2; /* adjust for better contrast */
+    color: black;
+    font-size: large;
+    font-weight: bold;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }

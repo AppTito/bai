@@ -15,7 +15,6 @@ import TitleLineSlideBar from "@/Components/TitleLineSlideBar";
 export default function Authenticated({ user, header, children }) {
     const { hasPermission, hasRole } = usePermissions();
     const [showDropdown, setShowDropdown] = useState();
-
     return (
 
         <div className="flex h-screen bg-gray-200">
