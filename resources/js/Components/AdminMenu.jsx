@@ -37,6 +37,16 @@ const AdminMenu = ({ route, hasRole, hasPermission }) => {
                     Permissions
                 </AlterNavLink>
             )}
+            {(hasRole("super-admin") || hasPermission("bank-list")) && (
+                <AlterNavLink
+                    className="w-full"
+                    href={route("banks.index")}
+                    active={route().current("banks.index")}
+                >
+                    <Icon icon="bi:file-text" className="mr-2" />
+                    Badi
+                </AlterNavLink>
+            )}
         </ul>
     );
 };

@@ -23,4 +23,9 @@ class BankController extends Controller
         $banks = Bank::with('category')->paginate(5);
         return Inertia::render('Banks/Index', ["banks"=>$banks]);
     }
+
+    public function edit(): Response
+    {
+        return Inertia::render('Banks/Edit');
+    }
 }

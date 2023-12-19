@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CategoryInserted;
 use App\Models\Category;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -41,6 +42,10 @@ class CategoryController extends Controller
         ]);
         $category = new Category($request->input());
         $category->save();
+
+        $category = $category->id;
+        event(new CategoryInserted($category));
+
         return redirect()->route('categories.index');
     }
     public function edit(Category $category): Response
