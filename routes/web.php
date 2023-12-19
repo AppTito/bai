@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PermissionController;
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('donors', DonorController::class);
     Route::resource('organizations', OrganizationController::class);
     Route::resource('products', ProductController::class);
+    Route::resource('banks', BankController::class);
 });
 
 require __DIR__.'/auth.php';
