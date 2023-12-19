@@ -5,25 +5,28 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/react";
 import { usePermissions } from "@/hooks/usePermissions.js";
-/* Nuevos componentes */
 import AlterResponsiveNavLink from "@/Components/AlterResponsiveNavLink";
-import AlterNavLink from "@/Components/AlterNavLink";
 import LineSlideBar from "@/Components/LineSlideBar"; // Linea Horizontal Divisoria
 import { Icon } from "@iconify/react";
 import TitleLineSlideBar from "@/Components/TitleLineSlideBar";
+/* nuevos imports */
+import AdminMenu from "@/Components/AdminMenu";
 
 export default function Authenticated({ user, header, children }) {
     const { hasPermission, hasRole } = usePermissions();
-    const [showDropdown, setShowDropdown] = useState();
+    // const [showDropdown, setShowDropdown] = useState(false);
+    /* nuevos const */
+    const [showAdminMenu, setShowAdminMenu] = useState();
+
+    const handleAdminMenuClick = () => {
+        setShowAdminMenu(!showAdminMenu);
+    };
 
     return (
-
         <div className="flex h-screen bg-gray-200">
             {/* Barra lateral izquierda */}
-            <div
-                className={`flex flex-col flex-shrink-0 text-gray-700 bg-green-800 dark-mode:text-gray-200 dark-mode:bg-gray-800 transition-width duration-300 ease-in-out`}
-                style={{ width: "11rem" }}
-            >
+            <div className={`flex flex-col flex-shrink-0 text-gray-700 bg-green-800 dark-mode:text-gray-200
+                dark-mode:bg-gray-800 transition-width duration-300 ease-in-out`} style={{ width: "11rem" }} >
                 <div className="flex flex-row items-center flex-shrink-0 py-4 m-4">
                     <Link href={route("dashboard")}>
                         <div className="flex items-center">
@@ -38,14 +41,10 @@ export default function Authenticated({ user, header, children }) {
                 <TitleLineSlideBar>Menú</TitleLineSlideBar>
 
                 <div className="flex flex-col flex-1 overflow-y-auto">
-                    <nav className="flex-1 px-2 py-4 border-green-600">
+                    <nav className="flex-1 px-2 border-green-600">
                         <ul className="space-y-2">
-                            <NavLink
-                                className="w-full"
-                                href={route("dashboard")}
-                                active={route().current("dashboard")}
-                            >
-                                <Icon icon="mdi:home" />
+                            <NavLink className="w-full" href={route("dashboard")} active={route().current("dashboard")} >
+                                <Icon icon="mdi:home" className={"mr-2"} />
                                 Dashboard
                             </NavLink>
 
@@ -54,83 +53,25 @@ export default function Authenticated({ user, header, children }) {
                                 <li className="relative group">
                                     <button
                                         className={`w-full flex items-center px-4 py-2 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none
-                                            rounded-md focus:shadow-outline text-gree hover:text-orange-700 hover:bg-orange-100 focus:text-orange-800 focus:bg-orange-200
-                                            ${
-                                                showDropdown
-                                                    ? "text-green-700 bg-indigo-100 border-l-4 border-green-500 focus:text-green-700 focus:bg-indigo-100 focus:border-green-500"
-                                                    : "text-gray-600 hover:text-gray-800 hover:bg-green-100"
-                                            }`}
-                                        onClick={() =>
-                                            setShowDropdown(!showDropdown)
-                                        }
-                                    >
-                                        <span className="flex items-center w-full text-orange-50">
-                                            <Icon icon="mdi:account-group" />
-                                            <span className="ml-1 hover:text-orange-700">
+                                            rounded-md focus:shadow-outline text-gree hover:bg-orange-100 focus:text-orange-800 focus:bg-orange-200 text-orange-50  hover:text-orange-700
+                                            ${ showAdminMenu
+                                                ? "text-green-700 bg-orange-700 border-l-4 border-green-500 focus:text-green-700 focus:bg-indigo-100 focus:border-green-500"
+                                                : "text-orange-00 hover:text-gray-800 hover:bg-green-100"
+                                        }`} onClick={handleAdminMenuClick} >
+                                        <span className="flex items-center w-full ">
+                                            <Icon icon="mdi:account-group" className={"mr-2"} />
+                                            <span className="ml-1">
                                                 Administrar
                                             </span>
                                         </span>
-                                        <svg
-                                            className={`${
-                                                showDropdown
-                                                    ? "transform rotate-180"
-                                                    : ""
-                                            } w-5 h-5 ml-1 text-white group-hover:text-gray-600 transition-transform duration-150 ease-in-out`}
-                                            fill="currentColor"
-                                            viewBox="0 0 20 20"
-                                        >
-                                            <path
-                                                fillRule="evenodd"
-                                                clipRule="evenodd"
-                                                d="M6 8l4 4 4-4"
-                                            />
+                                        <svg className={`${ showAdminMenu ? "transform rotate-180" : "" }
+                                            w-5 h-5 ml-1 text-white group-hover:text-gray-600 transition-transform
+                                            duration-150 ease-in-out`} fill="currentColor" viewBox="0 0 20 20" >
+                                            <path fillRule="evenodd" clipRule="evenodd" d="M6 8l4 4 4-4" />
                                         </svg>
                                     </button>
-
-                                    {showDropdown && (
-                                        <ul className="space-y-2 ml-4 absolute z-10 bg-white p-2 border border-gray-300 rounded">
-                                            {(hasRole("super-admin") ||
-                                                hasPermission("user-list")) && (
-                                                <AlterNavLink
-                                                    className="w-full"
-                                                    href={route("users.index")}
-                                                    active={route().current(
-                                                        "users.index"
-                                                    )}
-                                                >
-                                                    Users
-                                                </AlterNavLink>
-                                            )}
-                                            {(hasRole("super-admin") ||
-                                                hasPermission("role-list")) && (
-                                                <AlterNavLink
-                                                    className="w-full"
-                                                    href={route("roles.index")}
-                                                    active={route().current(
-                                                        "roles.index"
-                                                    )}
-                                                >
-                                                    Roles
-                                                </AlterNavLink>
-                                            )}
-
-                                            {(hasRole("super-admin") ||
-                                                hasPermission(
-                                                    "permission-list"
-                                                )) && (
-                                                <AlterNavLink
-                                                    className="w-full"
-                                                    href={route(
-                                                        "permissions.index"
-                                                    )}
-                                                    active={route().current(
-                                                        "permissions.index"
-                                                    )}
-                                                >
-                                                    Permissions
-                                                </AlterNavLink>
-                                            )}
-                                        </ul>
+                                    {showAdminMenu && (
+                                        <AdminMenu route={route} hasRole={hasRole} hasPermission={hasPermission} />
                                     )}
                                 </li>
                             )}
@@ -138,27 +79,45 @@ export default function Authenticated({ user, header, children }) {
                             <TitleLineSlideBar>
                                 Administración
                             </TitleLineSlideBar>
-                            {(hasRole("super-admin") ||
-                                hasPermission("category-list")) && (
-                                <NavLink
-                                    className="w-full"
-                                    href={route("categories.index")}
-                                    active={route().current("categories.index")}
-                                >
-                                    <Icon icon="mdi:category" />
+                            {(hasRole("super-admin") || hasPermission("category-list")) && (
+                                <NavLink className="w-full" href={route("categories.index")} >
+                                    <Icon icon="mdi:category" className={"mr-2"} />
                                     Categorías
+                                </NavLink>
+                            )}
+                            {(hasRole('super-admin') || hasPermission('product-list')) && (
+                                <NavLink className="w-full" href={route('products.index')} active={route().current('products.index')}>
+                                    <Icon icon="mdi:cart" className={"mr-2"}/>
+                                    Productos
+                                </NavLink>
+                            )}
+                            {(hasRole("super-admin") || hasPermission("organizations-list")) && (
+                                <NavLink href={route("donors.index")} active={route().current("donors.index")} >
+                                    <Icon icon="streamline:give-gift-solid" className={"mr-2"} />
+                                    Donantes
+                                </NavLink>
+                            )}
+                            {(hasRole("super-admin") || hasPermission("organizations-list")) && (
+                                <NavLink href={route("organizations.index")}
+                                    active={route().current( "organizations.index" )} >
+                                    <Icon icon="mdi:building" className={"mr-2"} />
+                                    Organizaciones
                                 </NavLink>
                             )}
                         </ul>
                     </nav>
+                    {/* Confuguraciones */}
+
+                    <div className="flex-shrink-0 px-2 py-4 space-y-2">
+                        <NavLink>
+                            <Icon icon="mdi:cog" className={"mr-2"} />
+                            Configuraciones
+                        </NavLink>
+                    </div>
                     <LineSlideBar />
                     <div className="flex-shrink-0 px-2 py-4 space-y-2">
-                        <AlterResponsiveNavLink
-                            method="post"
-                            href={route("logout")}
-                            as="button"
-                            className="w-full btn btn-red flex items-center"
-                        >
+                        <AlterResponsiveNavLink method="post" href={route("logout")} as="button"
+                                                className="w-full btn btn-red flex items-center" >
                             <span className="flex items-center">
                                 <Icon icon="mdi:logout" className="mr-1" />
                                 Cerrar Sesión
@@ -201,13 +160,8 @@ export default function Authenticated({ user, header, children }) {
                                         >
                                             Perfil
                                         </ResponsiveNavLink>
-
-                                        <ResponsiveNavLink
-                                            method="post"
-                                            href={route("logout")}
-                                            as="button"
-                                        >
-                                            Cerrar Sesion
+                                        <ResponsiveNavLink method="post" href={route("logout")} as="button" >
+                                            Cerrar Sesión
                                         </ResponsiveNavLink>
                                     </div>
                                 </Dropdown.Content>
@@ -231,6 +185,5 @@ export default function Authenticated({ user, header, children }) {
                 </main>
             </div>
         </div>
-
     );
 }

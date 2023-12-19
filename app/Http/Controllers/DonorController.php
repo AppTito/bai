@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DonorRequest;
 use App\Models\Donors;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,7 +21,7 @@ class DonorController extends Controller
 
     public function index(): Response
     {
-        $donors = Donors::latest()->paginate(4);
+        $donors = Donors::where('status', 1)->latest()->paginate(4);
         return Inertia::render('Donors/Index', ['donors' => $donors]);
     }
 
@@ -57,7 +56,7 @@ class DonorController extends Controller
 
     public function destroy(Donors $donor): RedirectResponse
     {
-        $donor->delete();
+        $donor->update(['status' => 0]);
         return redirect()->route('donors.index');
     }
 

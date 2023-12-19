@@ -1,15 +1,19 @@
 import { useEffect } from "react";
+
+import "../../../css/login.css";
 import ApplicationLogo from "@/Components/ApplicationLogo";
-import Checkbox from "@/Components/Checkbox";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import imagenGif from "@/imgs/imagenGif.gif";
 
-import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
+import formaAmarilla from "../../../imgs/amarillo.png";
+import lampara from "../../../imgs/lampara.png";
+import persona from "../../../imgs/persona.png";
+import logo from "../../../imgs/badi.webp";
+import logo2 from "../../../imgs/logo-badi.webp";
 
-import { Head, Link, useForm } from "@inertiajs/react";
+import { Link, useForm, Head } from "@inertiajs/react";
 
 export default function Login({ status, canResetPassword }) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -31,117 +35,112 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
-        <div className="bg-[#F2F2F2]">
-            <div className="container mx-auto">
-                <div className="flex flex-col md:flex-row justify-around md:pb-10">
-                    <Card className="bg-white mx-auto md:w-[390px] md:h-[600px] h-screen md:rounded-2xl shadow-2xl shadow-gray-400 md:mb-0 lg:my-16 ">
-                        <CardHeader>
-                            <ApplicationLogo className="block h-28 w-auto mx-auto rounded-full mt-3" />
-                        </CardHeader>
-                        <CardBody>
-                            <h2 className="text-3xl text-center mb-5 font-semibold">
-                                Banco de Alimentos - Imbabura
-                            </h2>
-                            <form className="px-10 py-3" onSubmit={submit}>
-                                <div>
-                                    <InputLabel
-                                        htmlFor="email"
-                                        value="Correo/Usuario"
-                                    />
+        <>
+            <Head title="Iniciar Sesión" />
+            <div className="flex flex-col md:flex-row h-screen">
+                <div className="md:w-1/2 flex-1 flex flex-col justify-center items-center p-8">
+                    {/* <ApplicationLogo className="block h-28 w-auto rounded-full my-3 border-[#FF9F14] border-2 shadow-md shadow-[#FF9F14]" /> */}
+                    <img
+                        src={logo}
+                        alt="logo"
+                        className="md:w-1/2 rounded-full my-3"
+                    />
+                    {/* <img
+                    src={logo2}
+                    alt="logo"
+                    className="w-1/2 rounded-full my-3"
+                /> */}
+                    <h2 className="text-3xl text-center font-semibold text-white my-5 tracking-normal">
+                        BIENVENIDO
+                    </h2>
+                    {/* <h2 className="text-3xl text-center font-semibold text-[#FF9F14] my-5">
+                    BIENVENIDO
+                </h2> */}
+                    <form onSubmit={submit} className="w-full max-w-md">
+                        <div>
+                            <InputLabel
+                                htmlFor="email"
+                                value="Correo Electrónico"
+                            />
 
-                                    <TextInput
-                                        id="email"
-                                        type="email"
-                                        name="email"
-                                        value={data.email}
-                                        className="mt-1 block w-full"
-                                        autoComplete="username"
-                                        isFocused={true}
-                                        onChange={(e) =>
-                                            setData("email", e.target.value)
-                                        }
-                                    />
+                            <TextInput
+                                id="email"
+                                type="email"
+                                name="email"
+                                value={data.email}
+                                autoComplete="username"
+                                isFocused={true}
+                                onChange={(e) =>
+                                    setData("email", e.target.value)
+                                }
+                                
+                            />
 
-                                    <InputError
-                                        message={errors.email}
-                                        className="mt-2"
-                                    />
-                                </div>
+                            <InputError
+                                message={errors.email}
+                                className="mt-2"
+                            />
+                        </div>
 
-                                <div className="mt-4">
-                                    <InputLabel
-                                        htmlFor="password"
-                                        value="Contraseña"
-                                    />
+                        <div className="mt-4">
+                            <InputLabel htmlFor="password" value="Contraseña" />
 
-                                    <TextInput
-                                        id="password"
-                                        type="password"
-                                        name="password"
-                                        value={data.password}
-                                        className="mt-1 block w-full"
-                                        autoComplete="current-password"
-                                        onChange={(e) =>
-                                            setData("password", e.target.value)
-                                        }
-                                    />
+                            <TextInput
+                                id="password"
+                                type="password"
+                                name="password"
+                                value={data.password}
+                                autoComplete="current-password"
+                                onChange={(e) =>
+                                    setData("password", e.target.value)
+                                }
+                            />
 
-                                    <InputError
-                                        message={errors.password}
-                                        className="mt-2"
-                                    />
-                                </div>
+                            <InputError
+                                message={errors.password}
+                                className="mt-2"
+                            />
+                        </div>
+                        <div className="mt-1 text-right text-white">
+                            {canResetPassword && (
+                                <Link
+                                    href={route("password.request")}
+                                    className="text-sm text-white hover:text-[#FF9F14] rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                >
+                                    ¿Olvidaste la contraseña?
+                                </Link>
+                            )}
+                        </div>
+                        <div className="mt-4">
+                            <PrimaryButton
+                                className="w-full items-center justify-center bg-[#00553f] h-12"
+                                disabled={processing}
+                            >
+                                Iniciar Sesión
+                            </PrimaryButton>
+                        </div>
+                    </form>
+                </div>
 
-                                <div className="block mt-4">
-                                    <label className="flex items-center">
-                                        <Checkbox
-                                            name="remember"
-                                            checked={data.remember}
-                                            className="text-[#00553f]"
-                                            onChange={(e) =>
-                                                setData(
-                                                    "remember",
-                                                    e.target.checked
-                                                )
-                                            }
-                                        />
-                                        <span className="ms-2 text-sm text-gray-600">
-                                            Recordarme
-                                        </span>
-                                    </label>
-                                </div>
-
-                                <div className="mt-4">
-                                    <PrimaryButton
-                                        className="w-full items-center justify-center bg-[#00553f] h-12"
-                                        disabled={processing}
-                                    >
-                                        Iniciar Sesión
-                                    </PrimaryButton>
-                                </div>
-                                <div className="mt-4 text-center">
-                                    {canResetPassword && (
-                                        <Link
-                                            href={route("password.request")}
-                                            className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                        >
-                                            ¿Olvidaste la contraseña?
-                                        </Link>
-                                    )}
-                                </div>
-                            </form>
-                        </CardBody>
-                    </Card>
-                    {/* Imagen */}
-                    <div className="w-full md:w-[750px] mx-auto hidden md:block">
-                        <Image
-                            width={1000}
-                            alt="git de login"
-                            src="https://admin-panel-portfolio.netlify.app/static/media/Revenue-cuate.86ac51593ee251c24d99c2b0ddf39a6f.svg"
-                        />
-                    </div>
+                <div className="lg:w-1/2 relative hidden lg:flex">
+                    {/* Imágenes a la derecha */}
+                    <img
+                        src={formaAmarilla}
+                        alt="forma"
+                        className="absolute inset-0 h-full w-full"
+                    />
+                    <img
+                        src={lampara}
+                        alt="lampara"
+                        className="absolute top-0 left-[10%] w-1/6 h-1/5 "
+                    />
+                    <img
+                        src={persona}
+                        alt="persona"
+                        className="absolute bottom-1/3 right-[50%] w-1/3"
+                    />
                 </div>
             </div>
-        </div>
+        </>
     );
 }
