@@ -3,18 +3,20 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 
 export default function Edit(props) {
-    const { category } = usePage().props;
+    const { banks } = usePage().props;
 
-    // const { data, setData, errors, put } = useForm({
-    //     category: category.category || "",
-    //     indicator: category.indicator || "",
-    //     code: category.code || "",
-    // });
+    const { data, setData, errors, put } = useForm({
+        address: banks.address || "",
+        ruc: banks.ruc|| "",
+        email: banks.email || "",
+        phone: banks.phone || "",
+    });
 
-    // function handleSubmit(e) {
-    //     e.preventDefault();
-    //     put(route("categories.update", category.id));
-    // }
+    function handleSubmit(e) {
+        e.preventDefault();
+        console.log(data);
+        put(route("banks.update", banks.id));
+    }
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -31,7 +33,7 @@ export default function Edit(props) {
                                     Regresar
                                 </Link>
                             </div>
-                            <form name="createForm" >
+                            <form name="createForm" onSubmit={handleSubmit} >
                             {/* PONER EL ONSUBMIT */}
                             {/* onSubmit={handleSubmit} */}
                                 <div className="flex flex-col">
@@ -42,53 +44,52 @@ export default function Edit(props) {
                                             className="w-full px-4 py-2 rounded-md"
                                             label="Address"
                                             name="address"
-                                            // value={data.category}
-                                            // onChange={(event) =>
-                                            //     setData("category", event.target.value)}
+                                            value={data.address}
+                                            onChange={(event) =>
+                                                setData("address", event.target.value)}
                                         />
-                                        {/* <span className="text-red-600">
+                                        <span className="text-red-600">
                                             {errors.code}
-                                        </span> */}
-
+                                        </span>
                                         <label className="">Ruc</label>
                                         <input
                                             type="text"
                                             className="w-full px-4 py-2 rounded-md"
                                             label="Ruc"
                                             name="ruc"
-                                            // value={data.indicator}
-                                            // onChange={(event) =>
-                                            //     setData("indicator", event.target.value)}
+                                            value={data.ruc}
+                                            onChange={(event) =>
+                                                setData("ruc", event.target.value)}
                                         />
-                                        {/* <span className="text-red-600">
+                                        <span className="text-red-600">
                                             {errors.code}
-                                        </span> */}
+                                        </span>
                                         <label className="">Email</label>
                                         <input
                                             type="text"
                                             className="w-full px-4 py-2 rounded-md"
                                             label="Email"
                                             name="email"
-                                            // value={data.indicator}
-                                            // onChange={(event) =>
-                                            //     setData("indicator", event.target.value)}
+                                            value={data.email}
+                                            onChange={(event) =>
+                                                setData("email", event.target.value)}
                                         />
-                                        {/* <span className="text-red-600">
+                                        <span className="text-red-600">
                                             {errors.code}
-                                        </span> */}
+                                        </span>
                                         <label className="">Phone</label>
                                         <input
                                             type="text"
                                             className="w-full px-4 py-2 rounded-md"
                                             label="Phone"
                                             name="phone"
-                                            // value={data.indicator}
-                                            // onChange={(event) =>
-                                            //     setData("indicator", event.target.value)}
+                                            value={data.phone}
+                                            onChange={(event) =>
+                                                setData("phone", event.target.value)}
                                         />
-                                        {/* <span className="text-red-600">
+                                        <span className="text-red-600">
                                             {errors.code}
-                                        </span> */}
+                                        </span>
                                     </div>
                                 </div>
                                 <div className="mt-4">

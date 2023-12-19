@@ -6,7 +6,7 @@ import { usePermissions } from "@/hooks/usePermissions.js";
 import Pagination from '@/Components/Pagination';
 
 export default function Index(props) {
-    const { categoryValue } = usePage().props
+    const { banks } = usePage().props
     const { hasPermission, hasRole } = usePermissions()
 
     /* function destroy(e) {
@@ -59,35 +59,40 @@ export default function Index(props) {
                                                         </tr>
                                                     </thead>
                                                     <tbody className="bg-white divide-y divide-gray-200">
-                                                        {/* {categories.data.map(({ id, category, indicator, code }) => ( */}
-                                                        {/* MAPEAR LA DATA (por ahora quemado para ejemplo) */}
-                                                        <tr key={1} >
+                                                    {banks.data.map(({id, address, ruc, email, phone  }) => (
+                                                        <tr key={id}>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                                1
+                                                                {id}
                                                             </td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                                San Antonio
+                                                                {address}
                                                             </td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                                1002003001
+                                                                {ruc}
                                                             </td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                                example@gmail.com
+                                                                {email}
                                                             </td>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                                                0983249176
+                                                                {phone}
                                                             </td>
                                                             {(hasRole('super-admin') || hasPermission('bank-edit') || hasPermission('bank-delete')) && (
                                                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium flex items-center justify-center space-x-2">
                                                                     {(hasRole('super-admin') || hasPermission('bank-edit')) && (
                                                                         <Link tabIndex="1" className="px-4 py-2 text-sm text-white bg-sky-800
-                                                                    rounded mr-2"
-                                                                            href={route("banks.edit", 1)}>Editar</Link>
+                                                                        rounded mr-2"
+                                                                            href={route("banks.edit", id)}>Editar</Link>
                                                                     )}
+                                                                    {/* {(hasRole('super-admin') || hasPermission('bank-delete')) && (
+                                                                        <button onClick={destroy} id={id} tabIndex="-1"
+                                                                                type="button"
+                                                                                className="mx-1 px-4 py-2 text-sm text-white bg-rose-500 rounded mr-2 ">
+                                                                            Eliminar</button>
+                                                                    )} */}
                                                                 </td>
                                                             )}
                                                         </tr>
-                                                        {/* ))} */}
+                                                    ))}
                                                     </tbody>
                                                 </table>
                                             </div>

@@ -7,7 +7,7 @@ const AdminMenu = ({ route, hasRole, hasPermission }) => {
     return (
         <ul className="space-y-2 ml-4">
             {(hasRole("super-admin") || hasPermission("user-list")) && (
-            
+
                 <AlterNavLink
                     className="w-full mt-2"
                     href={route("users.index")}
