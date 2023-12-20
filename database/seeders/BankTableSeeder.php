@@ -17,6 +17,6 @@ class BankTableSeeder extends Seeder
             ['address' => 'Luciano Andrade y Pasaje s/n #27', 'email' => 'bancodealimentosimbabura@gmail.com', 'phone' => '0963507161', 'ruc' => '1091797646001'],
         ];
 
-        DB::table('categories')->insert($banks);
+        DB::table('banks')->insert($banks);
     }
 }
