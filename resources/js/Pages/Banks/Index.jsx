@@ -6,14 +6,16 @@ import { usePermissions } from "@/hooks/usePermissions.js";
 import Pagination from '@/Components/Pagination';
 
 export default function Index(props) {
-    const { banks } = usePage().props
+    const { dataBank } = usePage().props
     const { hasPermission, hasRole } = usePermissions()
 
-    /* function destroy(e) {
+     function destroy(e) {
+        //console.log(e.currentTarget.id);
         if (confirm("Are you sure you want to delete this permissions?")) {
+
             Inertia.delete(route("permissions.destroy", e.currentTarget.id));
         }
-    } */
+    }
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors} >
@@ -59,7 +61,7 @@ export default function Index(props) {
                                                         </tr>
                                                     </thead>
                                                     <tbody className="bg-white divide-y divide-gray-200">
-                                                    {banks.data.map(({id, address, ruc, email, phone  }) => (
+                                                    {dataBank.data.map(({id, address, ruc, email, phone  }) => (
                                                         <tr key={id}>
                                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                                                 {id}
@@ -83,12 +85,12 @@ export default function Index(props) {
                                                                         rounded mr-2"
                                                                             href={route("banks.edit", id)}>Editar</Link>
                                                                     )}
-                                                                    {/* {(hasRole('super-admin') || hasPermission('bank-delete')) && (
-                                                                        <button onClick={destroy} id={id} tabIndex="-1"
+
+                                                                        {/* <button onClick={destroy} id={id} tabIndex="-1"
                                                                                 type="button"
                                                                                 className="mx-1 px-4 py-2 text-sm text-white bg-rose-500 rounded mr-2 ">
-                                                                            Eliminar</button>
-                                                                    )} */}
+                                                                            Eliminar
+                                                                        </button> */}
                                                                 </td>
                                                             )}
                                                         </tr>

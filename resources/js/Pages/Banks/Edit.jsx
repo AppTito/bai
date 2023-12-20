@@ -3,19 +3,19 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 
 export default function Edit(props) {
-    const { banks } = usePage().props;
-
+    const { bancos } = usePage().props;
+    console.log(bancos);
     const { data, setData, errors, put } = useForm({
-        address: banks.address || "",
-        ruc: banks.ruc|| "",
-        email: banks.email || "",
-        phone: banks.phone || "",
+        address: bancos.address || "",
+        ruc: bancos.ruc|| "",
+        email: bancos.email || "",
+        phone: bancos.phone || "",
     });
 
     function handleSubmit(e) {
         e.preventDefault();
         console.log(data);
-        put(route("banks.update", banks.id));
+        put(route("banks.update", bancos.id));
     }
 
     return (

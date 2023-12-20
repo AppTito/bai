@@ -22,21 +22,28 @@ class BankController extends Controller
     }
     public function index(): Response
     {
-        $banks = Bank::where('status', 1)->latest()->paginate(4);
+        $dataBanks = Bank::where('status', 1)->latest()->paginate(4);
         //return $banks;
-        return Inertia::render('Banks/Index', ["banks"=>$banks]);
+        return Inertia::render('Banks/Index', ["dataBank"=>$dataBanks]);
     }
 
-    public function edit(Bank $banks): Response
+    public function edit(Bank $bank): Response
     {
-        return Inertia::render('Banks/Edit', ["banks"=>$banks]);
+        //return $bank;
+        return Inertia::render('Banks/Edit', ['bancos'=>$bank]);
     }
+
     public function update(BankRequest $request, $id) : RedirectResponse
     {
         $validatedData = $request->validated();
         $organization = Bank::find($id);
         $organization->update($validatedData);
-        return redirect()->route('bancos.index');
+        return redirect()->route('banks.index');
+    }
 
+    public function destroy(Bank $bank)
+    {
+    //$bank->delete();
+        return $bank;
     }
 }
