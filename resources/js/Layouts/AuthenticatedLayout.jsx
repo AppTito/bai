@@ -36,6 +36,10 @@ export default function Authenticated({ user, header, children }) {
                     <SidebarItem icon={<Icon icon="mdi:cart"/>} text="Productos" href={route('products.index')}
                                  active={route().current('products.index')}/>
                 )}
+                {(hasRole('super-admin') || hasPermission('product-list')) && (
+                    <SidebarItem icon={<Icon icon="mdi:cart"/>} text="Valores de Categoría" href={route('categoryValues.index')}
+                                 active={route().current('categoryValues.index')}/>
+                )}
                 {(hasRole('super-admin') || hasPermission('donor-list')) && (
                     <SidebarItem icon={<Icon icon="streamline:give-gift-solid"/>} text="Donantes"
                                  href={route('donors.index')} active={route().current('donors.index')}/>

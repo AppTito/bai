@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Category extends Model
 {
@@ -13,8 +13,13 @@ class Category extends Model
 
     protected $fillable = ['code', 'category', 'indicator','status'];
 
-    public function products(): HasMany
+    public function products(): HasOne
     {
-        return $this->hasMany(Product::class);
+        return $this->hasOne(Product::class);
+    }
+
+    public function categoryValues(): HasOne
+    {
+        return $this->hasOne(CategoryValue::class);
     }
 }
