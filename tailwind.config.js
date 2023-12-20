@@ -7,14 +7,21 @@ export default {
         './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
-        './resources/js/**/*.jsx',
-        "./node_modules/@nextui-org/theme/dist/**/*.js,ts,jsx,tsx",
+        './resources/js/**/*.jsx'
     ],
 
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                borderHover: {
+                    100: "#deffbc",
+                    900: "#19d488",
+                },
+                itemSA:"#00553f",
+                primary: "#ffc42a",
             },
         },
     },
