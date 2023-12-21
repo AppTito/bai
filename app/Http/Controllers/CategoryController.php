@@ -42,10 +42,6 @@ class CategoryController extends Controller
         ]);
         $category = new Category($request->input());
         $category->save();
-
-        $category = $category->id;
-        event(new CategoryInserted($category));
-
         return redirect()->route('categories.index');
     }
     public function edit(Category $category): Response
