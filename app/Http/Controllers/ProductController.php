@@ -6,7 +6,6 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Inertia\Response;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Http\RedirectResponse;
 
@@ -45,13 +44,6 @@ class ProductController extends Controller
         return redirect()->route('products.index');
     }
 
-    public function show(Product $product):Response
-    {
-        return Inertia::render('Products/Show', [
-            'product' => $product
-        ]);
-    }
-
     public function edit(Product $product): Response
     {
         $categories = Category::all();
@@ -63,7 +55,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function update(ProductRequest $request, Product $product)
+    public function update(ProductRequest $request, Product $product): RedirectResponse
     {
         $product->update($request->validated());
         return redirect()->route('products.index');

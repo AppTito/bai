@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BankController;
+use App\Http\Controllers\CategoryValueController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PermissionController;
@@ -32,15 +33,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('users', UserController::class);
-    Route::resource('permissions', PermissionController::class);
-    Route::resource('roles', RoleController::class);
-    Route::resource('categories', CategoryController::class);
-    Route::resource('catVal', CategoryValueController::class);
-    Route::resource('donors', DonorController::class);
-    Route::resource('organizations', OrganizationController::class);
-    Route::resource('products', ProductController::class);
     Route::resource('banks', BankController::class);
+    Route::resource('users', UserController::class)->except(['show']);
+    Route::resource('permissions', PermissionController::class)->except(['show']);
+    Route::resource('roles', RoleController::class)->except(['show']);
+    Route::resource('categories', CategoryController::class)->except(['show']);
+    Route::resource('donors', DonorController::class)->except(['show']);
+    Route::resource('organizations', OrganizationController::class)->except(['show']);
+    Route::resource('products', ProductController::class)->except(['show']);
+    Route::resource('categoryValues', CategoryValueController::class)->except(['create', 'show', 'destroy']);
 });
 
 require __DIR__.'/auth.php';
