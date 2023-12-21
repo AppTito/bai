@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
+import { ChevronLast, ChevronFirst } from "lucide-react";
 import { Link } from "@inertiajs/react";
 import { Icon } from "@iconify/react";
 import { useWindowSize } from "@uidotdev/usehooks";
@@ -29,12 +29,12 @@ export function Sidebar({ children, user }) {
                                  expanded ? "w-36" : "w-0"
                              }`} />
                         <button onClick={() => setExpanded((curr) => !curr)}
-                                className="p-1.5 rounded-lg bg-primary hover:bg-primary text-itemSAa">
+                                className="p-1.5 rounded-lg bg-primary ">
                             {expanded ? <ChevronFirst /> : <ChevronLast />}
                         </button>
                     </div>
                     <SidebarContext.Provider value={{ expanded }}>
-                        <ul className="flex-1 px-3">{children}</ul>
+                        <ul className="flex-1 px-4">{children}</ul>
                     </SidebarContext.Provider>
                     <div className="flex w-full py-2 pr-0.5 mb-2 items-start justify-around">
                         <Link className="flex items-center" text="Cerrar Sesión" href={route("logout")} method="post" as="button">
@@ -58,9 +58,6 @@ export function Sidebar({ children, user }) {
                                 <span className="text-xs text-white">{user.email}</span>
                             </div>
                         </div>
-                        <nav>
-                            <MoreVertical size={20} className={"text-white"} />
-                        </nav>
                     </div>
                 </nav>
             </aside>

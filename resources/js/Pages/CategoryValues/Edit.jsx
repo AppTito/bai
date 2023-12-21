@@ -7,7 +7,8 @@ export default function Edit(props) {
 
     const { data, setData, errors, put } = useForm({
         value: categoryValues.value || "",
-        category_id: categoryValues.category_id || "",
+        category_id: categoryValues.id || "",
+        categoryValues: categoryValues.category || "",
     });
 
     function handleSubmit(e) {
@@ -41,14 +42,17 @@ export default function Edit(props) {
                                     </div>
                                     <div className="mb-4">
                                         <label className="">Categorías</label>
-                                        <input type={"text"} className="w-full px-4 py-2 rounded-md" label="Category"
-                                               name="category_id" value={categoryValues.category} readOnly={true} />
-                                        <input type="hidden" name="category_id" value={categoryValues.category_id}  />
+                                        <input type={"text"} className="w-full px-4 py-2 rounded-md" readOnly={true}
+                                            label="Category"  name="category_id"  value={data.categoryValues}
+                                            onChange={(event) =>
+                                                setData("category_id", event.target.value)}
+                                        />
+                                        <input type="hidden" name="category_id" value={data.category_id} />
                                         <span className="text-red-600">{errors.category_id}</span>
                                     </div>
                                 </div>
                                 <div className="mt-4">
-                                <button type="submit"
+                                    <button type="submit"
                                             className="px-6 py-2 font-bold text-white bg-green-500 rounded">
                                         Save
                                     </button>
