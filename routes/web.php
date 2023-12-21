@@ -41,6 +41,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('organizations', OrganizationController::class)->except(['show']);
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categoryValues', CategoryValueController::class)->except(['create', 'show', 'destroy']);
+    /* Operaciones */
+    Route::get('/operations', [App\Http\Controllers\OperationController::class, 'index'])->name('operations.index');
 });
 
 require __DIR__.'/auth.php';
