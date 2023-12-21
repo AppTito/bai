@@ -7,7 +7,7 @@ const AdminMenu = ({ route, hasRole, hasPermission }) => {
     return (
         <ul className="space-y-2 ml-4">
             {(hasRole("super-admin") || hasPermission("user-list")) && (
-            
+
                 <AlterNavLink
                     className="w-full mt-2"
                     href={route("users.index")}
@@ -35,6 +35,16 @@ const AdminMenu = ({ route, hasRole, hasPermission }) => {
                 >
                     <Icon icon="mdi:lock" className="mr-2" />
                     Permissions
+                </AlterNavLink>
+            )}
+            {(hasRole("super-admin") || hasPermission("bank-list")) && (
+                <AlterNavLink
+                    className="w-full"
+                    href={route("banks.index")}
+                    active={route().current("banks.index")}
+                >
+                    <Icon icon="bi:file-text" className="mr-2" />
+                    Badi
                 </AlterNavLink>
             )}
         </ul>

@@ -60,7 +60,7 @@ export default function Index( props ) {
                                                                     {(hasRole('super-admin') || hasPermission('permission-edit')) && (
                                                                         <Link tabIndex="1" className="px-4 py-2 text-sm text-white bg-sky-800
                                                                         rounded mr-2"
-                                                                              href={route("permissions.edit", id)}>Editar</Link>
+                                                                            href={route("permissions.edit", id)}>Editar</Link>
                                                                     )}
                                                                     {(hasRole('super-admin') || hasPermission('permission-delete')) && (
                                                                         <button onClick={destroy} id={id} tabIndex="-1"

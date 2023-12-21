@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\DB;
 
@@ -12,6 +13,7 @@ class CategoryValue extends Model
     use HasFactory;
 
     protected $fillable = ['category_id', 'value', 'status'];
+  
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

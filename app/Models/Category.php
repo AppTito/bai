@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class Category extends Model
 {
     use HasFactory;
-
-
     protected $fillable = ['code', 'category', 'indicator','status'];
 
     public function products(): HasOne

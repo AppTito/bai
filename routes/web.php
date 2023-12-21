@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\CategoryValueController;
 use App\Http\Controllers\DonorController;
 use App\Http\Controllers\OrganizationController;
@@ -12,6 +13,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryValueController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -31,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::resource('banks', BankController::class);
     Route::resource('users', UserController::class)->except(['show']);
     Route::resource('permissions', PermissionController::class)->except(['show']);
     Route::resource('roles', RoleController::class)->except(['show']);
