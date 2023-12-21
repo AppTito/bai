@@ -74,7 +74,7 @@ export default function Index( props ) {
                                                                     {(hasRole('super-admin') || hasPermission('organizations-edit')) && (
                                                                         <Link tabIndex="1" className="px-4 py-2 text-sm text-white bg-sky-800
                                                                         rounded mr-2"
-                                                                              href={route("organizations.edit", id)}>Editar</Link>
+                                                                            href={route("organizations.edit", id)}>Editar</Link>
                                                                     )}
                                                                     {(hasRole('super-admin') || hasPermission('organizations-delete')) && (
                                                                         <button onClick={destroy} id={id} tabIndex="-1"
@@ -92,7 +92,7 @@ export default function Index( props ) {
                                         </div>
                                     </div>
                                 </div>
-                                  <Pagination class="mt-6" links={organization.links} />
+                                    <Pagination class="mt-6" links={organization.links} />
                              </div>
                         </div>
                     </div>
