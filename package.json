@@ -6,7 +6,7 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "@headlessui/react": "^1.4.2",
+        "@headlessui/react": "^1.7.17",
         "@iconify/react": "^4.1.1",
         "@inertiajs/react": "^1.0.0",
         "@tailwindcss/forms": "^0.5.3",
@@ -20,12 +20,14 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@emotion/react": "^11.11.1",
+        "@emotion/styled": "^11.11.0",
+        "@headlessui/tailwindcss": "^0.2.0",
         "@inertiajs/inertia": "^0.11.1",
-        "@nextui-org/react": "^2.2.9",
+        "@mui/material": "^5.15.0",
+        "@uidotdev/usehooks": "^2.4.1",
         "framer-motion": "^10.16.16",
-        "react-hot-toast": "^2.4.1",
-        "react-icons": "^4.12.0",
-        "react-modal": "^3.16.1",
-        "reactstrap": "^9.2.1"
+        "lucide-react": "^0.298.0",
+        "react-icons": "^4.12.0"
     }
 }
