@@ -4,10 +4,17 @@ import { Head, Link, usePage } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
 import { usePermissions } from "@/hooks/usePermissions.js";
 import Pagination from "@/Components/Pagination";
+import Table from "@/Components/Table";
 
 export default function Index(props) {
     const { organization } = usePage().props;
     const { hasPermission, hasRole } = usePermissions();
+
+    function destroy(id) {
+        if (confirm("¿Está seguro que desea eliminar esta categoría?")) {
+            Inertia.delete(route("categories.destroy", id));
+        }
+    }
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -41,10 +48,10 @@ export default function Index(props) {
                                 </tr>
                             </table>
                         </div>
-                        {/* btn siguiente vista distribution*/}
+                        {/* btn siguiente vista control*/}
                         <div className="flex justify-end px-6 py-4">
                             <Link
-                                href={route("operations.distribution")}
+                                href={route("operations.control")}
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Siguiente
