@@ -19,7 +19,7 @@ export default function Index(props) {
                         <div className="flex justify-start px-6 py-4">
                             <Link
                                 href={route("operations.index")}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Volver
                             </Link>
