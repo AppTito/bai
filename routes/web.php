@@ -43,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('categoryValues', CategoryValueController::class)->except(['create', 'show', 'destroy']);
     /* Operaciones */
     Route::get('/operations', [App\Http\Controllers\OperationController::class, 'index'])->name('operations.index');
+    /* Operaciones Control Peso */
+    Route::get('/operations/weight', [App\Http\Controllers\OperationController::class, 'weight'])->name('operations.weight');
+    /* Operaciones Control*/
+    Route::get('/operations/control', [App\Http\Controllers\OperationController::class, 'control'])->name('operations.control');
 });
 
 require __DIR__.'/auth.php';

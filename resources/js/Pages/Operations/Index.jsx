@@ -20,9 +20,23 @@ export default function Index(props) {
                                 <input type="date" />
                             </form>
                             <select name="" id="">
-                                <option value="">Seleccione</option>
-                                <option value="">Seleccione</option>
+                                <option value="" selected hidden>
+                                    Seleccione
+                                </option>
+                                <option value="">La Favorita</option>
+                                <option value="">Santa Maria</option>
+                                <option value="">San Antonio</option>
+                                <option value="">Otro</option>
                             </select>
+                        </div>
+                        {/* btn siguiente vista weigth*/}
+                        <div className="flex justify-end px-6 py-4">
+                            <Link
+                                href={route("operations.weight")}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                                Siguiente
+                            </Link>
                         </div>
                     </div>
                 </div>

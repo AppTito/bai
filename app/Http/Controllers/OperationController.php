@@ -12,4 +12,16 @@ class OperationController extends Controller
     {
         return Inertia::render('Operations/Index');
     }
+
+    //weight
+    public function weight()
+    {
+        return Inertia::render('Operations/Weight');
+    }
+
+    //control
+    public function control()
+    {
+        return Inertia::render('Operations/Control');
+    }
 }
