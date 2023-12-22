@@ -24,4 +24,10 @@ class OperationController extends Controller
     {
         return Inertia::render('Operations/Control');
     }
+
+    //distribution
+    public function distribution()
+    {
+        return Inertia::render('Operations/Distribution');
+    }
 }

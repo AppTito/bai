@@ -27,6 +27,7 @@
         "@uidotdev/usehooks": "^2.4.1",
         "framer-motion": "^10.16.16",
         "lucide-react": "^0.298.0",
+        "react-datepicker": "^4.25.0",
         "react-icons": "^4.12.0"
     }
 }

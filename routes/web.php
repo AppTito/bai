@@ -47,6 +47,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/operations/weight', [App\Http\Controllers\OperationController::class, 'weight'])->name('operations.weight');
     /* Operaciones Control*/
     Route::get('/operations/control', [App\Http\Controllers\OperationController::class, 'control'])->name('operations.control');
+    /* Operaciones Distribucion*/
+    Route::get('/operations/distribution', [App\Http\Controllers\OperationController::class, 'distribution'])->name('operations.distribution');
 });
 
 require __DIR__.'/auth.php';
