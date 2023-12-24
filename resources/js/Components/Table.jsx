@@ -1,7 +1,7 @@
 import {Link} from "@inertiajs/react";
 import {usePermissions} from "@/hooks/usePermissions.js";
 
-export default function Table({ items, columns, labels , primary, actions, per }) {
+export default function Table({ items, columns, labels , primary, actions, per ,property }) {
     const { hasPermission, hasRole } = usePermissions()
 
     return (
@@ -38,15 +38,16 @@ export default function Table({ items, columns, labels , primary, actions, per }
                                 <td key={column} className="px-6 py-4 ">
                                     {Array.isArray(item[column]) ? (
                                         item[column].map((obj, index) => (
-                                            <span key={index} className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                                {obj.name}
+                                            <span key={index}
+                                                  className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                {obj[property]}
                                             </span>
                                         ))
-                                    ) : typeof item[column] === 'object' ? (
-                                        <span>{JSON.stringify(item[column])}</span>
-                                    ) : (
-                                        item[column]
-                                    )}
+                                    ) : typeof item[column] === 'object' && item[column] !== null ? (
+                                        <span>{item[column][property]}</span>
+                                        ) : (
+                                        item[column] !== null ? item[column] : ''
+                                        )}
                                 </td>
                             )}
                             {(hasRole('super-admin') || hasPermission(`${per}-edit`) ||

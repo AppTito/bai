@@ -6,8 +6,8 @@ import Table from '@/Components/Table';
 
 export default function Index( props ) {
     const { categoryValues } = usePage().props
-    const columns = ["name", "category"];
-    const labels = ["Nombre", "Categoría"];
+    const columns = ["value", "category"];
+    const labels = ["Valor", "Categoría"];
     const actions = ["","categoryValues.edit", ""];
 
     return (

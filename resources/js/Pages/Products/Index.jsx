@@ -26,8 +26,8 @@ export default function Index( props ) {
                         <div className="p-6 bg-white border-b border-gray-200">
                             <div className="max-w-6xl mx-auto py-2 sm:px-6 lg:px-7">
                                 <Table items={products} columns={columns} primary={"Producto"} labels={labels}
-                                        actions={actions} per={"product"} />
-                                <Pagination class="mt-6" links={products.links} />
+                                        actions={actions} per={"product"} property={"category"} />
+                                <Pagination class="mt-6" links={products.links}  />
                             </div>
                         </div>
                     </div>
