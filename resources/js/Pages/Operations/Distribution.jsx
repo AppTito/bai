@@ -1,13 +1,67 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
-import { Inertia } from "@inertiajs/inertia";
-import { usePermissions } from "@/hooks/usePermissions.js";
-import Pagination from "@/Components/Pagination";
+import DistributionTable from "@/Components/TableDistribution";
 
 export default function Index(props) {
     const { organization } = usePage().props;
-    const { hasPermission, hasRole } = usePermissions();
+
+    const [data, setData] = useState([
+        {
+            organization: organization,
+            percentage: 0,
+            kg_deliver: 0,
+            fruits: 0,
+            dairy: 0,
+            bakery: 0,
+            grains: 0,
+            sausages: 0,
+            eggs: 0,
+            pastry: 0,
+            processed: 0,
+            sauces: 0,
+            protein: 0,
+            juices: 0,
+            carbohydrates: 0,
+            canned: 0,
+            protein: 0,
+            processed: 0,
+            total: 0,
+            kg_pending: 0,
+        },
+    ]);
+
+    const handleUpdateData = (newData) => {
+        setData(newData);
+    };
+
+    const handleAddRow = () => {
+        setData([...data 
+            ,{
+                organization: organization,
+                percentage: 0,
+                kg_deliver: 0,
+                fruits: 0,
+                dairy: 0,
+                bakery: 0,
+                grains: 0,
+                sausages: 0,
+                eggs: 0,
+                pastry: 0,
+                processed: 0,
+                sauces: 0,
+                protein: 0,
+                juices: 0,
+                carbohydrates: 0,
+                canned: 0,
+                protein: 0,
+                processed: 0,
+                total: 0,
+                kg_pending: 0,
+            }
+            
+        ]);
+    };
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -24,39 +78,15 @@ export default function Index(props) {
                                 Volver
                             </Link>
                         </div>
-                        {/* tabla para llenar con los pesos */}
-                        <div className="text-center">
-                            <table>
-                                <tr>
-                                    <th>Grupo Alimentos</th>
-                                    <th>Recuperado</th>
-                                    <th>Consumo Animal</th>
-                                    <th>Compostaje</th>
-                                    <th>Basura</th>
-                                    <th>Refigerios</th>
-                                    <th>Consumo Inmediato</th>
-                                    <th>Peso Total</th>
-                                </tr>
-                                <tr>
-                                    <td>Frutas</td>
-                                    <td>200</td>
-                                    <td>100</td>
-                                    <td>100</td>
-                                    <td
-                                        contenteditable="true"
-                                        className="bg-gray-200"
-                                    >
-                                        100
-                                    </td>
-                                    <td>100</td>
-                                    <td>100</td>
-                                    <td>700</td>
-                                </tr>
-                            </table>
-                        </div>
-                        </div>
+                        {/* Tabla para llenar con los pesos */}
+                        <DistributionTable
+                            data={data}
+                            onUpdateData={handleUpdateData}
+                            onAddRow={handleAddRow}
+                        />
                     </div>
                 </div>
+            </div>
         </AuthenticatedLayout>
     );
 }
