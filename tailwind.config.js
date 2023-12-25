@@ -14,6 +14,9 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                'alegreya-sans': ['Alegreya Sans', 'sans-serif'],
+                'fira-sans': ['Fira Sans', 'sans-serif'],
+                'open-sans': ['Open Sans', 'sans-serif'],
             },
             colors: {
                 borderHover: {
@@ -22,6 +25,7 @@ export default {
                 },
                 itemSA:"#00553f",
                 primary: "#ffc42a",
+                fondoVerde: "#00553f",
             },
         },
     },
