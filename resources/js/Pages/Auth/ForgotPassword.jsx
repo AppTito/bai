@@ -2,7 +2,7 @@ import "../../../css/login.css";
 import InputError from "@/Components/InputError";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
-import ApplicationLogo from "@/Components/ApplicationLogo";
+
 import { Link } from "@inertiajs/react";
 import logo from "../../../imgs/badi.webp";
 
@@ -25,7 +25,6 @@ export default function ForgotPassword({ status }) {
             <div className="flex flex-col items-center justify-center h-screen p-6 md:p-10 w-full md:w-[460px] mx-auto">
                 <div className="my-5">
                     <Link href="/" className="text-center">
-                        {/* <ApplicationLogo className="block h-28 w-auto rounded-full my-3 border-[#FF9F14] border-2 shadow-md shadow-[#FF9F14]" /> */}
                         <img
                             src={logo}
                             alt="logo"

@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 
 import "../../../css/login.css";
-import ApplicationLogo from "@/Components/ApplicationLogo";
 import InputError from "@/Components/InputError";
 import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
@@ -11,7 +10,6 @@ import formaAmarilla from "../../../imgs/amarillo.png";
 import lampara from "../../../imgs/lampara.png";
 import persona from "../../../imgs/persona.png";
 import logo from "../../../imgs/badi.webp";
-import logo2 from "../../../imgs/logo-badi.webp";
 
 import { Link, useForm, Head } from "@inertiajs/react";
 
@@ -39,7 +37,6 @@ export default function Login({ status, canResetPassword }) {
             <Head title="Iniciar Sesión" />
             <div className="flex flex-col md:flex-row h-screen">
                 <div className="md:w-1/2 flex-1 flex flex-col justify-center items-center p-8">
-                    {/* <ApplicationLogo className="block h-28 w-auto rounded-full my-3 border-[#FF9F14] border-2 shadow-md shadow-[#FF9F14]" /> */}
                     <img
                         src={logo}
                         alt="logo"
@@ -73,7 +70,7 @@ export default function Login({ status, canResetPassword }) {
                                 onChange={(e) =>
                                     setData("email", e.target.value)
                                 }
-                                
+
                             />
 
                             <InputError

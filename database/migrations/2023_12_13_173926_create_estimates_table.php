@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('estimates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('product_id')->constrained();
-            $table->decimal('estimated_value',8,2);
-            $table->decimal('current_value',8,2);
             $table->date('date');
+            $table->foreignId('organization_id')->constrained();
+            $table->decimal('percentage', 8, 2)->default(0);
+            $table->decimal('kilos', 8, 2)->default(0);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

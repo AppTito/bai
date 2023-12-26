@@ -11,7 +11,15 @@ use Illuminate\Http\RedirectResponse;
 
 class CategoryValueController extends Controller
 {
-
+    public function __construct()
+    {
+        $this->middleware('permission:categoryValue-list|categoryValue-create|categoryValue-edit|categoryValue-delete',
+            ['only' => ['index','show']]);
+        $this->middleware('permission:categoryValue-create', ['only' => ['create','store']]);
+        $this->middleware('permission:categoryValue-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:categoryValue-delete', ['only' => ['destroy']]);
+    }
+  
     public function index():Response
     {
         $categoryValues = CategoryValue::listCategoryValues();
@@ -29,13 +37,13 @@ class CategoryValueController extends Controller
         ]);
     }
 
-    public function update(Request $request, CategoryValue $categoryValue): RedirectResponse
+    public function update(Request $request, $id):RedirectResponse
     {
-        $categoryValue->update($request->validate([
+        $validateData = $request->validate([
             'category_id' => 'required',
             'value' => 'required',
-        ]));
+        ]);
+        CategoryValue::updateOrCreate(['id' => $id], $validateData);
         return redirect()->route('categoryValues.index');
     }
-
 }
