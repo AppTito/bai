@@ -12,6 +12,7 @@ class Organization extends Model
         'code',
         'address',
         'ruc',
+        'name',
         'status',
     ];
 }

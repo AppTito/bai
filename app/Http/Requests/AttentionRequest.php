@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class OrganizationRequest extends FormRequest
+class AttentionRequest extends FormRequest
 {
 
     public function authorize(): bool
@@ -16,10 +16,11 @@ class OrganizationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'code'=>'required|max:20',
-            'address'=>'required|max:255',
-            'ruc'=>'required|max:13',
+            'organization_id'=>'required',
+            'dni'=>'required|max:10',
             'name'=>'required|max:255',
+            'phone'=>'required|max:13',
+            'email'=>'required|max:255',
         ];
     }
 }
