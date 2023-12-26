@@ -47,11 +47,14 @@ export default function Authenticated({ user, header, children }) {
                     <SidebarItem icon={<Icon icon="mdi:building"/>} text="Organizaciones"
                                  href={route('organizations.index')} active={route().current('organizations.index')}/>
                 )}
+                 {(hasRole("super-admin") || hasPermission("attentions-list")) && (
+                    <SidebarItem icon={<Icon icon="mdi:building"/>} text="Atención"
+                                 href={route('attentions.index')} active={route().current('attentions.index')}/>
+                )}
                 {(hasRole("super-admin") || hasPermission("bank-list")) && (
                     <SidebarItem icon={<Icon icon="maki:bank"/>} text="Datos BADI"
                                  href={route('banks.index')} active={route().current('banks.index')}/>
                 )}
-
                 <SidebarItem icon={<Icon icon="mdi:cog"/>} text="Configuraciones"/>
             </Sidebar>
             {header && (

@@ -8,12 +8,11 @@ export default function Edit(props) {
         code:organization.code || "",
         address:organization.address || "",
         ruc:organization.ruc || "",
+        name:organization.name || "",
     });
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(organization)
-        console.log(data)
         put(route("organizations.update", organization.id));
     }
     return (
@@ -41,6 +40,20 @@ export default function Edit(props) {
                                         />
                                         <span className="text-red-600">
                                             {errors.code}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div className="flex flex-col">
+                                    <div className="mb-4">
+                                        <label className="">Nombre</label>
+                                        <input type="text" className="w-full px-4 py-2 rounded-md" label="Code" name="code"
+                                               value={data.name}
+                                               onChange={(event) =>
+                                                   setData("name", event.target.value)
+                                               }
+                                        />
+                                        <span className="text-red-600">
+                                            {errors.name}
                                         </span>
                                     </div>
                                 </div>
