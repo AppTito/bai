@@ -6,7 +6,7 @@ export default function Pagination({ links }) {
     function getClassName(active) {
         if(active) {
             return "mr-1 mb-1 px-4 py-3 text-sm text-gray-950 leading-4 border rounded hover:bg-white focus:border-primary " +
-                "focus:text-primary bg-blue-700 ext-gray-800";
+                "focus:text-primary bg-green-500 ext-primary";
         } else{
             return "mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-white focus:border-primary " +
                 "focus:text-primary";

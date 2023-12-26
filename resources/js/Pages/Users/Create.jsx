@@ -1,22 +1,22 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, Link, useForm, usePage} from '@inertiajs/react';
+import {Head, Link, usePage} from '@inertiajs/react';
+import Form from "@/Components/Form.jsx";
 
 export default function Create ( props ){
     const { roles } = usePage().props
-
-    const { data, setData, errors, post } = useForm({
-        name: "",
-        email: "",
-        password: "",
-        password_confirmation: "",
-        roles: "",
-    });
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        post(route("users.store"));
-    }
+    const handleSubmit = "users.store";
+    const formFields = [
+        { name: 'name', label: 'Nombre' },
+        { name: 'email', label: 'Email' },
+        { name: 'password', label: 'Password', type: 'password' },
+        { name: 'password_confirmation', label: 'Confirmar Password', type: 'password' },
+        { name: 'roles', label: 'Rol', type: 'select', options:
+            { data: roles.data.map((role) => (
+                { value: role.id, label: role.name }
+            )) }
+        },
+    ];
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -31,85 +31,7 @@ export default function Create ( props ){
                                     href={route("users.index")}> Back
                                 </Link>
                             </div>
-
-                            <form name="createForm" onSubmit={handleSubmit}>
-                                <div className="flex flex-col">
-                                    <div className="mb-4">
-                                        <label className="">Nombre</label>
-                                        <input type="text" className="w-full px-4 py-2 rounded-md" label="Name" name="name"
-                                               value={data.name}
-                                               onChange={(event) =>
-                                                   setData("name", event.target.value)
-                                               }
-                                        />
-                                        <span className="text-red-600">
-                                            {errors.name}
-                                        </span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Email</label>
-                                        <input type="text" className="w-full px-4 py-2 rounded-md" label="Email"
-                                            name="email" value={data.email}
-                                            onChange={(event) =>
-                                                setData("email", event.target.value)
-                                            }
-                                        />
-                                        <span className="text-red-600">
-                                            {errors.email}
-                                        </span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Password</label>
-                                        <input type="password" className="w-full px-4 py-2 rounded-md" label="Password"
-                                            name="password" value={data.password}
-                                            onChange={(event) =>
-                                                setData("password", event.target.value)
-                                            }
-                                        />
-                                        <span className="text-red-600">
-                                            {errors.password}
-                                        </span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Confirm Password</label>
-                                        <input type="password" className="w-full px-4 py-2 rounded-md"
-                                            label="Confirm Password" name="password_confirmation"
-                                            value={data.password_confirmation}
-                                            onChange={(event) =>
-                                                setData("password_confirmation", event.target.value)
-                                            }/>
-                                        <span className="text-red-600">
-                                            {errors.password_confirmation}
-                                        </span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Roles</label>
-                                        <select className="w-full px-4 py-2 rounded-md"
-                                                label="Roles" name="roles" value={data.roles || ""}
-                                                onChange={(event) =>
-                                                    setData("roles",event.target.value)
-                                                } >
-                                            <option value="" >Seleccione Rol</option>
-                                            {
-                                                roles.map((role) => (
-                                                    <option key={role} value={role}>
-                                                        {role}
-                                                    </option>
-                                                ))
-                                            }
-                                        </select>
-                                        <span className="text-red-600">{errors.roles}</span>
-                                    </div>
-                                </div>
-                                <div className="mt-4">
-                                    <button
-                                        type="submit"
-                                        className="px-6 py-2 font-bold text-white bg-green-500 rounded">
-                                        Save
-                                    </button>
-                                </div>
-                            </form>
-
+                            <Form fields={formFields} onSubmit={handleSubmit} />
                         </div>
                     </div>
                 </div>

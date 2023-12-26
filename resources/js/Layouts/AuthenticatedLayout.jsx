@@ -27,35 +27,36 @@ export default function Authenticated({ user, header, children }) {
                         )}
                     </SidebarItem>
                 )}
-                {(hasRole("super-admin") || hasPermission("category-list")) && (
-                    <SidebarItem icon={<Icon icon="mdi:category"/>} text="Categorías" href={route('categories.index')}
-                                 active={route().current('categories.index')}/>
-                )}
-                {(hasRole('super-admin') || hasPermission('product-list')) && (
-                    <SidebarItem icon={<Icon icon="mdi:cart"/>} text="Productos" href={route('products.index')}
-                                 active={route().current('products.index')}/>
-                )}
-                {(hasRole('super-admin') || hasPermission('product-list')) && (
-                    <SidebarItem icon={<Icon icon="mdi:cart"/>} text="Valores de Categoría" href={route('categoryValues.index')}
-                                 active={route().current('categoryValues.index')}/>
-                )}
-                {(hasRole('super-admin') || hasPermission('donor-list')) && (
-                    <SidebarItem icon={<Icon icon="streamline:give-gift-solid"/>} text="Donantes"
-                                 href={route('donors.index')} active={route().current('donors.index')}/>
-                )}
-                {(hasRole("super-admin") || hasPermission("organizations-list")) && (
-                    <SidebarItem icon={<Icon icon="mdi:building"/>} text="Organizaciones"
-                                 href={route('organizations.index')} active={route().current('organizations.index')}/>
-                )}
-                 {(hasRole("super-admin") || hasPermission("attentions-list")) && (
-                    <SidebarItem icon={<Icon icon="mdi:building"/>} text="Atención"
-                                 href={route('attentions.index')} active={route().current('attentions.index')}/>
-                )}
-                {(hasRole("super-admin") || hasPermission("bank-list")) && (
-                    <SidebarItem icon={<Icon icon="maki:bank"/>} text="Datos BADI"
-                                 href={route('banks.index')} active={route().current('banks.index')}/>
-                )}
-                <SidebarItem icon={<Icon icon="mdi:cog"/>} text="Configuraciones"/>
+                <SidebarItem icon={<Icon icon="mdi:cog"/>} text="Configuraciones" categoryIcon={<Icon icon="eva:arrow-down-outline"/>}>
+                    {(hasRole("super-admin") || hasPermission("category-list")) && (
+                        <SidebarItem icon={<Icon icon="mdi:category"/>} text="Categorías" href={route('categories.index')}
+                                     active={route().current('categories.index')}/>
+                    )}
+                    {(hasRole('super-admin') || hasPermission('product-list')) && (
+                        <SidebarItem icon={<Icon icon="mdi:cart"/>} text="Valores de Categoría" href={route('categoryValues.index')}
+                                     active={route().current('categoryValues.index')}/>
+                    )}
+                    {(hasRole('super-admin') || hasPermission('product-list')) && (
+                        <SidebarItem icon={<Icon icon="mdi:cart"/>} text="Productos" href={route('products.index')}
+                                     active={route().current('products.index')}/>
+                    )}
+                    {(hasRole("super-admin") || hasPermission("organizations-list")) && (
+                        <SidebarItem icon={<Icon icon="mdi:building"/>} text="Organizaciones"
+                                     href={route('organizations.index')} active={route().current('organizations.index')}/>
+                    )}
+                    {(hasRole('super-admin') || hasPermission('donor-list')) && (
+                        <SidebarItem icon={<Icon icon="streamline:give-gift-solid"/>} text="Donantes"
+                                     href={route('donors.index')} active={route().current('donors.index')}/>
+                    )}
+                    {(hasRole("super-admin") || hasPermission("attentions-list")) && (
+                        <SidebarItem icon={<Icon icon="mdi:help-outline"/>} text="Atención"
+                                     href={route('attentions.index')} active={route().current('attentions.index')}/>
+                    )}
+                    {(hasRole("super-admin") || hasPermission("bank-list")) && (
+                        <SidebarItem icon={<Icon icon="maki:bank"/>} text="Datos BADI"
+                                     href={route('banks.index')} active={route().current('banks.index')}/>
+                    )}
+                </SidebarItem>
             </Sidebar>
             {header && (
                 <header className="bg-white shadow">

@@ -4,7 +4,7 @@ import { Head, Link, useForm, usePage } from "@inertiajs/react";
 
 export default function Edit(props) {
     const { bancos } = usePage().props;
-    console.log(bancos);
+
     const { data, setData, errors, put } = useForm({
         address: bancos.address || "",
         ruc: bancos.ruc|| "",
@@ -14,7 +14,6 @@ export default function Edit(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(data);
         put(route("banks.update", bancos.id));
     }
 

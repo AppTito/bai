@@ -17,7 +17,7 @@ export default function Edit(props) {
         e.preventDefault();
         put(route("attentions.update",attention.id));
     }
-    console.log(data, attention);
+
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Valores de Categoria" />
@@ -48,7 +48,7 @@ export default function Edit(props) {
                                             ))}
                                         </select>
                                         <span className="text-red-600">{errors.organization_id}</span>
-                                    </div> 
+                                    </div>
                                     <div className="mb-4">
                                         <label className="">Nombres y Apellidos</label>
                                         <input type="text" className="w-full px-4 py-2 rounded-md" label="Name" name="name"
@@ -72,7 +72,7 @@ export default function Edit(props) {
                                         <span className="text-red-600">
                                             {errors.dni}
                                         </span>
-                                    </div> 
+                                    </div>
                                     <div className="mb-4">
                                         <label className="">N. Teléfono</label>
                                         <input type="text" className="w-full px-4 py-2 rounded-md" label="Phone" name="phone"
@@ -84,7 +84,7 @@ export default function Edit(props) {
                                         <span className="text-red-600">
                                             {errors.phone}
                                         </span>
-                                    </div> 
+                                    </div>
                                     <div className="mb-4">
                                         <label className="">Correo Electrónico</label>
                                         <input type="text" className="w-full px-4 py-2 rounded-md" label="Email" name="email"
@@ -96,7 +96,7 @@ export default function Edit(props) {
                                         <span className="text-red-600">
                                             {errors.email}
                                         </span>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="mt-4">
                                 <button type="submit"

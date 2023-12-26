@@ -50,9 +50,6 @@ export default function Login({ status, canResetPassword }) {
                     <h2 className="text-3xl text-center font-semibold text-white my-5 tracking-normal">
                         BIENVENIDO
                     </h2>
-                    {/* <h2 className="text-3xl text-center font-semibold text-[#FF9F14] my-5">
-                    BIENVENIDO
-                </h2> */}
                     <form onSubmit={submit} className="w-full max-w-md">
                         <div>
                             <InputLabel
@@ -61,7 +58,7 @@ export default function Login({ status, canResetPassword }) {
                             />
 
                             <TextInput
-                                id="email"
+                                id="email" isLogin
                                 type="email"
                                 name="email"
                                 value={data.email}
@@ -83,7 +80,7 @@ export default function Login({ status, canResetPassword }) {
                             <InputLabel htmlFor="password" value="Contraseña" />
 
                             <TextInput
-                                id="password"
+                                id="password" isLogin
                                 type="password"
                                 name="password"
                                 value={data.password}

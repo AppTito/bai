@@ -50,7 +50,7 @@ export function SidebarItem({ icon, text, active, alert, href, method, children,
                 </div>
             )}
             {children && (
-                <ul className={`ml-4 ${isOpen ? "block" : "hidden"} ${expanded ? "w-40  " : "max-content "}`} style={{ zIndex: 1 }}>
+                <ul className={`ml-4 ${isOpen ? "block" : "hidden"} ${expanded ? "w-52  " : "max-content "}`} style={{ zIndex: 1 }}>
                     {children}
                 </ul>
             )}

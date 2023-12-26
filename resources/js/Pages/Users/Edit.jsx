@@ -1,28 +1,31 @@
-import React, {useState} from 'react';
+
+import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, Link, useForm, usePage} from '@inertiajs/react';
+import {Head, Link, usePage} from '@inertiajs/react';
+import Form from "@/Components/Form.jsx";
 
 export default function Edit ( props ){
-    const { user, roles , userRole } = usePage().props
-    const [passwordChanged, setPasswordChanged] = useState(false);
+    const { user, rolesAll } = usePage().props
+    const handleSubmit = "users.update";
+    const formFields = [
+        { name: 'name', label: 'Nombre' },
+        { name: 'email', label: 'Email' },
+        { name: 'password', label: 'Password', type: 'password' },
+        { name: 'password_confirmation', label: 'Confirmar Password', type: 'password' },
+        { name: 'roles', label: 'Rol', type: 'select', options:
+            { data: rolesAll.data.map((role) => (
+                { value: role.id, label: role.name }
+            )) },value: user.data.roles[0].id
+        },
+    ];
 
-    const { data, setData, errors, put } = useForm({
-        name: user.name || "",
-        email: user.email || "",
-        password: user.password || "",
+    const initialValues = {
+        id: user.data.id,
+        name: user.data.name || "",
+        email: user.data.email || "",
+        password: user.data.password || "",
         password_confirmation:  "",
-        roles: userRole[0] || [],
-    });
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        console.log(data);
-        put(route("users.update", user.id));
-    }
-
-    const handlePasswordChange = (event) => {
-        setData("password", event.target.value);
-        setPasswordChanged(true);
+        roles: user.data.roles.length > 0 ? user.data.roles[0].id : null,
     };
 
     return (
@@ -40,81 +43,7 @@ export default function Edit ( props ){
                                     Back
                                 </Link>
                             </div>
-
-                            <form name="createForm" onSubmit={handleSubmit}>
-                                <div className="flex flex-col">
-                                    <div className="mb-4">
-                                        <label className="">Nombre</label>
-                                        <input type="text" className="w-full px-4 py-2 rounded-md" label="Name" name="name"
-                                               value={data.name}
-                                               onChange={(event) =>
-                                                   setData("name", event.target.value)
-                                               }
-                                        />
-                                        <span className="text-red-600">
-                                            {errors.name}
-                                        </span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Email</label>
-                                        <input type="text" className="w-full px-4 py-2 rounded-md" label="Email" name="email"
-                                            value={data.email}
-                                            onChange={(event) =>
-                                                setData("email", event.target.value)
-                                            }
-                                        />
-                                        <span className="text-red-600">
-                                            {errors.email}
-                                        </span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Password</label>
-                                        <input type="password" className="w-full px-4 py-2 rounded-md" label="Password"
-                                               name="password" value={passwordChanged ? data.password : "******"}
-                                               onChange={handlePasswordChange}
-                                        />
-                                        <span className="text-red-600">
-                                            {errors.password}
-                                        </span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Confirm Password</label>
-                                        <input type="password" className="w-full px-4 py-2 rounded-md" label="Confirm Password"
-                                           name="password_confirmation" value={passwordChanged ? data.password_confirmation : ""}
-                                            onChange={(event) =>
-                                                setData("password_confirmation", event.target.value)
-                                            }
-                                        />
-                                        <span className="text-red-600">
-                                            {errors.password_confirmation}
-                                        </span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Roles</label>
-                                        <select className="w-full px-4 py-2 rounded-md"
-                                            label="Roles" name="roles" value={data.roles}
-                                            onChange={(event) =>
-                                                setData("roles", Array.from(event.target.selectedOptions, (option) => option.value))
-                                            }
-                                        >
-                                            {roles.map((role) => (
-                                                <option key={role} value={role}>
-                                                    {role}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        <span className="text-red-600">{errors.roles}</span>
-                                    </div>
-                                </div>
-                                <div className="mt-4">
-                                    <button
-                                        type="submit"
-                                        className="px-6 py-2 font-bold text-white bg-green-500 rounded">
-                                        Save
-                                    </button>
-                                </div>
-                            </form>
-
+                            <Form fields={formFields} onSubmit={handleSubmit} initialValues={initialValues} />
                         </div>
                     </div>
                 </div>

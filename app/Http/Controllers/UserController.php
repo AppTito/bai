@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\RoleResource;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +26,7 @@ class UserController extends Controller
 
     public function index(): Response
     {
-        $users = User::latest()->paginate(4); // Utiliza paginate directamente para simplificar
+        $users = User::latest()->paginate(4);
         $users->map(function ($user) {
             $user->roles = $user->getRoleNames();
             return $user;
@@ -34,15 +36,16 @@ class UserController extends Controller
 
     public function create(): Response
     {
-        $roles = Role::all()->pluck('name');
-        return Inertia::render('Users/Create', ['roles' => $roles]);
+        return Inertia::render('Users/Create', [
+            'roles' => RoleResource::collection(Role::all()),
+        ]);
     }
 
     public function store(UserRequest $request): RedirectResponse
     {
         $input = $request->validated();
         $input['password'] = Hash::make($input['password']);
-        User::create($input)->assignRole($request->input('roles'));
+        User::create($input)->syncRoles((int)$request->input('roles'));
         return redirect()->route('users.index');
     }
 
@@ -53,10 +56,11 @@ class UserController extends Controller
 
     public function edit(User $user): Response
     {
-        $roles = Role::all()->pluck('name');
-        $userRole = $user->getRoleNames();
-        return Inertia::render('Users/Edit',
-            [ 'user' => $user, 'roles' => $roles, 'userRole' => $userRole ]);
+        $user->load(['roles']);
+        return Inertia::render('Users/Edit', [
+            'user' => new UserResource($user),
+            'rolesAll' => RoleResource::collection(Role::all()),
+        ]);
     }
 
     public function update(UserRequest $request, User $user): RedirectResponse
@@ -68,8 +72,7 @@ class UserController extends Controller
             unset($input['password']);
         }
         $user->update($input);
-        $user->roles()->detach();
-        $user->assignRole($request->input('roles'));
+        $user->syncRoles((int)$request->input('roles'));
         return redirect()->route('users.index');
     }
 
