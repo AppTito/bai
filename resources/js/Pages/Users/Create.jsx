@@ -20,7 +20,7 @@ export default function Create ( props ){
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
-            <Head title="Create User"/>
+            <Head title="Crear Usuario"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -28,7 +28,7 @@ export default function Create ( props ){
 
                             <div className="flex items-center justify-between mb-6">
                                 <Link className="px-6 py-2 text-white bg-blue-500 rounded-md focus:outline-none"
-                                    href={route("users.index")}> Back
+                                    href={route("users.index")}> Atras
                                 </Link>
                             </div>
                             <Form fields={formFields} onSubmit={handleSubmit} />

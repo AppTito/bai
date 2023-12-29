@@ -30,7 +30,7 @@ export default function Edit ( props ){
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
-            <Head title="Edit User"/>
+            <Head title="Editar Usuario"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -40,7 +40,7 @@ export default function Edit ( props ){
                                 <Link
                                     className="px-6 py-2 text-white bg-blue-500 rounded-md focus:outline-none"
                                     href={route("users.index")}>
-                                    Back
+                                    Atras
                                 </Link>
                             </div>
                             <Form fields={formFields} onSubmit={handleSubmit} initialValues={initialValues} />

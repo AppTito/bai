@@ -40,12 +40,12 @@ export function SidebarItem({ icon, text, active, alert, href, method, children,
             style={{ zIndex: isOpen ? 2 : 1 }}>
             {renderLink()}
             {alert && (
-                <div className={`absolute right-2 w-2 h-2 rounded bg-primary ${expanded ? "" : "top-2 "}`} />
+                <div className={`absolute 2 w-2 h-2 rounded bg-primary ${expanded ? "" : "top-2 "}`} />
             )}
             {!expanded && (
                 <div className={` absolute left-full rounded-md px-2 py-1 ml-6 bg-primary text-white text-sm
                 invisible -translate-x-3 transition-all group-hover:visible group-hover:opacity-100
-                group-hover:translate-x-0  z-2`}>
+                group-hover:translate-x-0  z-2`} >
                     {text}
                 </div>
             )}

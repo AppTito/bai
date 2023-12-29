@@ -7,7 +7,7 @@ import {SidebarItem} from "@/Components/SidebarItem.jsx";
 export default function Authenticated({ user, header, children }) {
     const { hasPermission, hasRole } = usePermissions();
     return (
-        <div className="flex flex-row">
+        <div className="flex flex-row h-screen">
             <Sidebar user={user}>
                 <SidebarItem icon={<Icon icon="mdi:home"/>} text="Dashboard" href={route("dashboard")}
                              active={route().current("dashboard")}/>

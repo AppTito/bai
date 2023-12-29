@@ -1,21 +1,17 @@
 import React from 'react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import {Head, Link, useForm} from '@inertiajs/react';
+import {Head, Link} from '@inertiajs/react';
+import Form from "@/Components/Form.jsx";
 
 export default function Create ( props ){
-
-    const { data, setData, errors, post } = useForm({
-        name: "",
-    });
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        post(route("permissions.store"));
-    }
+    const handleSubmit = "permissions.store";
+    const formFields = [
+        { name: 'name', label: 'Nombre' },
+    ];
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
-            <Head title="Create User"/>
+            <Head title="Create Permiso"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -26,30 +22,7 @@ export default function Create ( props ){
                                     href={route("permissions.index")}> Back
                                 </Link>
                             </div>
-
-                            <form name="createForm" onSubmit={handleSubmit}>
-                                <div className="flex flex-col">
-                                    <div className="mb-4">
-                                        <label className="">Nombre</label>
-                                        <input type="text" className="w-full px-4 py-2 rounded-md" label="Name" name="name"
-                                               value={data.name}
-                                               onChange={(event) =>
-                                                   setData("name", event.target.value)
-                                               }
-                                        />
-                                        <span className="text-red-600">
-                                            {errors.name}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="mt-4">
-                                    <button
-                                        type="submit"
-                                        className="px-6 py-2 font-bold text-white bg-green-500 rounded">
-                                        Save
-                                    </button>
-                                </div>
-                            </form>
+                            <Form fields={formFields} onSubmit={handleSubmit} />
                         </div>
                     </div>
                 </div>

@@ -18,7 +18,7 @@ export default function Create ( props ){
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
-            <Head title="Create User"/>
+            <Head title="Crear Organización"/>
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -43,7 +43,7 @@ export default function Create ( props ){
                                         <span className="text-red-600">
                                             {errors.code}
                                         </span>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="flex flex-col">
                                     <div className="mb-4">
@@ -57,7 +57,7 @@ export default function Create ( props ){
                                         <span className="text-red-600">
                                             {errors.name}
                                         </span>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="flex flex-col">
                                     <div className="mb-4">
@@ -71,7 +71,7 @@ export default function Create ( props ){
                                         <span className="text-red-600">
                                             {errors.address}
                                         </span>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="flex flex-col">
                                     <div className="mb-4">
@@ -85,7 +85,7 @@ export default function Create ( props ){
                                         <span className="text-red-600">
                                             {errors.ruc}
                                         </span>
-                                    </div> 
+                                    </div>
                                 </div>
                                 <div className="mt-4">
                                     <button

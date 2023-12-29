@@ -29,10 +29,8 @@ export default function Edit(props) {
     }
 
     return (
-        <AuthenticatedLayout user={props.auth.user} errors={props.errors}
-            // header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Edit User</h2>}
-        >
-            <Head title="Edit User" />
+        <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
+            <Head title="Editar Rol" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -40,7 +38,7 @@ export default function Edit(props) {
                             <div className="flex items-center justify-between mb-6">
                                 <Link className="px-6 py-2 text-white bg-blue-500 rounded-md focus:outline-none"
                                     href={route("roles.index")} >
-                                    Back
+                                    Atras
                                 </Link>
                             </div>
                             <form name="createForm" onSubmit={handleSubmit}>
@@ -64,7 +62,6 @@ export default function Edit(props) {
                                                         checked={selectedPermissions.includes(id)}
                                                         onChange={(event) =>
                                                             handleCheckboxChange(event, setData)}
-                                                        // onChange={ handleCheckboxChange }
                                                     />
                                                     <label className="mr-2">{name}</label>
                                                 </div>
@@ -74,10 +71,7 @@ export default function Edit(props) {
                                     </div>
                                 </div>
                                 <div className="mt-4">
-                                    <button
-                                        type="submit"
-                                        className="px-6 py-2 font-bold text-white bg-green-500 rounded"
-                                    >
+                                    <button type="submit" className="px-6 py-2 font-bold text-white bg-green-500 rounded" >
                                         Save
                                     </button>
                                 </div>
