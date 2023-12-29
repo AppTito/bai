@@ -44,23 +44,6 @@ export default function Index(props) {
                                 </thead>
                                 <tbody>
                                     <TableRowControl />
-                                    {/* <TableRowControl name="Fruver" />
-                                    <TableRowControl name="Lacteos" />
-                                    <TableRowControl name="Panaderia" />
-                                    <TableRowControl name="Granos" />
-                                    <TableRowControl name="Embutidos" />
-                                    <TableRowControl name="Huevos" />
-                                    <TableRowControl name="Reposteria" />
-                                    <TableRowControl name="Carbohidrato Procesados" />
-                                    <TableRowControl name="Aderezos, Salsas y Condimentos" />
-                                    <TableRowControl name="Proteina" />
-                                    <TableRowControl name="Jugos y Bebidas" />
-                                    <TableRowControl name="Carbohidratos" />
-                                    <TableRowControl name="Enlatados y Conservas" />
-                                    <TableRowControl name="Floristeria" />
-                                    <TableRowControl name="Insumos de limpieza y Hogar" />
-                                    <TableRowControl name="Total Por grupo" /> */}
-                                    {/* Agrega más filas según sea necesario */}
                                 </tbody>
                             </table>
                         </div>

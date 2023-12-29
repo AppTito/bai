@@ -24,8 +24,6 @@ export default function Index(props) {
             juices: 0,
             carbohydrates: 0,
             canned: 0,
-            protein: 0,
-            processed: 0,
             total: 0,
             kg_pending: 0,
         },
@@ -36,8 +34,9 @@ export default function Index(props) {
     };
 
     const handleAddRow = () => {
-        setData([...data 
-            ,{
+        setData([
+            ...data,
+            {
                 organization: organization,
                 percentage: 0,
                 kg_deliver: 0,
@@ -54,12 +53,9 @@ export default function Index(props) {
                 juices: 0,
                 carbohydrates: 0,
                 canned: 0,
-                protein: 0,
-                processed: 0,
                 total: 0,
                 kg_pending: 0,
-            }
-            
+            },
         ]);
     };
 
@@ -73,7 +69,7 @@ export default function Index(props) {
                         <div className="flex justify-start px-6 py-4">
                             <Link
                                 href={route("operations.control")}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Volver
                             </Link>

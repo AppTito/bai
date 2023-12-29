@@ -1,16 +1,16 @@
 import React from "react";
 
 const DistributionTable = ({ data, onUpdateData, onAddRow }) => {
-  const handleCellValueChange = (index, column, value) => {
-    const newData = [...data];
-    newData[index][column] = value;
-    onUpdateData(newData);
-  };
+    const handleCellValueChange = (index, column, value) => {
+        const newData = [...data];
+        newData[index][column] = value;
+        onUpdateData(newData);
+    };
 
-  return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full border border-gray-300">
-      <thead className="bg-gray-200">
+    return (
+        <div className="overflow-x-auto">
+            <table className="min-w-full border border-gray-300 m-3">
+                <thead className="bg-gray-200">
                     <tr className="bg-primary">
                         <th className="p-2 border">Organizaciones</th>
                         <th className="p-2 border">Porcentaje</th>
@@ -36,90 +36,108 @@ const DistributionTable = ({ data, onUpdateData, onAddRow }) => {
                     </tr>
                 </thead>
 
-        <tbody>
-          {data.map((row, index) => (
-            <tr key={index}>
-              <td className="p-2 border" contentEditable="true">
-                {row.organizaciones}
-              </td>
-              <td className="p-2 border" contentEditable="true">
-                {row.porcentaje}
-              </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.kg_entregar}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.fruver}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.lacteos}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.panaderia}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.granos}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.embutidos}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.huevos}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.reposteria}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.procesados}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.salsas}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.proteina}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.jugos}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.carbohidratos}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.enlatados}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.proteina}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.procesado}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.total}
-                </td>
-                <td className="p-2 border" contentEditable="true">
-                    {row.kg_pendientes}
-                </td>
+                <tbody>
+                    {data.map((row, index) => (
+                        <tr key={index}>
+                            <td className="p-2 border" contentEditable="true">
+                                {/* listbox organizaciones */}
+                                <div>
+                                    <select
+                                        id="organization"
+                                        name="organization"
+                                        autoComplete="organization"
+                                        className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
+                                    >
+                                        <option value="1" selected hidden>
+                                            Seleccione
+                                        </option>
+                                        <option value="2">Org. 1</option>
+                                        <option value="3">Org. 2</option>
+                                        <option value="4">Org. 3</option>
+                                    </select>
+                                </div>
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.porcentaje}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.kg_entregar}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.fruver}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.lacteos}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.panaderia}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.granos}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.embutidos}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.huevos}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.reposteria}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.procesados}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.salsas}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.proteina}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.jugos}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.carbohidratos}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.enlatados}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.proteina}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.procesado}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.total}
+                            </td>
+                            <td className="p-2 border" contentEditable="true">
+                                {row.kg_pendientes}
+                            </td>
 
-              <td className="p-2 border">
+                            <td className="p-2 border">
+                                <button
+                                    onClick={onAddRow}
+                                    className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Nota
+                                </button>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            {/* btn crear más */}
+            <div className="m-3 items-end">
                 <button
-                  onClick={onAddRow}
-                  className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={onAddRow}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 >
-                  +
+                    +
                 </button>
-                <button
-                  onClick={onAddRow}
-                  className="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded"
-                >
-                  Nota Donacion
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+            </div>
+        </div>
+    );
 };
 
 export default DistributionTable;
