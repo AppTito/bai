@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, usePage } from "@inertiajs/react";
-import { Inertia } from "@inertiajs/inertia";
 import { usePermissions } from "@/hooks/usePermissions.js";
-import Pagination from "@/Components/Pagination";
-import { useState } from "react";
+import { Icon } from "@iconify/react";
 
 export default function Index(props) {
     const { organization } = usePage().props;
@@ -15,17 +13,36 @@ export default function Index(props) {
     const [pesoProcesado, setPesoProcesado] = useState("");
     const [pesoTotal, setPesoTotal] = useState("");
 
-    // Función para manejar cambios en el input de peso
-    const handlePesoChange = (event, setterFunction) => {
+    // Función para manejar el cambio en el input de peso Gavetas
+    const handlePesoGavetasChange = (event) => {
         const value = event.target.value;
-        setterFunction(value);
-    
+        setPesoGavetas(value);
+
         // Calcular el Peso Total: gaveta - procesado
-        const total = parseFloat(pesoGavetas) - parseFloat(pesoProcesado);
+        const total = parseFloat(value) - parseFloat(pesoProcesado);
         setPesoTotal(isNaN(total) ? "" : total);
     };
 
-    
+    // Función para manejar el cambio en el input de peso Procesado
+    const handlePesoProcesadoChange = (event) => {
+        const value = event.target.value;
+        setPesoProcesado(value);
+
+        // Calcular el Peso Total: gaveta - procesado
+        const total = parseFloat(pesoGavetas) - parseFloat(value);
+        setPesoTotal(isNaN(total) ? "" : total);
+    };
+
+    // Función para manejar el clic en el botón de calcular
+    const handleCalcularClick = () => {
+        // Rcibir los valores de los inputs
+        const valueGavetas = parseFloat(pesoGavetas) || 0;
+        const valueProcesado = parseFloat(pesoProcesado) || 0;
+
+        // Calcular el Peso Total: gaveta - procesado
+        const total = valueGavetas - valueProcesado;
+        setPesoTotal(isNaN(total) ? "" : total);
+    };
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -84,11 +101,8 @@ export default function Index(props) {
                                             <input
                                                 type="number"
                                                 value={pesoGavetas}
-                                                onChange={(e) =>
-                                                    handlePesoChange(
-                                                        e,
-                                                        setPesoGavetas
-                                                    )
+                                                onChange={
+                                                    handlePesoGavetasChange
                                                 }
                                                 className="w-full p-2 border-gray-300 rounded"
                                                 min="0"
@@ -110,11 +124,8 @@ export default function Index(props) {
                                             <input
                                                 type="number"
                                                 value={pesoProcesado}
-                                                onChange={(e) =>
-                                                    handlePesoChange(
-                                                        e,
-                                                        setPesoProcesado
-                                                    )
+                                                onChange={
+                                                    handlePesoProcesadoChange
                                                 }
                                                 className="w-full p-2 border-gray-300 rounded"
                                                 min={0}
@@ -131,16 +142,29 @@ export default function Index(props) {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
+                                        <td className="px-6 py-4 whitespace-nowrap flex items-center">
                                             {/* Mostrar el Peso Total */}
                                             <input
                                                 type="number"
                                                 value={pesoTotal}
                                                 className="w-full p-2 border-gray-300 rounded bg-gray-100"
-                                                min={0}   
+                                                min={0}
                                             />
+                                            {/* Botón para activar evento y calcular */}
+                                            <button
+                                                type="button"
+                                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-2"
+                                                onClick={handleCalcularClick}
+                                            >
+                                                {/* Icono calculadora */}
+                                                <Icon
+                                                    icon="bi:calculator-fill"
+                                                    className="w-5 h-5"
+                                                />
+                                            </button>
                                         </td>
                                     </tr>
+
                                     {/* Aquí termina el map */}
                                 </tbody>
                             </table>
