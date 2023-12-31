@@ -4,6 +4,8 @@ import { Icon } from "@iconify/react";
 import {Sidebar} from "@/Components/Sidebar.jsx";
 import {SidebarItem} from "@/Components/SidebarItem.jsx";
 
+
+
 export default function Authenticated({ user, header, children }) {
     const { hasPermission, hasRole } = usePermissions();
     return (
