@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttentionController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CategoryValueController;
 use App\Http\Controllers\DonorController;
@@ -39,6 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('donors', DonorController::class)->except(['show']);
     Route::resource('organizations', OrganizationController::class)->except(['show']);
+    Route::resource('attentions', AttentionController::class)->except(['show']);
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categoryValues', CategoryValueController::class)->except(['create', 'show', 'destroy']);
     /* Operaciones */

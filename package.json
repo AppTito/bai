@@ -25,9 +25,11 @@
         "@headlessui/tailwindcss": "^0.2.0",
         "@inertiajs/inertia": "^0.11.1",
         "@uidotdev/usehooks": "^2.4.1",
+        "flowbite-react": "^0.7.2",
         "framer-motion": "^10.16.16",
         "lucide-react": "^0.298.0",
         "react-datepicker": "^4.25.0",
+        "react-hot-toast": "^2.4.1",
         "react-icons": "^4.12.0"
     }
 }

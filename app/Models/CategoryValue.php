@@ -13,7 +13,7 @@ class CategoryValue extends Model
     use HasFactory;
 
     protected $fillable = ['category_id', 'value', 'status'];
-  
+
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);

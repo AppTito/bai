@@ -34,27 +34,24 @@ class RoleController extends Controller
         return Inertia::render('Roles/Create', ['permissions' => $permissions]);
     }
 
-
     public function store(RoleRequest $request): RedirectResponse
     {
         $validatedData = $request->validated();
         $role = Role::create(['name' => $validatedData['name']]);
-        if ($request->has('permissions')) {
-            $role->syncPermissions( $request->input('permissions'));
-        }
+        $permissions = array_map('intval', $validatedData['permissions']);
+        $role->syncPermissions($permissions);
         return redirect()->route('roles.index');
-    }
-
-    public function show(Role $role): Response
-    {
-        return Inertia::render('Roles/Show', ['role' => $role]);
     }
 
     public function edit(Role $role): Response
     {
         $permissions = Permission::all();
         $rolePermissions = $role->permissions->pluck('id')->toArray();
-        return Inertia::render('Roles/Edit', ['role' => $role, 'permissions' => $permissions, 'rolePermissions' => $rolePermissions]);
+        return Inertia::render('Roles/Edit', [
+            'role' => $role,
+            'permissions' => $permissions,
+            'rolePermissions' => $rolePermissions]
+        );
     }
 
     public function update(RoleRequest $request, Role $role): RedirectResponse

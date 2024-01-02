@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('attentions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id')->constrained();
+            $table->string('name');
             $table->string('dni',10);
             $table->string('phone');
             $table->string('email')->unique();

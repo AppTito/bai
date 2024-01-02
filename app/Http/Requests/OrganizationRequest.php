@@ -19,6 +19,7 @@ class OrganizationRequest extends FormRequest
             'code'=>'required|max:20',
             'address'=>'required|max:255',
             'ruc'=>'required|max:13',
+            'name'=>'required|max:255',
         ];
     }
 }
