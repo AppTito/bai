@@ -6,9 +6,9 @@ import InputLabel from "@/Components/InputLabel";
 import PrimaryButton from "@/Components/PrimaryButton";
 import TextInput from "@/Components/TextInput";
 
-import formaAmarilla from "../../../imgs/amarillo.png";
-import lampara from "../../../imgs/lampara.png";
-import persona from "../../../imgs/persona.png";
+import formaAmarilla from "../../../imgs/Login/amarillo.webp";
+import lampara from "../../../imgs/Login/lampara.webp";
+import persona from "../../../imgs/Login/persona.webp";
 import logo from "../../../imgs/badi.webp";
 
 import { Link, useForm, Head } from "@inertiajs/react";
@@ -37,6 +37,7 @@ export default function Login({ status, canResetPassword }) {
             <Head title="Iniciar Sesión" />
             <div className="flex flex-col md:flex-row h-screen">
                 <div className="md:w-1/2 flex-1 flex flex-col justify-center items-center p-8">
+                    {/* <ApplicationLogo className="block h-28 w-auto rounded-full my-3 border-[#FF9F14] border-2 shadow-md shadow-[#FF9F14]" /> */}
                     <img
                         src={logo}
                         alt="logo"
@@ -47,10 +48,13 @@ export default function Login({ status, canResetPassword }) {
                     alt="logo"
                     className="w-1/2 rounded-full my-3"
                 /> */}
-                    <h2 className="text-3xl text-center font-semibold text-white my-5 tracking-normal">
+                    <h2 className="text-4xl text-center font-bold text-white my-5 tracking-normal font-alegreya-sans">
                         BIENVENIDO
                     </h2>
-                    <form onSubmit={submit} className="w-full max-w-md">
+                    {/* <h2 className="text-3xl text-center font-semibold text-[#FF9F14] my-5">
+                    BIENVENIDO
+                </h2> */}
+                    <form onSubmit={submit} className="w-full max-w-md font-fira-sans">
                         <div>
                             <InputLabel
                                 htmlFor="email"
@@ -58,7 +62,7 @@ export default function Login({ status, canResetPassword }) {
                             />
 
                             <TextInput
-                                id="email" isLogin
+                                id="email"
                                 type="email"
                                 name="email"
                                 value={data.email}
@@ -67,7 +71,7 @@ export default function Login({ status, canResetPassword }) {
                                 onChange={(e) =>
                                     setData("email", e.target.value)
                                 }
-
+                                
                             />
 
                             <InputError
@@ -80,7 +84,7 @@ export default function Login({ status, canResetPassword }) {
                             <InputLabel htmlFor="password" value="Contraseña" />
 
                             <TextInput
-                                id="password" isLogin
+                                id="password"
                                 type="password"
                                 name="password"
                                 value={data.password}
@@ -95,7 +99,7 @@ export default function Login({ status, canResetPassword }) {
                                 className="mt-2"
                             />
                         </div>
-                        <div className="mt-1 text-right text-white">
+                        <div className="mt-1 text-right text-white font-fira-sans">
                             {canResetPassword && (
                                 <Link
                                     href={route("password.request")}
