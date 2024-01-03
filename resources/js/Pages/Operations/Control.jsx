@@ -1,15 +1,10 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
-import { Inertia } from "@inertiajs/inertia";
-import { usePermissions } from "@/hooks/usePermissions.js";
+import { Head, Link} from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl";
-import Pagination from "@/Components/Pagination";
 
 export default function Index(props) {
-    const { organization } = usePage().props;
-    const { hasPermission, hasRole } = usePermissions();
     const columnNames = [
         "Grupo Alimentos",
         "Recuperado",

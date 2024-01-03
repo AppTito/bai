@@ -9,7 +9,7 @@ export default function Index(props) {
     const columns = ["address","ruc","email",  "phone"];
     const labels = ["Dirección", "RUC", "Correo", "Teléfono"];
 
-    const actions = ["","permissions.edit", ""];
+    const actions = ["","banks.edit", ""];
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors} >
