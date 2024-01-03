@@ -62,7 +62,7 @@ export default function Login({ status, canResetPassword }) {
                             />
 
                             <TextInput
-                                id="email"
+                                id="email" isLogin
                                 type="email"
                                 name="email"
                                 value={data.email}
@@ -84,7 +84,7 @@ export default function Login({ status, canResetPassword }) {
                             <InputLabel htmlFor="password" value="Contraseña" />
 
                             <TextInput
-                                id="password"
+                                id="password" isLogin
                                 type="password"
                                 name="password"
                                 value={data.password}
