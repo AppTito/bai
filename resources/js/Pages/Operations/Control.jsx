@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
@@ -15,6 +15,43 @@ export default function Index(props) {
         "Consumo Inmediato",
         "Peso Total",
     ];
+
+    // Estados para los valores de peso
+    const [pesoGavetas, setPesoGavetas] = useState("");
+    const [pesoProcesado, setPesoProcesado] = useState("");
+    const [pesoTotal, setPesoTotal] = useState("");
+
+    // Función para manejar el cambio en el input de peso Gavetas
+    const handlePesoGavetasChange = (event) => {
+        const value = event.target.value;
+        setPesoGavetas(value);
+
+        // Calcular el Peso Total: gaveta - procesado
+        const total = parseFloat(value) - parseFloat(pesoProcesado);
+        setPesoTotal(isNaN(total) ? "" : total);
+    };
+
+    // Función para manejar el cambio en el input de peso Procesado
+    const handlePesoProcesadoChange = (event) => {
+        const value = event.target.value;
+        setPesoProcesado(value);
+
+        // Calcular el Peso Total: gaveta - procesado
+        const total = parseFloat(pesoGavetas) - parseFloat(value);
+        setPesoTotal(isNaN(total) ? "" : total);
+    };
+
+     // Función para manejar el clic en el botón de calcular
+     const handleCalcularClick = () => {
+        // Rcibir los valores de los inputs
+        const valueGavetas = parseFloat(pesoGavetas) || 0;
+        const valueProcesado = parseFloat(pesoProcesado) || 0;
+
+        // Calcular el Peso Total: gaveta - procesado
+        const total = valueGavetas - valueProcesado;
+        setPesoTotal(isNaN(total) ? "" : total);
+    };
+
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -52,6 +89,8 @@ export default function Index(props) {
                                     type="number"
                                     placeholder="Peso Total"
                                     min={0}
+                                    value={pesoGavetas}
+                                    onChange={handlePesoGavetasChange}
                                 />
                             </div>
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -68,6 +107,8 @@ export default function Index(props) {
                                     placeholder="Peso Recuperado"
                                     min={0}
                                     contentEditable={false}
+                                    value={pesoProcesado}
+                                    onChange={handlePesoProcesadoChange}
                                 />
                             </div>
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -84,12 +125,14 @@ export default function Index(props) {
                                     placeholder="Peso Final"
                                     min={0}
                                     contentEditable={false}
+                                    value={pesoTotal}
+                                    
                                 />
                             </div>
                         </div>
                         {/* Tabla para llenar con los pesos */}
                         <h2 className="text-2xl font-bold text-start text-green-700 p-2">
-                            Control: 
+                            Control:
                         </h2>
                         <div className="overflow-x-auto">
                             <table className="min-w-full border border-gray-300">
