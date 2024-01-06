@@ -2,7 +2,7 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link } from "@inertiajs/react";
 import TableRowControl from "@/Components/Distribution/TableRowControl";
-import TableHeaderRow from "@/Components/Distribution/TableTheadControl";
+import TableHeaderRow from "@/Components/TableTheadControl.jsx";
 
 /* Columnas */
 const columnNames = [

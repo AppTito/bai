@@ -1,16 +1,15 @@
 import React, { useState } from "react";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { usePermissions } from "@/hooks/usePermissions.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import Pagination from "@/Components/Pagination";
 
 export default function Index(props) {
-    const { organization } = usePage().props;
     const { hasPermission, hasRole } = usePermissions();
     /* fecha actual */
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [selectedOrganization, setSelectedOrganization] = useState("");
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -38,10 +37,14 @@ export default function Index(props) {
                         {/* Organization Dropdown */}
                         <div className="mb-6">
                             <label className="block text-green-700 text-sm font-bold mb-2">
-                                Seleccione una organización
+                                Seleccione un Donante
                             </label>
-                            <select className="w-full p-2 border-gray-300 rounded">
-                                <option value="" disabled selected hidden>
+                            <select
+                                value={selectedOrganization} // Add this line
+                                onChange={(e) => setSelectedOrganization(e.target.value)} // Add this line
+                                className="w-full p-2 border-gray-300 rounded"
+                            >
+                                <option value="" disabled hidden>
                                     Seleccione
                                 </option>
                                 <option value="La Favorita">La Favorita</option>
@@ -54,7 +57,7 @@ export default function Index(props) {
                         {/* Next Button */}
                         <div className="flex justify-end">
                             <Link
-                                href={route("operations.weight")}
+                                href={route("operations.control")}
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                             >
                                 Siguiente
