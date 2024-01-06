@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, usePage, useForm } from "@inertiajs/react";
 import { usePermissions } from "@/hooks/usePermissions.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,6 +11,13 @@ export default function Index(props) {
     const { hasPermission, hasRole } = usePermissions();
     /* fecha actual */
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const { data, setData, errors, post } = useForm({
+        organization_id:"",
+        dni:"",
+        name:"",
+        phone:"",
+        email:"",
+    });
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -40,15 +47,19 @@ export default function Index(props) {
                             <label className="block text-green-700 text-sm font-bold mb-2">
                                 Seleccione una organización
                             </label>
-                            <select className="w-full p-2 border-gray-300 rounded">
-                                <option value="" disabled selected hidden>
-                                    Seleccione
-                                </option>
-                                <option value="La Favorita">La Favorita</option>
-                                <option value="Santa Maria">Santa Maria</option>
-                                <option value="San Antonio">San Antonio</option>
-                                <option value="Otro">Otro</option>
+                            <select className="w-full px-4 py-2 rounded-md"
+                            label="Organization_id" name="organization_id" value={data.organization_id}
+                                onChange={(event) =>
+                                    setData("organization_id", event.target.value)
+                                }>
+                                <option value="">Seleccione Organización</option>
+                                {organization.map(({id, name}) => (
+                                    <option key={id} value={id}>
+                                        {name}
+                                    </option>
+                                ))}
                             </select>
+                            <span className="text-red-600">{errors.organization_id}</span>
                         </div>
 
                         {/* Next Button */}
