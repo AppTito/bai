@@ -7,16 +7,13 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import Pagination from "@/Components/Pagination";
 
 export default function Index(props) {
-    const { organization } = usePage().props;
+    const { donors } = usePage().props;
     const { hasPermission, hasRole } = usePermissions();
     /* fecha actual */
     const [selectedDate, setSelectedDate] = useState(new Date());
     const { data, setData, errors, post } = useForm({
-        organization_id:"",
-        dni:"",
+        donors_id:"",
         name:"",
-        phone:"",
-        email:"",
     });
 
     return (
@@ -45,21 +42,21 @@ export default function Index(props) {
                         {/* Organization Dropdown */}
                         <div className="mb-6">
                             <label className="block text-green-700 text-sm font-bold mb-2">
-                                Seleccione una organización
+                                Seleccione el Donante
                             </label>
                             <select className="w-full px-4 py-2 rounded-md"
-                            label="Organization_id" name="organization_id" value={data.organization_id}
+                            label="Donors_id" name="donors_id" value={data.donors_id}
                                 onChange={(event) =>
-                                    setData("organization_id", event.target.value)
+                                    setData("donors_id", event.target.value)
                                 }>
-                                <option value="">Seleccione Organización</option>
-                                {organization.map(({id, name}) => (
+                                <option value="">Seleccione el Donante</option>
+                                {donors.map(({id, name}) => (
                                     <option key={id} value={id}>
                                         {name}
                                     </option>
                                 ))}
                             </select>
-                            <span className="text-red-600">{errors.organization_id}</span>
+                            <span className="text-red-600">{errors.donors_id}</span>
                         </div>
 
                         {/* Next Button */}

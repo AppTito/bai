@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Inertia\Inertia;
-use App\Models\Organization;
+use App\Models\Donors;
 
 
 use Illuminate\Http\Request;
@@ -20,8 +20,8 @@ class OperationController extends Controller
     //index
     public function index()
     {
-        $organization = Organization::all();
-        return Inertia::render('Operations/Index',['organization'=>$organization]);
+        $donors = Donors::all();
+        return Inertia::render('Operations/Index',['donors'=>$donors]);
     }
 
     //weight
