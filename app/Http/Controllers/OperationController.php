@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Organization;
 use Inertia\Inertia;
 use App\Models\Donors;
 
@@ -39,6 +40,7 @@ class OperationController extends Controller
     //distribution
     public function distribution()
     {
-        return Inertia::render('Operations/Distribution');
+        $organization = Organization::all();
+        return Inertia::render('Operations/Distribution',['organization'=>$organization]);
     }
 }

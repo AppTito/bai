@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
 import { Icon } from "@iconify/react";
 
-const TableControl = ({ tableRows }) => {
+const TableControl = ({ tableRows, organization}) => {
     /* Definir la cantidad de 0s a llenar */
     const [columnTotals, setColumnTotals] = useState([
         null,
@@ -26,6 +26,7 @@ const TableControl = ({ tableRows }) => {
                     row={row}
                     rowIndex={rowIndex}
                     onInputChange={handleInputChange}
+                    organization={organization}
                 />
             ))}
             <tr>
@@ -40,7 +41,7 @@ const TableControl = ({ tableRows }) => {
     );
 };
 
-const TableRowControl = ({ row, rowIndex, onInputChange }) => {
+const TableRowControl = ({ row, rowIndex, onInputChange, organization}) => {
     // Estado para el valor seleccionado del select
     const [selectedOrg, setSelectedOrg] = useState(null);
 
@@ -118,9 +119,11 @@ const TableRowControl = ({ row, rowIndex, onInputChange }) => {
                                 <option value="" disabled hidden>
                                     Seleccione
                                 </option>
-                                <option value="1">Organización 1</option>
-                                <option value="2">Pablo Arenas xd</option>
-                                <option value="3">Xd no sé que más probar</option>
+                                {organization.map(({id, name}) => (
+                                    <option key={id} value={id}>
+                                        {name}
+                                    </option>
+                                ))}
                             </select>
                         </td>
                     );

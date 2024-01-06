@@ -1,6 +1,6 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import TableRowControl from "@/Components/Distribution/TableRowControl";
 import TableHeaderRow from "@/Components/Distribution/TableTheadControl";
 
@@ -29,11 +29,13 @@ const columnNames = [
     "Nota",
 ];
 
+
 export default function Index(props) {
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null], // Inicializar con una fila donde la primera columna es null y el resto son ceros
-    ]);
 
+    ]);
+    const { organization } = usePage().props;
     const addRow = () => {
         const newRow = [null, ...Array(columnNames.length - 2).fill(0), null]; // Crea una nueva fila con la primera columna como null y el resto de las columnas con valores de 0
         setTableRows((prevRows) => [...prevRows, newRow]);
@@ -60,7 +62,7 @@ export default function Index(props) {
                                     <TableHeaderRow columnNames={columnNames} />
                                 </thead>
                                 <tbody>
-                                    <TableRowControl tableRows={tableRows} />
+                                    <TableRowControl tableRows={tableRows} organization={organization} />
                                 </tbody>
                             </table>
                         </div>
