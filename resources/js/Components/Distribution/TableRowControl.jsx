@@ -112,14 +112,15 @@ const TableRowControl = ({ row, rowIndex, onInputChange }) => {
                                 autoComplete="organization"
                                 value={selectedOrg || ""}
                                 onChange={(e) => setSelectedOrg(e.target.value)}
-                                className="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary sm:text-sm"
-                            >
+                                className="mt-1 block w-auto px-3 py-1 pr-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-sm"
+
+                                >
                                 <option value="" disabled hidden>
                                     Seleccione
                                 </option>
-                                <option value="1">Org. 1</option>
-                                <option value="2">Org. 2</option>
-                                <option value="3">Org. 3</option>
+                                <option value="1">Organización 1</option>
+                                <option value="2">Pablo Arenas xd</option>
+                                <option value="3">Xd no sé que más probar</option>
                             </select>
                         </td>
                     );
