@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Category;
 use App\Models\Organization;
 use Inertia\Inertia;
 use App\Models\Donors;
@@ -34,7 +35,8 @@ class OperationController extends Controller
     //control
     public function control()
     {
-        return Inertia::render('Operations/Control');
+        $categories = Category::all();
+        return Inertia::render('Operations/Control',['categories'=>$categories]);
     }
 
     //distribution

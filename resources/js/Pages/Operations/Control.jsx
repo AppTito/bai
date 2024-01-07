@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl";
 
 export default function Index(props) {
+    const { categories } = usePage().props;
+
     const columnNames = [
         "Grupo Alimentos",
         "Recuperado",
@@ -42,7 +44,7 @@ export default function Index(props) {
     };
 
      // Función para manejar el clic en el botón de calcular
-     const handleCalcularClick = () => {
+        const handleCalcularClick = () => {
         // Rcibir los valores de los inputs
         const valueGavetas = parseFloat(pesoGavetas) || 0;
         const valueProcesado = parseFloat(pesoProcesado) || 0;
@@ -126,7 +128,6 @@ export default function Index(props) {
                                     min={0}
                                     contentEditable={false}
                                     value={pesoTotal}
-                                    
                                 />
                             </div>
                         </div>
@@ -140,7 +141,7 @@ export default function Index(props) {
                                     <TableHeaderRow columnNames={columnNames} />
                                 </thead>
                                 <tbody>
-                                    <TableRowControl />
+                                    <TableRowControl categories={categories} />
                                 </tbody>
                             </table>
                         </div>

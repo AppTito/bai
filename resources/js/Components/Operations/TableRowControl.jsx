@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 
 // Componente padre que maneja todas las filas
-const TableControl = () => {
-    const names = [
-        "Fruver",
-        "Lacteos",
-        "Panaderia",
-        "Granos",
-        "Embutidos",
-        "Huevos",
-        "Reposteria",
-        "Carbohidrato Procesados",
-        " Aderezos, Salsas y Condimentos",
-        "Proteina",
-        "Jugos y Bebidas",
-        "Carbohidratos",
-        "Enlatados y Conservas",
-        "Floristeria",
-        "Insumos de limpieza y Hogar",
-    ]; // Reemplaza esto con los nombres de tus filas
-    const [columnTotals, setColumnTotals] = useState(Array(7).fill(0)); // Inicializar el estado con un array de 7 ceros
+const TableControl = ({categories}) => {
+    console.log(categories);
+    const names = categories.map(category => category.category);
 
-    const handleInputChange = (rowIndex, columnIndex, value) => {
+    const [columnTotals, setColumnTotals] = useState(Array(7).fill(0)); // Inicializar el estado con un array de 7 ceros
+    const [allCellValues, setAllCellValues] = useState(Array(names.length).fill(Array(7).fill(0))); // Estado para mantener todos los valores de las celdas
+
+    const handleInputChange = (rowIndex, columnIndex, value, oldValue) => {
         // Actualizar el total de la columna correspondiente
         const newColumnTotals = [...columnTotals];
-        newColumnTotals[columnIndex] += value;
+        newColumnTotals[columnIndex] += value - oldValue;
         setColumnTotals(newColumnTotals);
+
+        // Actualizar el estado con todos los valores de las celdas
+        const newAllCellValues = allCellValues.map((row, index) => {
+            if (index === rowIndex) {
+                const newRow = [...row];
+                newRow[columnIndex] = value;
+                return newRow;
+            }
+            return row;
+        });
+        setAllCellValues(newAllCellValues);
+    };
+
+    // Función para obtener todos los valores de las celdas
+    const getAllCellValues = () => {
+        return allCellValues.map(row => row.map(cell => parseFloat(cell) || 0));
     };
 
     return (
@@ -45,6 +48,7 @@ const TableControl = () => {
                     </td>
                 ))}
             </tr>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => console.log(getAllCellValues())}>Obtener Valores</button> {/* Botón para obtener todos los valores */}
         </>
     );
 };
@@ -65,7 +69,7 @@ const TableRowControl = ({ name, onInputChange }) => {
             setValues(newValues); // Actualizar el estado
 
             // Llamar a la función de manejo de entrada del componente padre para actualizar el total de la columna
-            onInputChange(index, newValues[index] - oldValue);
+            onInputChange(index, newValues[index], oldValue);
         } else {
             e.target.textContent = 0; // Establecer a 0 si no es un número válido
         }
