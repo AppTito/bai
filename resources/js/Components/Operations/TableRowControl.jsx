@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
 // Componente padre que maneja todas las filas
-const TableControl = ({categories}) => {
-    console.log(categories);
-    const names = categories.map(category => category.category);
+const TableControl = ({ categories }) => {
+    const names = categories.map((category) => category.category);
 
     const [columnTotals, setColumnTotals] = useState(Array(7).fill(0)); // Inicializar el estado con un array de 7 ceros
-    const [allCellValues, setAllCellValues] = useState(Array(names.length).fill(Array(7).fill(0))); // Estado para mantener todos los valores de las celdas
+    const initialCellValues = names.map(() => Array(7).fill(0));
+    const [allCellValues, setAllCellValues] = useState(initialCellValues);
 
     const handleInputChange = (rowIndex, columnIndex, value, oldValue) => {
         // Actualizar el total de la columna correspondiente
@@ -28,9 +28,31 @@ const TableControl = ({categories}) => {
 
     // Función para obtener todos los valores de las celdas
     const getAllCellValues = () => {
-        return allCellValues.map(row => row.map(cell => parseFloat(cell) || 0));
+        const allValuesWithSums = allCellValues.map((row) => {
+            const sumOfFirstSixColumns = row
+                .slice(0, 6)
+                .reduce((acc, val) => acc + val, 0);
+            return [...row.slice(0, 6), sumOfFirstSixColumns]; // Mantener solo las primeras 6 columnas y agregar la suma como la séptima columna
+        });
+
+        // Calcular la suma de cada columna, incluida la columna adicional que representa la suma de las primeras 6 columnas
+        const columnSums = Array(7).fill(0);
+        allValuesWithSums.forEach((row) => {
+            row.forEach((value, index) => {
+                columnSums[index] += value;
+            });
+        });
+
+        return [...allValuesWithSums, columnSums]; // Devolver las filas y la suma total de columnas
     };
 
+    const sendDataToDatabase = () => {
+        console.log(getAllCellValues());
+        /* for (let i = 0; i < getAllCellValues().length; i++) {
+            for (let j = 0; j < getAllCellValues()[i].length; j++) {
+            }
+        } */
+    };
     return (
         <>
             {names.map((name, index) => (
@@ -48,7 +70,13 @@ const TableControl = ({categories}) => {
                     </td>
                 ))}
             </tr>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => console.log(getAllCellValues())}>Obtener Valores</button> {/* Botón para obtener todos los valores */}
+            <button
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                onClick={() => sendDataToDatabase()}
+            >
+                Obtener Valores
+            </button>{" "}
+            {/* Botón para obtener todos los valores */}
         </>
     );
 };
