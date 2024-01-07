@@ -55,10 +55,10 @@ const TableRowControl = ({ name, onInputChange }) => {
     const handleInputChange = (index, e) => {
         const { textContent } = e.target;
         // Verificar si el valor ingresado es un número o un número decimal válido
-        if (!isNaN(textContent)) {
+        if (textContent === "" || !isNaN(textContent)) {
             const newValues = [...values]; // Crear una copia del array de valores
             const oldValue = newValues[index];
-            newValues[index] = parseFloat(textContent); // Actualizar el valor en el índice correspondiente
+            newValues[index] = parseFloat(textContent) || 0; // Usar 0 si el valor no es un número
             newValues[newValues.length - 1] = newValues
                 .slice(0, -1)
                 .reduce((a, b) => a + b, 0); // Calcular la suma de los valores y almacenarla en la última celda
@@ -67,7 +67,7 @@ const TableRowControl = ({ name, onInputChange }) => {
             // Llamar a la función de manejo de entrada del componente padre para actualizar el total de la columna
             onInputChange(index, newValues[index] - oldValue);
         } else {
-            e.target.textContent = 0; // Limpiar el contenido si no es un número válido
+            e.target.textContent = 0; // Establecer a 0 si no es un número válido
         }
     };
 
