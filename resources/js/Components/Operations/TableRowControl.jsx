@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import {Inertia} from "@inertiajs/inertia";
 
 // Componente padre que maneja todas las filas
-const TableControl = ({ categories }) => {
+const TableControl = ({ categories , onDataChange}) => {
     const names = categories.map((category) => category.category);
 
     const [columnTotals, setColumnTotals] = useState(Array(7).fill(0)); // Inicializar el estado con un array de 7 ceros
@@ -26,6 +27,22 @@ const TableControl = ({ categories }) => {
         setAllCellValues(newAllCellValues);
     };
 
+    const handleCellChange = (rowName, columnIndex, value) => {
+        // Actualizar el estado con todos los valores de las celdas
+        const newAllCellValues = allCellValues.map((row, index) => {
+            if (index === names.indexOf(rowName)) {
+                const newRow = [...row];
+                newRow[columnIndex] = value;
+                return newRow;
+            }
+            return row;
+        });
+        setAllCellValues(newAllCellValues);
+
+        // Llamar a la función onDataChange con los nuevos valores
+        onDataChange(getAllCellValues());
+    };
+
     // Función para obtener todos los valores de las celdas
     const getAllCellValues = () => {
         const allValuesWithSums = allCellValues.map((row) => {
@@ -48,10 +65,7 @@ const TableControl = ({ categories }) => {
 
     const sendDataToDatabase = () => {
         console.log(getAllCellValues());
-        /* for (let i = 0; i < getAllCellValues().length; i++) {
-            for (let j = 0; j < getAllCellValues()[i].length; j++) {
-            }
-        } */
+        Inertia.post(route('operations.guardar'), { allCellValues });
     };
     return (
         <>
@@ -60,6 +74,7 @@ const TableControl = ({ categories }) => {
                     key={index}
                     name={name}
                     onInputChange={handleInputChange.bind(null, index)}
+                    onCellChange={handleCellChange}
                 />
             ))}
             <tr>
@@ -81,7 +96,7 @@ const TableControl = ({ categories }) => {
     );
 };
 
-const TableRowControl = ({ name, onInputChange }) => {
+const TableRowControl = ({ name, onInputChange, onCellChange }) => {
     const [values, setValues] = useState(Array(7).fill(0)); // Inicializar el estado con un array de 7 ceros
 
     const handleInputChange = (index, e) => {
@@ -98,6 +113,9 @@ const TableRowControl = ({ name, onInputChange }) => {
 
             // Llamar a la función de manejo de entrada del componente padre para actualizar el total de la columna
             onInputChange(index, newValues[index], oldValue);
+
+            // Llamar a la función de manejo de cambio de celda
+            onCellChange(name, index, newValues[index]);
         } else {
             e.target.textContent = 0; // Establecer a 0 si no es un número válido
         }

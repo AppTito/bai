@@ -23,6 +23,7 @@ export default function Index(props) {
     const [pesoProcesado, setPesoProcesado] = useState("");
     const [pesoTotal, setPesoTotal] = useState("");
 
+
     // Función para manejar el cambio en el input de peso Gavetas
     const handlePesoGavetasChange = (event) => {
         const value = event.target.value;
@@ -43,17 +44,26 @@ export default function Index(props) {
         setPesoTotal(isNaN(total) ? "" : total);
     };
 
-     // Función para manejar el clic en el botón de calcular
-        const handleCalcularClick = () => {
-        // Rcibir los valores de los inputs
-        const valueGavetas = parseFloat(pesoGavetas) || 0;
-        const valueProcesado = parseFloat(pesoProcesado) || 0;
+    // Función para manejar el cambio en los valores de la tabla
+    const handleTableChange = (newAllCellValues) => {
+        // Actualizar el estado con todos los valores de las celdas
+        const columnSums = Array(7).fill(0);
+        newAllCellValues.forEach((row) => {
+            row.forEach((value, index) => {
+                columnSums[index] += value;
+            });
+        });
 
-        // Calcular el Peso Total: gaveta - procesado
+        // Actualizar los estados solo si hay cambios
+        setPesoGavetas(newAllCellValues[17][6].toString());
+        setPesoProcesado(newAllCellValues[17][0].toString());
+        const valueGavetas = parseFloat(pesoGavetas) ;
+        const valueProcesado = parseFloat(pesoProcesado) ;
+        console.log(valueGavetas);
+        console.log(valueProcesado);
         const total = valueGavetas - valueProcesado;
-        setPesoTotal(isNaN(total) ? "" : total);
+        setPesoTotal(total.toString());
     };
-
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -141,7 +151,8 @@ export default function Index(props) {
                                     <TableHeaderRow columnNames={columnNames} />
                                 </thead>
                                 <tbody>
-                                    <TableRowControl categories={categories} />
+                                    <TableRowControl categories={categories} onDataChange={handleTableChange}/>
+                                    {/*<TableRowControl categories={categories} onDataChange={handleDataChange}/>*/}
                                 </tbody>
                             </table>
                         </div>

@@ -39,6 +39,12 @@ class OperationController extends Controller
         return Inertia::render('Operations/Control',['categories'=>$categories]);
     }
 
+    public function guardar(Request $request)
+    {
+        $allCellValues = $request->input('allCellValues');
+        return $allCellValues;
+    }
+
     //distribution
     public function distribution()
     {
