@@ -51,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/operations/control', [App\Http\Controllers\OperationController::class, 'control'])->name('operations.control');
     /* Operaciones Distribucion*/
     Route::get('/operations/distribution', [App\Http\Controllers\OperationController::class, 'distribution'])->name('operations.distribution');
+    /*Estimacion*/
+    Route::get('/estimation', [App\Http\Controllers\EstimateController::class, 'index'])->name('estimation.index');
 });
 
 require __DIR__.'/auth.php';

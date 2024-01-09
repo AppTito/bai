@@ -4,6 +4,7 @@ import { usePermissions } from "@/hooks/usePermissions.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
+import CalendarSection from "@/Components/Operations/calendarSection";
 
 export default function Index(props) {
     const { hasPermission, hasRole } = usePermissions();
@@ -18,21 +19,7 @@ export default function Index(props) {
                 <div className="bg-white rounded-lg overflow-hidden shadow-md w-96">
                     <div className="p-8 text-center">
                         {/* Calendar */}
-                        <div className="mb-6">
-                            <label className="block text-green-700 text-sm font-bold mb-2">
-                                Seleccione una fecha
-                            </label>
-                            <DatePicker
-                                showIcon={true}
-                                selected={selectedDate}
-                                onChange={(date) => setSelectedDate(date)}
-                                className="w-full p-2 border rounded border-gray-300 text-center"
-                                isClearable
-                                dateFormat="dd/MM/yyyy"
-                                placeholderText="Seleccione una fecha"
-                                withPortal
-                            />
-                        </div>
+                        <CalendarSection />
 
                         {/* Organization Dropdown */}
                         <div className="mb-6">
