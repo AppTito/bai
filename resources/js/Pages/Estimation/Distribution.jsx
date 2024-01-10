@@ -9,8 +9,8 @@ const columnNames = [
     "Organización",
     "Porcentaje (%)",
     "Kg a entregar",
-    "Total",
     "Kg Pendientes",
+    "Total",
 ];
 
 export default function Index(props) {
@@ -32,7 +32,7 @@ export default function Index(props) {
                         {/* Volver */}
                         <div className="flex justify-start mb-4">
                             <Link
-                                href={route("operations.control")}
+                                href={route("estimation.index")}
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Volver
@@ -44,7 +44,10 @@ export default function Index(props) {
                                     <TableHeaderRow columnNames={columnNames} />
                                 </thead>
                                 <tbody>
-                                    <TableRowEstimation tableRows={tableRows} setTableRows={setTableRows} />
+                                    <TableRowEstimation
+                                        tableRows={tableRows}
+                                        setTableRows={setTableRows}
+                                    />
                                 </tbody>
                             </table>
                         </div>
