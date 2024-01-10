@@ -46,10 +46,10 @@ const TableRowControl = ({ row, rowIndex, onInputChange }) => {
         const oldValue = newValues[index];
         newValues[index] = parsedValue;
 
-        const ignoreIndices = [0, 1, 2, 3];
-        newValues[3] = newValues
-          .map((value, i) => (ignoreIndices.includes(i) ? 0 : value))
-          .reduce((a, b) => a + b, 0);
+        // Suma dinámica de "Kg a entregar" y "Kg Pendientes"
+        const kgEntregar = newValues[2] || 0;
+        const kgPendientes = newValues[3] || 0;
+        newValues[4] = kgEntregar + kgPendientes;
 
         setValues(newValues);
         onInputChange(rowIndex, index, parsedValue - oldValue);
