@@ -1,22 +1,15 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link, usePage, useForm } from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl";
 
 export default function Index(props) {
-    const { categories } = usePage().props;
-
-    const columnNames = [
-        "Grupo Alimentos",
-        "Recuperado",
-        "Consumo Animal",
-        "Compostaje",
-        "Basura",
-        "Refrigerios",
-        "Consumo Inmediato",
-        "Peso Total",
-    ];
+    const { categories, donors_id, date, waste } = usePage().props;
+    const { data, setData, errors, post } = useForm({
+        date:"",
+        donors_id:"",
+    });
 
     // Estados para los valores de peso
     const [pesoGavetas, setPesoGavetas] = useState("");
@@ -59,8 +52,6 @@ export default function Index(props) {
         setPesoProcesado(newAllCellValues[17][0].toString());
         const valueGavetas = parseFloat(pesoGavetas) ;
         const valueProcesado = parseFloat(pesoProcesado) ;
-        console.log(valueGavetas);
-        console.log(valueProcesado);
         const total = valueGavetas - valueProcesado;
         setPesoTotal(total.toString());
     };
@@ -83,9 +74,11 @@ export default function Index(props) {
 
                         {/* Pesos */}
                         <h2 className="text-2xl font-bold text-start text-green-700 p-2">
-                            Donante: {/* {organization.name} */}
+                            Donante: {donors_id.name}
                         </h2>
-
+                        <h2 className="text-2xl font-bold text-start text-green-700 p-2">
+                            Fecha: {date}
+                        </h2>
                         {/* Inputs de pesos */}
                         <div className="flex flex-wrap mb-4">
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -148,7 +141,7 @@ export default function Index(props) {
                         <div className="overflow-x-auto">
                             <table className="min-w-full border border-gray-300">
                                 <thead>
-                                    <TableHeaderRow columnNames={columnNames} />
+                                    <TableHeaderRow columnNames={waste} />
                                 </thead>
                                 <tbody>
                                     <TableRowControl categories={categories} onDataChange={handleTableChange}/>

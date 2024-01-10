@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     /* Operaciones Control Peso */
     Route::get('/operations/weight', [App\Http\Controllers\OperationController::class, 'weight'])->name('operations.weight');
     /* Operaciones Control*/
+    Route::post('/operations/control', [App\Http\Controllers\OperationController::class, 'control'])->name('operations.control');
     Route::get('/operations/control', [App\Http\Controllers\OperationController::class, 'control'])->name('operations.control');
     Route::post('/operations/control/guardar', [App\Http\Controllers\OperationController::class, 'guardar'])->name('operations.guardar');
     /* Operaciones Distribucion*/

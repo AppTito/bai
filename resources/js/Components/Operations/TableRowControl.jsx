@@ -64,8 +64,8 @@ const TableControl = ({ categories , onDataChange}) => {
     };
 
     const sendDataToDatabase = () => {
-        console.log(getAllCellValues());
-        Inertia.post(route('operations.guardar'), { allCellValues });
+        const dataToSend = [...getAllCellValues()]; // Incluye las filas y las sumas de las columnas
+        Inertia.post(route('operations.guardar'), { allCellValues: dataToSend });
     };
     return (
         <>
