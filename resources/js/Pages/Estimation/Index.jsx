@@ -19,8 +19,10 @@ export default function Index(props) {
                     <div className="p-8 text-center">
                         {/* Calendar */}
                         <CalendarSection />
-                        {/* siguiente */}
-                        <Link className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        {/* siguiente distribution*/}
+                        <Link className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            href={route('estimation.distribution')}
+                        >
                             Siguiente
                         </Link>
                     </div>
