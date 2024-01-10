@@ -12,4 +12,10 @@ class EstimateController extends Controller
     {
         return Inertia::render('Estimation/Index');
     }
+
+    //distribution
+    public function distribution()
+    {
+        return Inertia::render('Estimation/Distribution');
+    }
 }
