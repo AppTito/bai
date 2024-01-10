@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Head, Link } from "@inertiajs/react";
 import { usePermissions } from "@/hooks/usePermissions.js";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import CalendarSection from "@/Components/Operations/calendarSection";

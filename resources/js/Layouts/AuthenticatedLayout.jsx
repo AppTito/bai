@@ -67,6 +67,10 @@ export default function Authenticated({ user, header, children }) {
                     <SidebarItem icon={<Icon icon="ic:outline-food-bank" fontSize={20}/>} text="Operación"
                                     href={route('operations.index')} active={route().current('operations.index')}/>
                 )}
+                {(hasRole("super-admin") || hasPermission("organizations-list")) && (
+                    <SidebarItem icon={<Icon icon="uil:horizontal-distribution-center" fontSize={20}/>} text="Distribution"
+                                    href={route('distribution.distribution')} active={route().current('distribution.distribution')}/>
+                )}
             </Sidebar>
             {header && (
                 <header className="bg-white shadow">
