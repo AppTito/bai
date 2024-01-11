@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('wastes', function (Blueprint $table) {
             $table->id();
             $table->string('item');
-            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
