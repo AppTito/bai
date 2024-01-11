@@ -1,8 +1,9 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import TableRowControl from "@/Components/Distribution/TableRowControl";
 import TableHeaderRow from "@/Components/TableTheadControl.jsx";
+import CalendarSection from "@/Components/Operations/calendarSection";
 
 /* Columnas */
 const columnNames = [
@@ -29,13 +30,11 @@ const columnNames = [
     "Nota",
 ];
 
-
 export default function Index(props) {
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null], // Inicializar con una fila donde la primera columna es null y el resto son ceros
-
     ]);
-    const { organization } = usePage().props;
+
     const addRow = () => {
         const newRow = [null, ...Array(columnNames.length - 2).fill(0), null]; // Crea una nueva fila con la primera columna como null y el resto de las columnas con valores de 0
         setTableRows((prevRows) => [...prevRows, newRow]);
@@ -47,22 +46,28 @@ export default function Index(props) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
-                        {/* Volver */}
-                        <div className="flex justify-start mb-4">
-                            <Link
-                                href={route("operations.control")}
-                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Volver
-                            </Link>
+                        {/* Titulo */}
+                        <div className="flex items-center justify-between mb-4">
+                            <h1 className="text-2xl font-bold text-green-700">
+                                Distribución
+                            </h1>
                         </div>
+
+                        {/* Calendar  y seleccionar fecha*/}
+                        <div className="container mb-6 flex items-center">
+                            <CalendarSection />
+                            <button className="bg-green-600 hover:bg-grenn-700 text-white font-bold py-2 px-4 rounded ml-4">
+                                <Link>Cargar</Link>
+                            </button>
+                        </div>
+
                         <div className="overflow-x-auto mb-1">
                             <table className="min-w-full border border-gray-300">
                                 <thead>
                                     <TableHeaderRow columnNames={columnNames} />
                                 </thead>
                                 <tbody>
-                                    <TableRowControl tableRows={tableRows} organization={organization} />
+                                    <TableRowControl tableRows={tableRows} />
                                 </tbody>
                             </table>
                         </div>
@@ -72,6 +77,15 @@ export default function Index(props) {
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 + Añadir Distribución
+                            </button>
+                        </div>
+                        {/* guardar */}
+                        <div className="mt-4 text-end">
+                            <button
+                                onClick={addRow}
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                                Guardar
                             </button>
                         </div>
                     </div>

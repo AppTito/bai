@@ -1,7 +1,7 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
-import TableRowControl from "@/Components/Distribution/TableRowControl";
+import { Head, Link } from "@inertiajs/react";
+import TableRowEstimation from "@/Components/Operations/TableRowEstimation.jsx";
 import TableHeaderRow from "@/Components/TableTheadControl.jsx";
 
 /* Columnas */
@@ -9,33 +9,15 @@ const columnNames = [
     "Organización",
     "Porcentaje (%)",
     "Kg a entregar",
-    "Fruver",
-    "Lacteos",
-    "Panaderia",
-    "Granos",
-    "Embutidos",
-    "Huevos",
-    "Reposteria",
-    "Procesados",
-    "Salsas",
-    "Proteina",
-    "Jugos",
-    "Carbohidratos",
-    "Enlatados",
-    "Proteina (KFC)",
-    "Procesado (KFC)",
-    "Total",
     "Kg Pendientes",
-    "Nota",
+    "Total",
 ];
-
 
 export default function Index(props) {
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null], // Inicializar con una fila donde la primera columna es null y el resto son ceros
-
     ]);
-    const { organization } = usePage().props;
+
     const addRow = () => {
         const newRow = [null, ...Array(columnNames.length - 2).fill(0), null]; // Crea una nueva fila con la primera columna como null y el resto de las columnas con valores de 0
         setTableRows((prevRows) => [...prevRows, newRow]);
@@ -50,7 +32,7 @@ export default function Index(props) {
                         {/* Volver */}
                         <div className="flex justify-start mb-4">
                             <Link
-                                href={route("operations.control")}
+                                href={route("estimation.index")}
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Volver
@@ -62,7 +44,10 @@ export default function Index(props) {
                                     <TableHeaderRow columnNames={columnNames} />
                                 </thead>
                                 <tbody>
-                                    <TableRowControl tableRows={tableRows} organization={organization} />
+                                    <TableRowEstimation
+                                        tableRows={tableRows}
+                                        setTableRows={setTableRows}
+                                    />
                                 </tbody>
                             </table>
                         </div>

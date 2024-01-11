@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, usePage, useForm } from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
-import TableHeaderRow from "@/Components/Operations/TableTheadControl";
+import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
 export default function Index(props) {
     const { categories, donors_id, date, waste } = usePage().props;
@@ -160,10 +160,10 @@ export default function Index(props) {
                         {/* Botón siguiente vista distribución */}
                         <div className="flex justify-end mt-4">
                             <Link
-                                href={route("operations.distribution")}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+/*                                 href={route("operations.distribution")}
+ */                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
-                                Siguiente
+                                Guardar
                             </Link>
                         </div>
                     </div>
