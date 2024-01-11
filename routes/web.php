@@ -3,7 +3,10 @@
 use App\Http\Controllers\AttentionController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CategoryValueController;
+use App\Http\Controllers\DistributionController;
 use App\Http\Controllers\DonorController;
+use App\Http\Controllers\EstimateController;
+use App\Http\Controllers\OperationController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
@@ -44,20 +47,22 @@ Route::middleware('auth')->group(function () {
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categoryValues', CategoryValueController::class)->except(['create', 'show', 'destroy']);
     /* Operaciones */
-    Route::get('/operations', [App\Http\Controllers\OperationController::class, 'index'])->name('operations.index');
+    Route::get('/operations', [OperationController::class, 'index'])->name('operations.index');
     /* Operaciones Control Peso */
-    Route::get('/operations/weight', [App\Http\Controllers\OperationController::class, 'weight'])->name('operations.weight');
+    Route::get('/operations/weight', [OperationController::class, 'weight'])->name('operations.weight');
     /* Operaciones Control*/
-    Route::get('/operations/control', [App\Http\Controllers\OperationController::class, 'control'])->name('operations.control');
+    Route::post('/operations/control', [OperationController::class, 'control'])->name('operations.control');
+    Route::get('/operations/control', [OperationController::class, 'control'])->name('operations.control');
+    Route::post('/operations/control/guardar', [OperationController::class, 'guardar'])->name('operations.guardar');
     /* Operaciones Distribucion*/
-    Route::get('/operations/distribution', [App\Http\Controllers\OperationController::class, 'distribution'])->name('operations.distribution');
+    Route::get('/operations/distribution', [OperationController::class, 'distribution'])->name('operations.distribution');
 
     /*Estimacion*/
-    Route::get('/estimation', [App\Http\Controllers\EstimateController::class, 'index'])->name('estimation.index');
-    Route::get('/estimation/distribution', [App\Http\Controllers\EstimateController::class, 'distribution'])->name('estimation.distribution');
+    Route::get('/estimation', [EstimateController::class, 'index'])->name('estimation.index');
+    Route::get('/estimation/distribution', [EstimateController::class, 'distribution'])->name('estimation.distribution');
 
     /*Distribucion*/
-    Route::get('/distribution', [App\Http\Controllers\DistributionController::class, 'index'])->name('distribution.distribution');
+    Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
 });
 
 require __DIR__.'/auth.php';

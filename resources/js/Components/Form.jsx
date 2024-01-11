@@ -1,3 +1,5 @@
+import React from "react";
+import { MultiSelect } from 'primereact/multiselect';
 import { useForm } from '@inertiajs/react';
 
 export default function Form({ fields, onSubmit, initialValues }) {
@@ -13,13 +15,19 @@ export default function Form({ fields, onSubmit, initialValues }) {
         }));
     };
 
+    const handleMultiSelectChange = (name, value) => {
+        setData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const isEditMode = initialValues && initialValues.id;
         if (isEditMode) {
             put(route(onSubmit, initialValues.id));
         } else {
-            console.log(data);
             post(route(onSubmit));
         }
     };
@@ -33,23 +41,28 @@ export default function Form({ fields, onSubmit, initialValues }) {
                     </label>
                     {field.type === 'password' ? (
                         <input type="password" id={field.name} name={field.name} value={data[field.name] || ''}
-                            onChange={handleChange} className="mt-1 block w-full p-2 border-gray-300 rounded-md
+                               onChange={handleChange} className="mt-1 block w-full p-2 border-gray-300 rounded-md
                             shadow-sm focus:outline-none focus:ring focus:border-blue-300"  />
                     ) : field.type === 'select' ? (
-                            <div>
-                                {field.isMultiple ? (
-                                    <select id={field.name} name={field.name} value={data[field.name] || []}
-                                        onChange={handleChange}  multiple
-                                        className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm
-                                        focus:outline-none focus:ring focus:border-blue-300" >
-                                        {field.options.data.map((option) => (
-                                            <option key={option.value} value={option.value}>
-                                                {option.label}
-                                            </option>
-                                        ))}
-                                    </select>
-                                ) : (
-                                    <select  id={field.name} name={field.name} value={data[field.name] || ''}
+                        <div>
+                            {field.isMultiple ? (
+                                <div className="card flex justify-content-center">
+                                    <MultiSelect id={field.name} name={field.name} value={data[field.name] || null}
+                                        options={field.options.data} display="chip" optionLabel="label"
+                                        onChange={(e) => handleMultiSelectChange(field.name, e.value)}
+                                        placeholder={`Seleccione ${field.label}`} className="w-full md:w-20rem mt-1 p-2"
+                                        pt={{
+                                            label: 'block text-sm font-medium text-itemSA',
+                                            header: 'p-3 text-gray-700  bg-gray-300  rounded-t-lg',
+                                            item: 'p-2 text-gray-700  bg-gray-300 hover:bg-itemSA hover:text-primary',
+                                            selectedItemsWrapper: 'flex flex-wrap ', checkbox: 'mr-2 ',
+                                            token: 'py-1 px-2 mr-2 bg-itemSA text-primary m-1 rounded-full' ,
+                                            tokenLabel: 'p-1 ',
+                                        }}
+                                    />
+                                </div>
+                            ) : (
+                                <select id={field.name} name={field.name} value={data[field.name] || ''}
                                         onChange={handleChange} className="mt-1 block w-full p-2 border-gray-300
                                         rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" >
                                         <option value="">Seleccione {field.label}</option>
@@ -79,4 +92,3 @@ export default function Form({ fields, onSubmit, initialValues }) {
         </form>
     );
 }
-

@@ -1,20 +1,15 @@
-import React , { useState } from "react";
+import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link} from "@inertiajs/react";
+import { Head, Link, usePage, useForm } from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
-import TableHeaderRow from "@/Components/TableTheadControl.jsx";
+import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
 export default function Index(props) {
-    const columnNames = [
-        "Grupo Alimentos",
-        "Recuperado",
-        "Consumo Animal",
-        "Compostaje",
-        "Basura",
-        "Refrigerios",
-        "Consumo Inmediato",
-        "Peso Total",
-    ];
+    const { categories, donors_id, date, waste } = usePage().props;
+    const { data, setData, errors, post } = useForm({
+        date: "",
+        donors_id: "",
+    });
 
     // Estados para los valores de peso
     const [pesoGavetas, setPesoGavetas] = useState("");
@@ -41,17 +36,24 @@ export default function Index(props) {
         setPesoTotal(isNaN(total) ? "" : total);
     };
 
-    // Función para manejar el clic en el botón de calcular
-    const handleCalcularClick = () => {
-        // Rcibir los valores de los inputs
-        const valueGavetas = parseFloat(pesoGavetas) || 0;
-        const valueProcesado = parseFloat(pesoProcesado) || 0;
+    // Función para manejar el cambio en los valores de la tabla
+    const handleTableChange = (newAllCellValues) => {
+        // Actualizar el estado con todos los valores de las celdas
+        const columnSums = Array(7).fill(0);
+        newAllCellValues.forEach((row) => {
+            row.forEach((value, index) => {
+                columnSums[index] += value;
+            });
+        });
 
-        // Calcular el Peso Total: gaveta - procesado
+        // Actualizar los estados solo si hay cambios
+        setPesoGavetas(newAllCellValues[17][6].toString());
+        setPesoProcesado(newAllCellValues[17][0].toString());
+        const valueGavetas = parseFloat(pesoGavetas);
+        const valueProcesado = parseFloat(pesoProcesado);
         const total = valueGavetas - valueProcesado;
-        setPesoTotal(isNaN(total) ? "" : total);
+        setPesoTotal(total.toString());
     };
-
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -71,9 +73,11 @@ export default function Index(props) {
 
                         {/* Pesos */}
                         <h2 className="text-2xl font-bold text-start text-green-700 p-2">
-                            Donante: {/* {organization.name} */}
+                            Donante: {donors_id.name}
                         </h2>
-
+                        <h2 className="text-2xl font-bold text-start text-green-700 p-2">
+                            Fecha: {date}
+                        </h2>
                         {/* Inputs de pesos */}
                         <div className="flex flex-wrap mb-4">
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
@@ -126,7 +130,6 @@ export default function Index(props) {
                                     min={0}
                                     contentEditable={false}
                                     value={pesoTotal}
-                                    onChange={(event) => setPesoTotal(event.target.value)}
                                 />
                             </div>
                         </div>
@@ -137,10 +140,19 @@ export default function Index(props) {
                         <div className="overflow-x-auto">
                             <table className="min-w-full border border-gray-300">
                                 <thead>
-                                <TableHeaderRow columnNames={columnNames} />
+                                    <TableHeaderRow columnNames={waste} />
                                 </thead>
                                 <tbody>
-                                <TableRowControl />
+                                    <TableRowControl
+                                        categories={categories}
+                                        onDataChange={handleTableChange}
+                                        wastesColumns={waste}
+                                        date={date}
+                                        donors={donors_id}
+                                        recovered = {pesoProcesado}
+                                        weigth = {pesoGavetas}
+                                    />
+                                    {/*<TableRowControl categories={categories} onDataChange={handleDataChange}/>*/}
                                 </tbody>
                             </table>
                         </div>

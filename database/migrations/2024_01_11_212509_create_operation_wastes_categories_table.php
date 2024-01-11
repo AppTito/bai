@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wastes', function (Blueprint $table) {
+        Schema::create('operation_wastes_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('item');
+            $table->foreignId('waste_id')->constrained();
+            $table->foreignId('category_id')->constrained();
+            $table->foreignId('operation_id')->constrained();
+            $table->double('amount');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wastes');
+        Schema::dropIfExists('operation_wastes_categories');
     }
 };
