@@ -5,14 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Operation extends Model
+class OperationWastesCategory extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'donors_id',
-        'total_weight',
-        'recovered',
-        'percentage',
-        'date',
+        'waste_id',
+        'category_id',
+        'operation_id',
+        'amount',
     ];
 }

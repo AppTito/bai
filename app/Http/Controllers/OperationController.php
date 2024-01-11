@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Operation;
+use App\Models\OperationWastesCategory;
 use App\Models\Organization;
 use App\Models\Waste;
 use Inertia\Inertia;
@@ -55,11 +57,36 @@ class OperationController extends Controller
     public function guardar(Request $request)
     {
         $allCellValues = $request->input('allCellValues');
-        //insert a la tabla operation
-        //$validatedData = $request->validated();
-        //Operation::create($validatedData);
-        // insert a la tabla operation_wastes_category
-        return $allCellValues;
+
+        $donors = $request->input('donors');
+        $weigth = $request->input('weigth');
+        $recovered = $request->input('recovered');
+        $date = $request->input('date');
+
+        $operation=new Operation();
+        $operation->donor_id=$donors;
+        $operation->total_weight=$weigth;
+        $operation->recovered=$recovered;
+        $operation->percentage=0; //ACTUALIZAR DE ACUERDO AL TOTAL DE LOS KILOS
+        $operation->date=$date;
+        $operation->user_id=1;
+        $operation->save();
+
+        $ultimoRegistro = Operation::orderBy('id', 'desc')->first();
+        $longitud = count($allCellValues);
+        $longitudColumnas = count($allCellValues[0]);
+
+        for ($fila = 0; $fila < $longitud - 1; $fila++) {
+            for ($columna = 0; $columna < $longitudColumnas-1; $columna++) {
+                $opWasteCat = new OperationWastesCategory();
+                $opWasteCat->waste_id = ($columna + 1);
+                $opWasteCat->category_id = ($fila + 1);
+                $opWasteCat->operation_id = $ultimoRegistro['id'];
+                $opWasteCat->amount = $allCellValues[$fila][$columna];
+                $opWasteCat->save();
+            }
+        }
+        return redirect()->route('operations.index');
     }
 
     //distribution

@@ -7,15 +7,14 @@ import TableHeaderRow from "@/Components/Operations/TableTheadControl";
 export default function Index(props) {
     const { categories, donors_id, date, waste } = usePage().props;
     const { data, setData, errors, post } = useForm({
-        date:"",
-        donors_id:"",
+        date: "",
+        donors_id: "",
     });
 
     // Estados para los valores de peso
     const [pesoGavetas, setPesoGavetas] = useState("");
     const [pesoProcesado, setPesoProcesado] = useState("");
     const [pesoTotal, setPesoTotal] = useState("");
-
 
     // Función para manejar el cambio en el input de peso Gavetas
     const handlePesoGavetasChange = (event) => {
@@ -50,8 +49,8 @@ export default function Index(props) {
         // Actualizar los estados solo si hay cambios
         setPesoGavetas(newAllCellValues[17][6].toString());
         setPesoProcesado(newAllCellValues[17][0].toString());
-        const valueGavetas = parseFloat(pesoGavetas) ;
-        const valueProcesado = parseFloat(pesoProcesado) ;
+        const valueGavetas = parseFloat(pesoGavetas);
+        const valueProcesado = parseFloat(pesoProcesado);
         const total = valueGavetas - valueProcesado;
         setPesoTotal(total.toString());
     };
@@ -144,7 +143,15 @@ export default function Index(props) {
                                     <TableHeaderRow columnNames={waste} />
                                 </thead>
                                 <tbody>
-                                    <TableRowControl categories={categories} onDataChange={handleTableChange}/>
+                                    <TableRowControl
+                                        categories={categories}
+                                        onDataChange={handleTableChange}
+                                        wastesColumns={waste}
+                                        date={date}
+                                        donors={donors_id}
+                                        recovered = {pesoProcesado}
+                                        weigth = {pesoGavetas}
+                                    />
                                     {/*<TableRowControl categories={categories} onDataChange={handleDataChange}/>*/}
                                 </tbody>
                             </table>

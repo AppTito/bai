@@ -1,12 +1,24 @@
 import React, { useState } from "react";
-import {Inertia} from "@inertiajs/inertia";
+import { Inertia } from "@inertiajs/inertia";
 
 // Componente padre que maneja todas las filas
-const TableControl = ({ categories , onDataChange}) => {
+const TableControl = ({
+    categories,
+    onDataChange,
+    wastesColumns,
+    date,
+    donors,
+    recovered,
+    weigth
+}) => {
+    console.log(wastesColumns.length+1);
     const names = categories.map((category) => category.category);
-
-    const [columnTotals, setColumnTotals] = useState(Array(7).fill(0)); // Inicializar el estado con un array de 7 ceros
-    const initialCellValues = names.map(() => Array(7).fill(0));
+    const [columnTotals, setColumnTotals] = useState(
+        Array(wastesColumns.length+1).fill(0)
+    ); // Inicializar el estado con un array de 7 ceros
+    const initialCellValues = names.map(() =>
+        Array(wastesColumns.length+1).fill(0)
+    );
     const [allCellValues, setAllCellValues] = useState(initialCellValues);
 
     const handleInputChange = (rowIndex, columnIndex, value, oldValue) => {
@@ -47,13 +59,16 @@ const TableControl = ({ categories , onDataChange}) => {
     const getAllCellValues = () => {
         const allValuesWithSums = allCellValues.map((row) => {
             const sumOfFirstSixColumns = row
-                .slice(0, 6)
+                .slice(0, wastesColumns.length+1 - 1)
                 .reduce((acc, val) => acc + val, 0);
-            return [...row.slice(0, 6), sumOfFirstSixColumns]; // Mantener solo las primeras 6 columnas y agregar la suma como la séptima columna
+            return [
+                ...row.slice(0, wastesColumns.length+1 - 1),
+                sumOfFirstSixColumns,
+            ]; // Mantener solo las primeras 6 columnas y agregar la suma como la séptima columna
         });
 
         // Calcular la suma de cada columna, incluida la columna adicional que representa la suma de las primeras 6 columnas
-        const columnSums = Array(7).fill(0);
+        const columnSums = Array(wastesColumns.length+1).fill(0);
         allValuesWithSums.forEach((row) => {
             row.forEach((value, index) => {
                 columnSums[index] += value;
@@ -65,7 +80,13 @@ const TableControl = ({ categories , onDataChange}) => {
 
     const sendDataToDatabase = () => {
         const dataToSend = [...getAllCellValues()]; // Incluye las filas y las sumas de las columnas
-        Inertia.post(route('operations.guardar'), { allCellValues: dataToSend });
+        Inertia.post(route("operations.guardar"), {
+            allCellValues: dataToSend,
+            date: date,
+            donors: donors.id,
+            recovered: recovered,
+            weigth:weigth
+        });
     };
     return (
         <>
