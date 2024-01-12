@@ -9,15 +9,16 @@ const TableControl = ({
     date,
     donors,
     recovered,
-    weigth
+    weigth,
 }) => {
-    console.log(wastesColumns.length+1);
+    console.log(wastesColumns.length + 1);
+    const [totalWeight, setTotalWeight] = useState(0);
     const names = categories.map((category) => category.category);
     const [columnTotals, setColumnTotals] = useState(
-        Array(wastesColumns.length+1).fill(0)
+        Array(wastesColumns.length + 1).fill(0)
     ); // Inicializar el estado con un array de 7 ceros
     const initialCellValues = names.map(() =>
-        Array(wastesColumns.length+1).fill(0)
+        Array(wastesColumns.length + 1).fill(0)
     );
     const [allCellValues, setAllCellValues] = useState(initialCellValues);
 
@@ -59,21 +60,28 @@ const TableControl = ({
     const getAllCellValues = () => {
         const allValuesWithSums = allCellValues.map((row) => {
             const sumOfFirstSixColumns = row
-                .slice(0, wastesColumns.length+1 - 1)
+                .slice(0, wastesColumns.length + 1 - 1)
                 .reduce((acc, val) => acc + val, 0);
             return [
-                ...row.slice(0, wastesColumns.length+1 - 1),
+                ...row.slice(0, wastesColumns.length + 1 - 1),
                 sumOfFirstSixColumns,
             ]; // Mantener solo las primeras 6 columnas y agregar la suma como la séptima columna
         });
 
         // Calcular la suma de cada columna, incluida la columna adicional que representa la suma de las primeras 6 columnas
-        const columnSums = Array(wastesColumns.length+1).fill(0);
+        const columnSums = Array(wastesColumns.length + 1).fill(0);
         allValuesWithSums.forEach((row) => {
             row.forEach((value, index) => {
                 columnSums[index] += value;
             });
         });
+
+        // Calcular la suma total de la columna "Peso Total"
+        const sumTotalWeight = allValuesWithSums
+            .map((row) => row[wastesColumns.length]) // Obtener valores de la columna "Peso Total"
+            .reduce((acc, val) => acc + val, 0);
+
+        setTotalWeight(sumTotalWeight); // Actualizar el estado con la suma total de la columna "Peso Total"
 
         return [...allValuesWithSums, columnSums]; // Devolver las filas y la suma total de columnas
     };
@@ -85,7 +93,7 @@ const TableControl = ({
             date: date,
             donors: donors.id,
             recovered: recovered,
-            weigth:weigth
+            weigth: weigth,
         });
     };
     return (
@@ -102,7 +110,7 @@ const TableControl = ({
                 <td className="p-2 border">Total Por Grupo</td>
                 {columnTotals.map((total, index) => (
                     <td key={index} className="p-2 border">
-                        {total}
+                        {index === wastesColumns.length ? totalWeight : total}
                     </td>
                 ))}
             </tr>
@@ -142,15 +150,32 @@ const TableRowControl = ({ name, onInputChange, onCellChange }) => {
         }
     };
 
+    const handleKeyDown = (index, e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            const nextIndex = index + 1;
+            if (nextIndex < values.length) {
+                const cell = document.getElementById(
+                    `cell-${name}-${nextIndex}`
+                );
+                if (cell) {
+                    cell.focus();
+                }
+            }
+        }
+    };
+
     return (
         <tr>
             <td className="p-2 border">{name}</td>
             {values.map((value, index) => (
                 <td
                     key={index}
+                    id={`cell-${name}-${index}`}
                     className="p-2 border hover:bg-gray-100 cursor-pointer"
-                    contentEditable={index !== values.length - 1} // Hacer que la última celda no sea editable
-                    onInput={(e) => handleInputChange(index, e)} // Agregar el manejador de eventos de entrada
+                    contentEditable={index !== values.length - 1}
+                    onBlur={(e) => handleInputChange(index, e)}
+                    onKeyDown={(e) => handleKeyDown(index, e)} // Agregar el manejador de eventos onKeyDown
                 >
                     {value}
                 </td>
