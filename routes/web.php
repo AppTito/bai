@@ -46,20 +46,15 @@ Route::middleware('auth')->group(function () {
     Route::resource('attentions', AttentionController::class)->except(['show']);
     Route::resource('products', ProductController::class)->except(['show']);
     Route::resource('categoryValues', CategoryValueController::class)->except(['create', 'show', 'destroy']);
+
     /* Operaciones */
     Route::get('/operations', [OperationController::class, 'index'])->name('operations.index');
-    /* Operaciones Control Peso */
-    Route::get('/operations/weight', [OperationController::class, 'weight'])->name('operations.weight');
-    /* Operaciones Control*/
     Route::post('/operations/control', [OperationController::class, 'control'])->name('operations.control');
-    Route::get('/operations/control', [OperationController::class, 'control'])->name('operations.control');
     Route::post('/operations/control/guardar', [OperationController::class, 'guardar'])->name('operations.guardar');
-    /* Operaciones Distribucion*/
-    Route::get('/operations/distribution', [OperationController::class, 'distribution'])->name('operations.distribution');
 
     /*Estimacion*/
     Route::get('/estimation', [EstimateController::class, 'index'])->name('estimation.index');
-    Route::get('/estimation/distribution', [EstimateController::class, 'distribution'])->name('estimation.distribution');
+    Route::post('/estimation/distribution', [EstimateController::class, 'distribution'])->name('estimation.distribution');
 
     /*Distribucion*/
     Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');

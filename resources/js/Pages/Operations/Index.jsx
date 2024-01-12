@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Head, Link, usePage, useForm } from "@inertiajs/react";
+import { Head, usePage, useForm } from "@inertiajs/react";
 import { usePermissions } from "@/hooks/usePermissions.js";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
@@ -8,12 +8,17 @@ import CalendarSection from "@/Components/Operations/calendarSection";
 export default function Index(props) {
     const { donors } = usePage().props;
     const { hasPermission, hasRole } = usePermissions();
-    /* fecha actual */
     const [selectedDate, setSelectedDate] = useState(new Date());
+
     const { data, setData, errors, post } = useForm({
         donors_id: "",
         date: selectedDate.toISOString().slice(0, 10),
     });
+
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        setData("date", date.toISOString().slice(0, 10)); // Actualiza la fecha en el formulario
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -35,7 +40,7 @@ export default function Index(props) {
                         {/* Agregar onSubmit */}
                         <div className="p-8 text-center">
                             {/* Calendar */}
-                            <CalendarSection />
+                            <CalendarSection  selectedDate={selectedDate} onChange={handleDateChange}/>
 
                             {/* Organization Dropdown */}
                             <div className="mb-6">

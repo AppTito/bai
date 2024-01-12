@@ -157,15 +157,6 @@ export default function Index(props) {
                             </table>
                         </div>
 
-                        {/* Botón siguiente vista distribución */}
-                        <div className="flex justify-end mt-4">
-                            <Link
-/*                                 href={route("operations.distribution")}
- */                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Guardar
-                            </Link>
-                        </div>
                     </div>
                 </div>
             </div>

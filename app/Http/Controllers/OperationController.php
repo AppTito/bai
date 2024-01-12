@@ -8,6 +8,7 @@ use App\Models\OperationWastesCategory;
 use App\Models\Organization;
 use App\Models\Waste;
 use Inertia\Inertia;
+use Inertia\Response;
 use App\Models\Donors;
 
 
@@ -25,24 +26,13 @@ class OperationController extends Controller
         $this->middleware('permission:operation-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:operation-delete', ['only' => ['destroy']]);
     }
-    //index
-    public function index()
+
+    public function index(): Response
     {
         $donors = Donors::all();
         return Inertia::render('Operations/Index', ['donors' => $donors]);
     }
-    public function formularioIndex(Request $request)
-    {
-        $data = $request->all();
-        return $data;
-    }
-    //weight
-    public function weight()
-    {
-        return Inertia::render('Operations/Weight');
-    }
 
-    //control
     public function control(Request $request)
     {
         $categories = Category::all();
@@ -50,7 +40,6 @@ class OperationController extends Controller
         $donors_id = $request->input('donors_id');
         $date = $request->input('date');
         $donors_id = Donors::find($donors_id);
-        //return $donors_id;
         return Inertia::render('Operations/Control', ['categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes]);
     }
 
@@ -89,10 +78,4 @@ class OperationController extends Controller
         return redirect()->route('operations.index');
     }
 
-    //distribution
-    public function distribution()
-    {
-        $organization = Organization::all();
-        return Inertia::render('Operations/Distribution', ['organization' => $organization]);
-    }
 }

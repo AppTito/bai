@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "@inertiajs/react";
-import { Icon } from "@iconify/react";
 
-const TableControl = ({ tableRows }) => {
+const TableControl = ({ tableRows , organization }) => {
   const [columnTotals, setColumnTotals] = useState(Array(5).fill(0));
 
   const handleInputChange = (rowIndex, columnIndex, value) => {
@@ -19,6 +17,7 @@ const TableControl = ({ tableRows }) => {
           row={row}
           rowIndex={rowIndex}
           onInputChange={handleInputChange}
+          organization={organization}
         />
       ))}
       <tr>
@@ -32,7 +31,7 @@ const TableControl = ({ tableRows }) => {
   );
 };
 
-const TableRowControl = ({ row, rowIndex, onInputChange }) => {
+const TableRowControl = ({ row, rowIndex, onInputChange, organization }) => {
   const [selectedOrg, setSelectedOrg] = useState(null);
   const [values, setValues] = useState(row || Array(5).fill(0));
 
@@ -75,10 +74,14 @@ const TableRowControl = ({ row, rowIndex, onInputChange }) => {
               onChange={(e) => setSelectedOrg(e.target.value)}
               className="mt-1 block w-auto px-3 py-1 pr-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-sm"
             >
-              <option value="" disabled hidden>
-                Seleccione
-              </option>
-              <option value="1">Organización 1</option>
+                <option value="" disabled>
+                    Seleccione una organización
+                </option>
+                {organization.map((org) => (
+                    <option key={org.id} value={org.id}>
+                    {org.name}
+                    </option>
+                ))}
             </select>
           ) : (
             value

@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import {Head, Link, usePage} from "@inertiajs/react";
+import {Head, Link, useForm, usePage} from "@inertiajs/react";
 import TableRowControl from "@/Components/Distribution/TableRowControl";
 import TableHeaderRow from "@/Components/TableTheadControl.jsx";
 import CalendarSection from "@/Components/Operations/calendarSection";
@@ -32,10 +32,18 @@ const columnNames = [
 
 export default function Index(props) {
     const {organization} = usePage().props;
-
+    const [selectedDate, setSelectedDate] = useState(new Date());
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null], // Inicializar con una fila donde la primera columna es null y el resto son ceros
     ]);
+
+    const { data, setData, errors, post } = useForm({
+        date: selectedDate.toISOString().slice(0, 10),
+    });
+    const handleDateChange = (date) => {
+        setSelectedDate(date);
+        setData("date", date.toISOString().slice(0, 10)); // Actualiza la fecha en el formulario
+    };
 
     const addRow = () => {
         const newRow = [null, ...Array(columnNames.length - 2).fill(0), null]; // Crea una nueva fila con la primera columna como null y el resto de las columnas con valores de 0
@@ -57,7 +65,7 @@ export default function Index(props) {
 
                         {/* Calendar  y seleccionar fecha*/}
                         <div className="container mb-6 flex items-center">
-                            <CalendarSection />
+                            <CalendarSection selectedDate={selectedDate} onChange={handleDateChange}/>
                             <button className="bg-green-600 hover:bg-grenn-700 text-white font-bold py-2 px-4 rounded ml-4">
                                 <Link>Cargar</Link>
                             </button>

@@ -1,6 +1,6 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link } from "@inertiajs/react";
+import {Head, Link, usePage} from "@inertiajs/react";
 import TableRowEstimation from "@/Components/Operations/TableRowEstimation.jsx";
 import TableHeaderRow from "@/Components/TableTheadControl.jsx";
 
@@ -14,6 +14,8 @@ const columnNames = [
 ];
 
 export default function Index(props) {
+    const { date, organization } = usePage().props;
+
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null], // Inicializar con una fila donde la primera columna es null y el resto son ceros
     ]);
@@ -38,16 +40,18 @@ export default function Index(props) {
                                 Volver
                             </Link>
                         </div>
+                        <h2 className="text-2xl font-bold text-start text-green-700 p-2">
+                            Fecha: {date}
+                        </h2>
                         <div className="overflow-x-auto mb-1">
                             <table className="min-w-full border border-gray-300">
                                 <thead>
                                     <TableHeaderRow columnNames={columnNames} />
                                 </thead>
                                 <tbody>
-                                    <TableRowEstimation
-                                        tableRows={tableRows}
-                                        setTableRows={setTableRows}
-                                    />
+                                <TableRowEstimation tableRows={tableRows}  setTableRows={setTableRows}
+                                                    organization={organization}
+                                />
                                 </tbody>
                             </table>
                         </div>

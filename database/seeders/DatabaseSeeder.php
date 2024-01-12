@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             BankTableSeeder::class,
             OrganizationSeeder::class,
             WastesSeeder::class,
+            DonorsSeeder::class,
         ]);
     }
 }
