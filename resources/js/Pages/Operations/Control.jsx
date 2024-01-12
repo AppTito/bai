@@ -73,7 +73,7 @@ export default function Index(props) {
 
                         {/* Pesos */}
                         <h2 className="text-2xl font-bold text-start text-green-700 p-2">
-                            Donante: {/* {donors_id.name} */}
+                            Donante: {donors_id.name}
                         </h2>
                         <h2 className="text-2xl font-bold text-start text-green-700 p-2">
                             Fecha: {date}
