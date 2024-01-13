@@ -113,7 +113,7 @@ const TableRowControl = ({ row, rowIndex, onInputChange, organization}) => {
                                 autoComplete="organization"
                                 value={selectedOrg || ""}
                                 onChange={(e) => setSelectedOrg(e.target.value)}
-                                className="mt-1 block w-auto px-3 py-1 pr-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-sm"
+                                className="w-40 mt-1 block py-1 pr-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-sm"
 
                                 >
                                 <option value="" disabled hidden>
