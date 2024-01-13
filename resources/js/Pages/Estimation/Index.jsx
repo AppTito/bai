@@ -24,7 +24,7 @@ export default function Index(props) {
         const formData = {
             date: selectedDate.toISOString().slice(0, 10),
         };
-        post(route("estimation.distribution"), formData);
+        post(route("estimations.distribution"), formData);
     }
 
     return (

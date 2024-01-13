@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Waste;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -23,6 +24,8 @@ class WastesSeeder extends Seeder
 
         ];
 
-        DB::table('wastes')->insert($wastes);
+        foreach ($wastes as $waste) {
+            Waste::create($waste);
+        }
     }
 }

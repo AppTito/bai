@@ -61,7 +61,7 @@ export default function Authenticated({ user, header, children }) {
                 </SidebarItem>
                 {(hasRole("super-admin") || hasPermission("estimation-list")) && (
                     <SidebarItem icon={<Icon icon="mdi:percent"/>} text="Estimación"
-                                 href={route('estimation.index')} active={route().current('estimation.index')}/>
+                                 href={route('estimations.index')} active={route().current('estimations.index')}/>
                 )}
                 {(hasRole("super-admin") || hasPermission("organizations-list")) && (
                     <SidebarItem icon={<Icon icon="ic:outline-food-bank" fontSize={20}/>} text="Operación"

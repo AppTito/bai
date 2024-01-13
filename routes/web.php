@@ -53,8 +53,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/operations/control/guardar', [OperationController::class, 'guardar'])->name('operations.guardar');
 
     /*Estimacion*/
-    Route::get('/estimation', [EstimateController::class, 'index'])->name('estimation.index');
-    Route::post('/estimation/distribution', [EstimateController::class, 'distribution'])->name('estimation.distribution');
+    Route::get('/estimation', [EstimateController::class, 'index'])->name('estimations.index');
+    Route::post('/estimation/distribution', [EstimateController::class, 'distribution'])->name('estimations.distribution');
+    Route::post('/estimation/distribution/guardar', [EstimateController::class, 'guardar'])->name('estimations.guardar');
 
     /*Distribucion*/
     Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');

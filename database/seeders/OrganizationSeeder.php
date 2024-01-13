@@ -38,9 +38,11 @@ class OrganizationSeeder extends Seeder
             ['code' => 'SI', 'address' => 'Ibarra', 'ruc' => 1704177276, 'name'=>'Sinaí'],
             ['code' => 'SVN', 'address' => '', 'ruc' => 1003417597, 'name'=>'SVANA'],
             ['code' => 'UOCC', 'address' => 'Los Ceibos - Río Chimbo 3-82', 'ruc' => 10911704702001, 'name'=>'Unión de Organizaciones Campesina'],
-
+            ['code' => 'RH', 'address' => 'Ibarra, Calle 13 de Abril y 9 de Octubre', 'ruc' => 1001659208, 'name'=>'Otros'],
         ];
 
-        DB::table('organizations')->insert($organizations);
+        foreach ($organizations as $organization) {
+            Organization::create($organization);
+        }
     }
 }

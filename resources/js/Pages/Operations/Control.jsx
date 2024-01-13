@@ -152,7 +152,6 @@ export default function Index(props) {
                                         recovered = {pesoProcesado}
                                         weigth = {pesoGavetas}
                                     />
-                                    {/*<TableRowControl categories={categories} onDataChange={handleDataChange}/>*/}
                                 </tbody>
                             </table>
                         </div>

@@ -16,7 +16,9 @@ return new class extends Migration
             $table->date('date');
             $table->foreignId('organization_id')->constrained();
             $table->decimal('percentage', 8, 2)->default(0);
-            $table->decimal('kilos', 8, 2)->default(0);
+            $table->decimal('kilos_send', 8, 2)->default(0);
+            $table->decimal('kilos_total', 8, 2)->default(0);
+            $table->decimal('kilos_pending', 8, 2)->default(0);
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

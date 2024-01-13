@@ -9,8 +9,8 @@ const columnNames = [
     "Organización",
     "Porcentaje (%)",
     "Kg a entregar",
-    "Kg Pendientes",
     "Total",
+    "Kg Pendientes",
 ];
 
 export default function Index(props) {
@@ -34,7 +34,7 @@ export default function Index(props) {
                         {/* Volver */}
                         <div className="flex justify-start mb-4">
                             <Link
-                                href={route("estimation.index")}
+                                href={route("estimations.index")}
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Volver
@@ -50,7 +50,7 @@ export default function Index(props) {
                                 </thead>
                                 <tbody>
                                 <TableRowEstimation tableRows={tableRows}  setTableRows={setTableRows}
-                                                    organization={organization}
+                                                    organization={organization} date={date}
                                 />
                                 </tbody>
                             </table>
