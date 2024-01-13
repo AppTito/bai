@@ -4,39 +4,3 @@
     display: inline-block;
     cursor: pointer;
   }
-  
-  .icon-container:hover::after {
-    content: attr(title);
-    position: absolute;
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-    z-index: 1;
-    bottom: 120%; /* Ajusta según sea necesario para la posición deseada */
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 12px;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .icon-container:hover::before {
-    content: "";
-    position: absolute;
-    border: 5px solid transparent;
-    border-bottom-color: rgba(0, 0, 0, 0.8);
-    z-index: 2;
-    bottom: 115%; /* Ajusta según sea necesario para la posición deseada */
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .icon-container:hover::after,
-  .icon-container:hover::before {
-    opacity: 1;
-  }
-  

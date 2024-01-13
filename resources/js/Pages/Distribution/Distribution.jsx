@@ -76,7 +76,7 @@ export default function Index(props) {
             </div>
 
             <div className="overflow-x-auto mb-1">
-              <table className="min-w-full border border-gray-300 text-center">
+              <table className="min-w-full border border-gray-300 text-center mt-5">
                 <thead>
                   <TableHeaderRow columnNames={columnNames} />
                 </thead>
