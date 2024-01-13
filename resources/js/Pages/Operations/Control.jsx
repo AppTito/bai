@@ -1,15 +1,11 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage, useForm } from "@inertiajs/react";
+import { Head, Link, usePage} from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
 export default function Index(props) {
     const { categories, donors_id, date, waste } = usePage().props;
-    const { data, setData, errors, post } = useForm({
-        date: "",
-        donors_id: "",
-    });
 
     // Estados para los valores de peso
     const [pesoGavetas, setPesoGavetas] = useState("");
@@ -140,7 +136,7 @@ export default function Index(props) {
                         <div className="overflow-x-auto">
                             <table className="min-w-full border border-gray-300">
                                 <thead>
-                                    <TableHeaderRow columnNames={waste} />
+                                    <TableHeaderRow columnNames={waste} control/>
                                 </thead>
                                 <tbody>
                                     <TableRowControl

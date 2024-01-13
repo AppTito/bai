@@ -2,7 +2,7 @@ import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import {Head, Link, usePage} from "@inertiajs/react";
 import TableRowEstimation from "@/Components/Operations/TableRowEstimation.jsx";
-import TableHeaderRow from "@/Components/TableTheadControl.jsx";
+import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
 /* Columnas */
 const columnNames = [

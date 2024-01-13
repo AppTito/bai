@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import TableRowControl from "@/Components/Distribution/TableRowControl";
-import TableHeaderRow from "@/Components/TableHeaderRow";
+import TableHeaderRow from "@/Components/TableTheadControl";
 import CalendarSection from "@/Components/Operations/calendarSection";
 
 /* Columnas */
