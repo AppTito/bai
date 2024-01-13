@@ -3,31 +3,31 @@ import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import TableRowControl from "@/Components/Distribution/TableRowControl";
-import TableHeaderRow from "@/Components/TableTheadControl.jsx";
+import TableHeaderRow from "@/Components/TableHeaderRow";
 import CalendarSection from "@/Components/Operations/calendarSection";
 
 /* Columnas */
 const columnNames = [
-  { "Organización": "icon:percentage" },
-  { "Porcentaje (%)": "icon:percentage" },
-    { "Fruver": "icon:percentage" },
-    { "Lacteos": "icon:percentage" },
-    { "Panaderia": "icon:percentage" },
-    { "Granos": "icon:percentage" },
-    { "Embutidos": "icon:percentage" },
-    { "Huevos": "icon:percentage" },
-    { "Reposteria": "icon:percentage" },
-    { "Procesados": "icon:percentage" },
-    { "Salsas": "icon:percentage" },
-    { "Proteina": "icon:percentage" },
-    { "Jugos": "icon:percentage" },
-    { "Carbohidratos": "icon:percentage" },
-    { "Enlatados": "icon:percentage" },
-    { "Proteina (KFC)": "icon:percentage" },
-    { "Procesado (KFC)": "icon:percentage" },
-    { "Total": "icon:percentage" },
-    { "Kg Pendientes": "icon:percentage" },
-    { "Nota": "icon:percentage" },
+  { Organización: "organization" },
+  { "Porcentaje (%)": "percentage" },
+  { Fruver: "fruver" },
+  { Lacteos: "lacteos" },
+  { Panaderia: "panaderia" },
+  { Granos: "granos" },
+  { Embutidos: "embutidos" },
+  { Huevos: "huevos" },
+  { Reposteria: "reposteria" },
+  { Procesados: "procesados" },
+  { Salsas: "salsas" },
+  { Proteina: "proteina" },
+  { Jugos: "jugos" },
+  { Carbohidratos: "carbohidratos" },
+  { Enlatados: "enlatados" },
+  { "Proteina (KFC)": "proteina-kfc" },
+  { "Procesado (KFC)": "procesado-kfc" },
+  { Total: "total" },
+  { "Kg Pendientes": "kg-pendientes" },
+  { Nota: "nota" },
 ];
 
 export default function Index(props) {
@@ -64,7 +64,7 @@ export default function Index(props) {
               </h1>
             </div>
 
-            {/* Calendar  y seleccionar fecha*/}
+            {/* Calendar y seleccionar fecha*/}
             <div className="container mb-6 flex items-center">
               <CalendarSection
                 selectedDate={selectedDate}
