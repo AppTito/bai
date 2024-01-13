@@ -6,13 +6,11 @@ import "../../css/TableHeaderRow.css";
 // Función de mapeo para convertir los nombres en íconos
 const mapIcon = (iconName) => {
   // Lógica para mapear los nombres a los íconos reales
-  // Puedes personalizar esto según tus necesidades
   switch (iconName) {
     case "icon:emoji-name":
       return "emojione:smile";
     case "icon:percentage":
-      return "ic:baseline-percentage";
-    // Agrega más casos según sea necesario
+      return "ic:baseline-percentage"
     default:
       return null;
   }
