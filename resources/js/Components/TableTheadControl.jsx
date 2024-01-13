@@ -18,14 +18,14 @@ const mapIcon = (iconName) => {
         procesados: "mdi:food-variant",
         salsas: "mdi:bottle-soda-classic",
         proteina: "mdi:food-drumstick",
-        jugos: "mdi:fruit-grapes",
+        jugos: "mdi:glass",
         carbohidratos: "mdi:food-croissant",
         enlatados: "mdi:lotion-outline",
         "proteina-kfc": "mdi:food-drumstick",
         "procesado-kfc": "mdi:food-variant",
-        total: "mdi:food",
-        "kg-pendientes": "mdi:weight",
-        nota: "mdi:note",
+        total: "mdi:calculator",
+        "kg-pendientes": "mdi:weight-kilogram",
+        nota: "mdi:note-text",
     };
 
     return iconMappings[iconName] || null;
