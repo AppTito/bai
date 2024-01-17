@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, usePage} from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
-import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
 export default function Index(props) {
     const { categories, donors_id, date, waste } = usePage().props;
@@ -134,22 +133,10 @@ export default function Index(props) {
                             Control:
                         </h2>
                         <div className="overflow-x-auto">
-                            <table className="min-w-full border border-gray-300">
-                                <thead>
-                                    <TableHeaderRow columnNames={waste} control/>
-                                </thead>
-                                <tbody>
-                                    <TableRowControl
-                                        categories={categories}
-                                        onDataChange={handleTableChange}
-                                        wastesColumns={waste}
-                                        date={date}
-                                        donors={donors_id}
-                                        recovered = {pesoProcesado}
-                                        weigth = {pesoGavetas}
-                                    />
-                                </tbody>
-                            </table>
+                            <TableRowControl waste={waste} date={date} donors={donors_id}
+                                categories={categories} onDataChange={handleTableChange}
+                                wastesColumns={waste} recovered = {pesoProcesado} weigth = {pesoGavetas}
+                            />
                         </div>
 
                     </div>

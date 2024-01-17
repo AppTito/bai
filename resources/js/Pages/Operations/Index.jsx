@@ -4,20 +4,22 @@ import { usePermissions } from "@/hooks/usePermissions.js";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import CalendarSection from "@/Components/Operations/calendarSection";
+import useDateUtils from "@/hooks/useDateUtils";
 
 export default function Index(props) {
     const { donors } = usePage().props;
     const { hasPermission, hasRole } = usePermissions();
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const { formatDate } = useDateUtils();
 
     const { data, setData, errors, post } = useForm({
         donors_id: "",
-        date: selectedDate.toISOString().slice(0, 10),
+        date: formatDate(selectedDate),
     });
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        setData("date", date.toISOString().slice(0, 10)); // Actualiza la fecha en el formulario
+        setData("date", formatDate(date)); // Actualiza la fecha en el formulario
     };
 
     const handleSubmit = (e) => {
@@ -25,7 +27,7 @@ export default function Index(props) {
 
         const formData = {
             donors_id: data.donors_id,
-            date: selectedDate.toISOString().slice(0, 10),
+            date: formatDate(selectedDate),
         };
         post(route("operations.control"), formData);
     };
@@ -44,12 +46,11 @@ export default function Index(props) {
 
                             {/* Organization Dropdown */}
                             <div className="mb-6">
-                                <label className="block text-green-700 text-sm font-bold mb-2">
+                                <label className="block text-green-700 text-sm font-bold mb-2" htmlFor="donors_id_o">
                                     Seleccione el Donante
                                 </label>
                                 <select
-                                    className="w-full px-4 py-2 rounded-md"
-                                    label="Donors_id"
+                                    className="w-full px-4 py-2 rounded-md" id="donors_id_o"
                                     name="donors_id"
                                     value={data.donors_id}
                                     onChange={(event) =>

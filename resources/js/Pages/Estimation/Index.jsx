@@ -4,15 +4,13 @@ import { usePermissions } from "@/hooks/usePermissions.js";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import CalendarSection from "@/Components/Operations/calendarSection";
-
-const formatDate = (date) => {
-    return date.toLocaleString('es-EC').slice(0, 9).split('/').reverse().join('/').replace(',', '');
-};
+import useDateUtils from "@/hooks/useDateUtils";
 
 export default function Index(props) {
     const { hasPermission, hasRole } = usePermissions();
     const { donors } = usePage().props;
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const { formatDate } = useDateUtils();
 
     const { data, setData, errors, post } = useForm({
         donors_id: "",
@@ -43,12 +41,10 @@ export default function Index(props) {
                         <div className="p-8 text-center">
                             <CalendarSection selectedDate={selectedDate} onChange={handleDateChange}/>
                             <div className="mb-6">
-                                <label className="block text-green-700 text-sm font-bold mb-2">
+                                <label className="block text-green-700 text-sm font-bold mb-2" htmlFor="donors_id">
                                     Seleccione el Donante
                                 </label>
-                                <select
-                                    className="w-full px-4 py-2 rounded-md"
-                                    name="donors_id"
+                                <select className="w-full px-4 py-2 rounded-md"  name="donors_id" id="donors_id"
                                     value={data.donors_id}
                                     onChange={(event) =>
                                         setData("donors_id", event.target.value)
