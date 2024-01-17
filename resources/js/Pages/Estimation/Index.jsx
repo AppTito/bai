@@ -12,12 +12,12 @@ export default function Index(props) {
 
     const { data, setData, errors, post } = useForm({
         donors_id: "",
-        date: selectedDate.toLocaleString().slice(0, 9),
+        date: selectedDate.toLocaleString('es-EC').slice(0, 9).split('/').reverse().join('/'),
     });
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        setData("date", date.toLocaleString().slice(0, 9)); // Actualiza la fecha en el formulario
+        setData("date", date.toLocaleString('es-EC').slice(0, 9).split('/').reverse().join('/')); // Actualiza la fecha en el formulario
     };
 
     const handleSubmit = (e) => {
@@ -25,7 +25,7 @@ export default function Index(props) {
 
         const formData = {
             donors_id: data.donors_id,
-            date: selectedDate.toLocaleString().slice(0, 9),
+            date: selectedDate.toLocaleString('es-EC').slice(0, 9).split('/').reverse().join('/'),
         };
         post(route("estimations.distribution"), formData);
     }
