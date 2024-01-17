@@ -5,6 +5,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import CalendarSection from "@/Components/Operations/calendarSection";
 
+const formatDate = (date) => {
+    return date.toLocaleString('es-EC').slice(0, 9).split('/').reverse().join('/').replace(',', '');
+};
+
 export default function Index(props) {
     const { hasPermission, hasRole } = usePermissions();
     const { donors } = usePage().props;
@@ -12,12 +16,12 @@ export default function Index(props) {
 
     const { data, setData, errors, post } = useForm({
         donors_id: "",
-        date: selectedDate.toLocaleString('es-EC').slice(0, 9).split('/').reverse().join('/'),
+        date: formatDate(selectedDate),
     });
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        setData("date", date.toLocaleString('es-EC').slice(0, 9).split('/').reverse().join('/')); // Actualiza la fecha en el formulario
+        setData("date", formatDate(date)); // Actualiza la fecha en el formulario
     };
 
     const handleSubmit = (e) => {
@@ -25,7 +29,7 @@ export default function Index(props) {
 
         const formData = {
             donors_id: data.donors_id,
-            date: selectedDate.toLocaleString('es-EC').slice(0, 9).split('/').reverse().join('/'),
+            date: formatDate(selectedDate),
         };
         post(route("estimations.distribution"), formData);
     }
