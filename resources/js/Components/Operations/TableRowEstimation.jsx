@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import {Inertia} from "@inertiajs/inertia";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
+import {Icon} from "@iconify/react";
 
 const   TableControl = ({ tableRows, setTableRows, organization,date,columnNames, donors }) => {
     const [columnTotals, setColumnTotals] = useState(Array(5).fill(0));
@@ -40,6 +41,10 @@ const   TableControl = ({ tableRows, setTableRows, organization,date,columnNames
         Inertia.post(route("estimations.guardar"), {  values: valores,  date: date, donors: donors.id, });
     };
 
+    const handleDeleteRow = (rowIndex) => {
+        setTableRows((prevRows) => prevRows.filter((_, index) => index !== rowIndex));
+    };
+
     return (
         <>
             <table className="min-w-full border border-gray-300">
@@ -50,7 +55,7 @@ const   TableControl = ({ tableRows, setTableRows, organization,date,columnNames
                     {tableRows.map((row, rowIndex) => (
                         <TableRowControl key={rowIndex} row={row} rowIndex={rowIndex}  onInputChange={handleInputChange}
                             setTableRows={setTableRows} organization={organization} selectedOrg={selectedOrgs[rowIndex]}
-                            onOrgSelect={(orgId) => handleOrgSelect(rowIndex, orgId)}
+                            onOrgSelect={(orgId) => handleOrgSelect(rowIndex, orgId)} onDeleteRow={handleDeleteRow}
                         />
                     ))}
                     <tr>
@@ -71,7 +76,8 @@ const   TableControl = ({ tableRows, setTableRows, organization,date,columnNames
     );
 };
 
-const TableRowControl = ({row, rowIndex, onInputChange, setTableRows, organization, selectedOrg, onOrgSelect}) => {
+const TableRowControl = ({row, rowIndex, onInputChange, setTableRows, organization, selectedOrg, onOrgSelect,
+                             onDeleteRow }) => {
     const [values, setValues] = useState(row || Array(5).fill(0));
 
     const handleInputChange = (index, e) => {
@@ -101,6 +107,10 @@ const TableRowControl = ({row, rowIndex, onInputChange, setTableRows, organizati
         }
     };
 
+    const handleDeleteRow = () => {
+        onDeleteRow(rowIndex);
+    };
+
     return (
         <tr>
             {values.map((value, index) => (
@@ -114,7 +124,7 @@ const TableRowControl = ({row, rowIndex, onInputChange, setTableRows, organizati
                     {index === 0 ? (
                         <select id={`organization-${rowIndex}`} value={selectedOrg || ""}
                                 onChange={(e) => onOrgSelect(e.target.value)}
-                            className="mt-1 block w-auto px-3 py-1 pr-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-sm"
+                                className="mt-1 block w-auto px-3 py-1 pr-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-sm"
                         >
                             <option value="" disabled>
                                 Seleccione una organización
@@ -130,6 +140,11 @@ const TableRowControl = ({row, rowIndex, onInputChange, setTableRows, organizati
                     )}
                 </td>
             ))}
+            <td className="p-2 border hover:bg-gray-100 cursor-pointer">
+                <button onClick={handleDeleteRow}  className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2 float-right">
+                    <Icon icon={"fluent:delete-32-regular"} />
+                </button>
+            </td>
         </tr>
     );
 };
