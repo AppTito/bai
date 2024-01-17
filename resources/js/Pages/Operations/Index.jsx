@@ -1,23 +1,28 @@
 import React, { useState } from "react";
 import { Head, usePage, useForm } from "@inertiajs/react";
-import { usePermissions } from "@/hooks/usePermissions.js";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import CalendarSection from "@/Components/Operations/calendarSection";
 
 export default function Index(props) {
     const { donors } = usePage().props;
-    const { hasPermission, hasRole } = usePermissions();
     const [selectedDate, setSelectedDate] = useState(new Date());
-
+    const [selectedDate1, setSelectedDate1] = useState(new Date());
     const { data, setData, errors, post } = useForm({
         donors_id: "",
         date: selectedDate.toISOString().slice(0, 10),
+        date1: selectedDate1.toISOString().slice(0, 10),
     });
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
         setData("date", date.toISOString().slice(0, 10)); // Actualiza la fecha en el formulario
+    };
+
+    const handleDateChange1 = (date) => {
+        setSelectedDate1(date);
+        setData("date1", date.toISOString().slice(0, 10)); // Actualiza la fecha en el formulario
+
     };
 
     const handleSubmit = (e) => {
@@ -30,22 +35,58 @@ export default function Index(props) {
         post(route("operations.control"), formData);
     };
 
+    const handleSubmit1 = (e) => {
+        e.preventDefault();
+
+        const formData = {
+            date1: selectedDate1.toISOString().slice(0, 10),
+        };
+        post(route("operations.operationsbydate", formData));
+    };
+
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Operaciones" />
             <div className="container mx-auto mt-8 py-12 max-w-7xl sm:px-6 lg:px-7 flex items-center justify-center h-screen">
+
                 <div className="bg-white rounded-lg overflow-hidden shadow-md w-96">
+                    <form onSubmit={handleSubmit1}>
+                        {/* Agregar onSubmit */}
+                        <div className="p-8 text-center">
+                            <label className="block text-green-700 text-sm font-bold mb-2">
+                                Buscar por fecha
+                            </label>
+
+                            {/* Calendar */}
+                            <CalendarSection selectedDate={selectedDate1} onChange={handleDateChange1} />
+
+                            {/* Next Button */}
+                            <div className="flex justify-end">
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+                                    Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                    //////////
+
                     <form onSubmit={handleSubmit}>
                         {" "}
                         {/* Agregar onSubmit */}
                         <div className="p-8 text-center">
+                            <label className="block text-green-700 text-sm font-bold mb-2">
+                                Crear nuevo
+                            </label>
                             {/* Calendar */}
-                            <CalendarSection  selectedDate={selectedDate} onChange={handleDateChange}/>
+                            <CalendarSection selectedDate={selectedDate} onChange={handleDateChange} />
 
                             {/* Organization Dropdown */}
                             <div className="mb-6">
                                 <label className="block text-green-700 text-sm font-bold mb-2">
-                                    Seleccione el Donante
+                                    Seleccione el donante
                                 </label>
                                 <select
                                     className="w-full px-4 py-2 rounded-md"
@@ -57,7 +98,7 @@ export default function Index(props) {
                                     }
                                 >
                                     <option value="">
-                                        Seleccione el Donante
+                                        Seleccione el donante
                                     </option>
                                     {donors.map(({ id, name }) => (
                                         <option key={id} value={id}>

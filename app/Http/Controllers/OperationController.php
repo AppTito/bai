@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Operation;
-use App\Models\OperationWastesCategory;
-use App\Models\Organization;
-use App\Models\Waste;
 use Inertia\Inertia;
+use App\Models\Waste;
 use Inertia\Response;
 use App\Models\Donors;
-
-
+use App\Models\Category;
+use App\Models\Operation;
+use App\Models\Organization;
 use Illuminate\Http\Request;
+
+
+use Spatie\Permission\Models\Role;
+use App\Models\OperationWastesCategory;
 
 class OperationController extends Controller
 {
@@ -52,13 +53,13 @@ class OperationController extends Controller
         $recovered = $request->input('recovered');
         $date = $request->input('date');
 
-        $operation=new Operation();
-        $operation->donor_id=$donors;
-        $operation->total_weight=$weigth;
-        $operation->recovered=$recovered;
-        $operation->percentage=0; //ACTUALIZAR DE ACUERDO AL TOTAL DE LOS KILOS
-        $operation->date=$date;
-        $operation->user_id=1;
+        $operation = new Operation();
+        $operation->donor_id = $donors;
+        $operation->total_weight = $weigth;
+        $operation->recovered = $recovered;
+        $operation->percentage = 0; //ACTUALIZAR DE ACUERDO AL TOTAL DE LOS KILOS
+        $operation->date = $date;
+        $operation->user_id = 1;
         $operation->save();
 
         $ultimoRegistro = Operation::orderBy('id', 'desc')->first();
@@ -66,7 +67,7 @@ class OperationController extends Controller
         $longitudColumnas = count($allCellValues[0]);
 
         for ($fila = 0; $fila < $longitud - 1; $fila++) {
-            for ($columna = 0; $columna < $longitudColumnas-1; $columna++) {
+            for ($columna = 0; $columna < $longitudColumnas - 1; $columna++) {
                 $opWasteCat = new OperationWastesCategory();
                 $opWasteCat->waste_id = ($columna + 1);
                 $opWasteCat->category_id = ($fila + 1);
@@ -76,6 +77,20 @@ class OperationController extends Controller
             }
         }
         return redirect()->route('operations.index');
+    }
+
+
+    public function operationsbydate(Request $request): Response
+    {
+        // $fecha = '2024-01-16'; 
+        // \Log::info('Raw Request Data: ' . json_encode($request->all()));
+        $fecha = $request->input('date1');
+        $operations = Operation::join('donors', 'operations.donor_id', '=', 'donors.id')
+            ->select('operations.*', 'donors.name as donor_name')
+            ->whereDate('operations.date', $fecha)
+            ->latest()
+            ->paginate(4);
+        return Inertia::render('Operations/OperationsByDate', ['operations' => $operations]);
     }
 
 }
