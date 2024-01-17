@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import {Inertia} from "@inertiajs/inertia";
+import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
-const   TableControl = ({ tableRows, setTableRows, organization,date, }) => {
+const   TableControl = ({ tableRows, setTableRows, organization,date,columnNames, donors }) => {
     const [columnTotals, setColumnTotals] = useState(Array(5).fill(0));
     const [selectedOrgs, setSelectedOrgs] = useState(
         Array(tableRows.length).fill(null)
@@ -36,49 +37,41 @@ const   TableControl = ({ tableRows, setTableRows, organization,date, }) => {
 
     const obtenerValores = () => {
         const valores = getAllCellValues();
-        Inertia.post(route("estimations.guardar"), {
-            values: valores,
-            date: date,
-        });
-        console.log(valores);
+        Inertia.post(route("estimations.guardar"), {  values: valores,  date: date, donors: donors.id, });
     };
 
     return (
         <>
-            {tableRows.map((row, rowIndex) => (
-                <TableRowControl
-                    key={rowIndex}
-                    row={row}
-                    rowIndex={rowIndex}
-                    onInputChange={handleInputChange}
-                    setTableRows={setTableRows}
-                    organization={organization}
-                    selectedOrg={selectedOrgs[rowIndex]}
-                    onOrgSelect={(orgId) => handleOrgSelect(rowIndex, orgId)}
-                />
-            ))}
-            <tr>
-                {columnTotals.map((total, index) => (
-                    <td key={index} className="bg-green-600 p-2 border">
-                        {index === 0
-                            ? "TOTAL"
-                            : Number.isInteger(total)
-                                ? total
-                                : total.toFixed(2)}
-                    </td>
-                ))}
-            </tr>
-            <button
-                onClick={obtenerValores}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
+            <table className="min-w-full border border-gray-300">
+                <thead>
+                    <TableHeaderRow columnNames={columnNames}/>
+                </thead>
+                <tbody>
+                    {tableRows.map((row, rowIndex) => (
+                        <TableRowControl key={rowIndex} row={row} rowIndex={rowIndex}  onInputChange={handleInputChange}
+                            setTableRows={setTableRows} organization={organization} selectedOrg={selectedOrgs[rowIndex]}
+                            onOrgSelect={(orgId) => handleOrgSelect(rowIndex, orgId)}
+                        />
+                    ))}
+                    <tr>
+                        {columnTotals.map((total, index) => (
+                            <td key={index} className="bg-green-600 p-2 border">
+                                {index === 0 ? "TOTAL" : Number.isInteger(total) ? total : total.toFixed(2)}
+                            </td>
+                        ))}
+                    </tr>
+                </tbody>
+            </table>
+            <button onClick={obtenerValores}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 float-right"
             >
-                Obtener Valores de la Fila
+                Guardar
             </button>
         </>
     );
 };
 
-const TableRowControl = ({ row, rowIndex, onInputChange, setTableRows, organization, selectedOrg,  onOrgSelect, }) => {
+const TableRowControl = ({row, rowIndex, onInputChange, setTableRows, organization, selectedOrg, onOrgSelect}) => {
     const [values, setValues] = useState(row || Array(5).fill(0));
 
     const handleInputChange = (index, e) => {
@@ -119,7 +112,8 @@ const TableRowControl = ({ row, rowIndex, onInputChange, setTableRows, organizat
                     onBlur={(e) => handleInputChange(index, e)}
                 >
                     {index === 0 ? (
-                        <select value={selectedOrg || ""} onChange={(e) => onOrgSelect(e.target.value)}
+                        <select id={`organization-${rowIndex}`} value={selectedOrg || ""}
+                                onChange={(e) => onOrgSelect(e.target.value)}
                             className="mt-1 block w-auto px-3 py-1 pr-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-sm"
                         >
                             <option value="" disabled>
