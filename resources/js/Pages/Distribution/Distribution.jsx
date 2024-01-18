@@ -5,8 +5,8 @@ import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import TableRowControl from "@/Components/Distribution/TableRowControl";
 import TableHeaderRow from "@/Components/TableTheadControl";
 import CalendarSection from "@/Components/Operations/calendarSection";
+import useDateUtils from "@/hooks/useDateUtils";
 
-/* Columnas */
 const columnNames = [
   { Organización: "organization" },
   { "Porcentaje (%)": "percentage" },
