@@ -1,7 +1,7 @@
 import {Link} from "@inertiajs/react";
 import {usePermissions} from "@/hooks/usePermissions.js";
 
-export default function Table({ items, columns, labels , primary, actions, per ,property }) {
+export default function Table({ items, columns, labels , primary, actions, per ,property,date }) {
     const { hasPermission, hasRole } = usePermissions()
 
     return (
@@ -50,7 +50,7 @@ export default function Table({ items, columns, labels , primary, actions, per ,
                                         (actions[0]) && (
                                             <Link tabIndex="1"
                                                   className="px-4 py-2 text-sm text-white bg-sky-800 rounded mr-2"
-                                                  href={route(actions[0], item.id)}>Ver</Link>
+                                                  href={route(actions[0], { donor_id: item.donor_id, date: item.date })}>Ver</Link>
                                         )}
                                 </td>
                             )}

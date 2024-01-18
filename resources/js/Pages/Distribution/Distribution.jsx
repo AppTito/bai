@@ -37,13 +37,15 @@ export default function Index(props) {
     [null, ...Array(columnNames.length - 2).fill(0), null],
   ]);
 
+  const { formatDate } = useDateUtils();
+
   const { data, setData, errors, post } = useForm({
-    date: selectedDate.toISOString().slice(0, 10),
+    date: formatDate(selectedDate),
   });
 
   const handleDateChange = (date) => {
     setSelectedDate(date);
-    setData("date", date.toISOString().slice(0, 10));
+    setData("date", formatDate(date));
   };
 
   const addRow = () => {

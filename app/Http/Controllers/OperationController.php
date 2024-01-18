@@ -12,6 +12,7 @@ use App\Models\Organization;
 use Illuminate\Http\Request;
 
 
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
 use App\Models\OperationWastesCategory;
 
@@ -82,15 +83,52 @@ class OperationController extends Controller
 
     public function operationsbydate(Request $request): Response
     {
-        // $fecha = '2024-01-16'; 
-        // \Log::info('Raw Request Data: ' . json_encode($request->all()));
-        $fecha = $request->input('date1');
-        $operations = Operation::join('donors', 'operations.donor_id', '=', 'donors.id')
-            ->select('operations.*', 'donors.name as donor_name')
-            ->whereDate('operations.date', $fecha)
+        /*
+        WITH RankedOperations AS (
+            SELECT *, ROW_NUMBER() OVER (PARTITION BY donor_id ORDER BY created_at DESC) AS row_num
+             FROM bai.operations)
+        SELECT * FROM RankedOperations WHERE row_num = 1;
+        */
+
+        $date = $request->input('date1');
+        $subquery = DB::table('bai.operations')
+            ->select('*', DB::raw('ROW_NUMBER() OVER (PARTITION BY donor_id ORDER BY created_at DESC) AS row_num'))
+            ->toSql();
+        $operations = DB::table(DB::raw("($subquery) as RankedOperations"))
+            ->select('RankedOperations.*', 'donors.name as donor_name')
+            ->join('donors', 'RankedOperations.donor_id', '=', 'donors.id')
+            ->whereDate('RankedOperations.date', $date)
+            ->where('RankedOperations.row_num', '=', 1)
             ->latest()
             ->paginate(4);
-        return Inertia::render('Operations/OperationsByDate', ['operations' => $operations]);
+        return Inertia::render('Operations/OperationsByDate', ['date' => $date, 'operations' => $operations]);
+    }
+
+    public function controlbydate(Request $request): Response
+    {
+        $categories = Category::all();
+        $wastes = Waste::all();
+        $donors_id = $request->input('donors_id');
+        $date = $request->input('date');
+        $donors_id = Donors::find($donors_id);
+
+        //Sentencia para recuperar la operación de la fecha y el donante seleccionado en ControlByDate
+        //modificar según sea necesario porque trae todo lo de la tabla donors y operations
+        
+        /*
+        SELECT  * from bai.operations  inner join bai.donors on operations.donor_id = donors.id where operations.donor_id = 1 AND date = "2024-01-17" order by operations.id desc LIMIT 1;
+        */
+
+        /*
+        $operation = Operation::join('bai.donors', 'operations.donor_id', '=', 'donors.id')
+        ->where('operations.donor_id', $donorId)
+        ->where('operations.date', $date)
+        ->orderByDesc('operations.id')
+        ->limit(1)
+        ->get();
+        */
+
+        return Inertia::render('Operations/ControlByDate', ['categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes]);
     }
 
 }

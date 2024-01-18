@@ -3,26 +3,28 @@ import { Head, usePage, useForm } from "@inertiajs/react";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import CalendarSection from "@/Components/Operations/calendarSection";
+import useDateUtils from "@/hooks/useDateUtils";
 
 export default function Index(props) {
     const { donors } = usePage().props;
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedDate1, setSelectedDate1] = useState(new Date());
+    const { formatDate } = useDateUtils();
+
     const { data, setData, errors, post } = useForm({
         donors_id: "",
-        date: selectedDate.toISOString().slice(0, 10),
-        date1: selectedDate1.toISOString().slice(0, 10),
+        date: formatDate(selectedDate),
+        date1: formatDate(selectedDate1),
     });
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        setData("date", date.toISOString().slice(0, 10)); // Actualiza la fecha en el formulario
+        setData("date", formatDate(date)); // Actualiza la fecha en el formulario
     };
 
     const handleDateChange1 = (date) => {
         setSelectedDate1(date);
-        setData("date1", date.toISOString().slice(0, 10)); // Actualiza la fecha en el formulario
-
+        setData("date1", formatDate(date)); // Actualiza la fecha en el formulario
     };
 
     const handleSubmit = (e) => {
@@ -30,7 +32,7 @@ export default function Index(props) {
 
         const formData = {
             donors_id: data.donors_id,
-            date: selectedDate.toISOString().slice(0, 10),
+            date: formatDate(selectedDate),
         };
         post(route("operations.control"), formData);
     };
@@ -39,7 +41,7 @@ export default function Index(props) {
         e.preventDefault();
 
         const formData = {
-            date1: selectedDate1.toISOString().slice(0, 10),
+            date1: formatDate(selectedDate1),
         };
         post(route("operations.operationsbydate", formData));
     };
