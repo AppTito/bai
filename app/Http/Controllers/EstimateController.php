@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Donors;
 use App\Models\Estimate;
 use App\Models\Organization;
@@ -31,29 +32,39 @@ class EstimateController extends Controller
 
     public function distribution(Request $request): Response
     {
+        $request->validate([
+            'date' => 'required',
+            'donors_id' => 'required'
+        ]);
+
         $date = $request->input('date');
-        $donors_id = $request->input('donors_id');
-        $donors_id = Donors::find($donors_id);
+        $donors = Donors::findOrFail($request->input('donors_id'));
         $organization = Organization::all();
-        return Inertia::render('Estimation/Distribution',[ 'date' => $date , 'organization' => $organization, 'donors_id' => $donors_id]);
+        return Inertia::render('Estimation/Distribution',[ 'date' => $date , 'organization' => $organization, 'donors_id' => $donors]);
     }
 
     public function guardar(Request $request): RedirectResponse
     {
+        $request->validate([
+            'values' => 'required',
+            'date' => 'required',
+            'donors' => 'required'
+        ]);
+
         $allCellValues = $request->input('values');
         $date = $request->input('date');
         $donors = $request->input('donors');
 
         foreach ($allCellValues as $row) {
-            $estimate = new Estimate();
-            $estimate->date = $date;
-            $estimate->donor_id=$donors;
-            $estimate->organization_id = $row[0];
-            $estimate->percentage = $row[1];
-            $estimate->kilos_send = $row[2];
-            $estimate->kilos_total = $row[3];
-            $estimate->kilos_pending = $row[4];
-            $estimate->save();
+            Estimate::create([
+                'date' => $date,
+                'donor_id' => $donors,
+                'organization_id' => $row[0],
+                'percentage' => $row[1],
+                'kilos_send' => $row[2],
+                'kilos_total' => $row[3],
+                'kilos_pending' => $row[4],
+            ]);
         }
         return redirect()->route('estimations.index');
     }

@@ -2,17 +2,8 @@ import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
-// Componente padre que maneja todas las filas
-const TableControl = ({
-    categories,
-    onDataChange,
-    wastesColumns,
-    date,
-    donors,
-    recovered,
-    weigth,waste
-}) => {
-    console.log(wastesColumns.length + 1);
+const TableControl = ({ categories, onDataChange,  wastesColumns,  date,  donors, recovered, weight,waste }) => {
+
     const [totalWeight, setTotalWeight] = useState(0);
     const names = categories.map((category) => category.category);
     const [columnTotals, setColumnTotals] = useState(
@@ -82,7 +73,7 @@ const TableControl = ({
             .map((row) => row[wastesColumns.length]) // Obtener valores de la columna "Peso Total"
             .reduce((acc, val) => acc + val, 0);
 
-        setTotalWeight(sumTotalWeight); // Actualizar el estado con la suma total de la columna "Peso Total"
+        setTotalWeight(sumTotalWeight); // Actualizar el estado con la suma total de la columna Peso Total
 
         return [...allValuesWithSums, columnSums]; // Devolver las filas y la suma total de columnas
     };
@@ -94,7 +85,7 @@ const TableControl = ({
             date: date,
             donors: donors.id,
             recovered: recovered,
-            weigth: weigth,
+            weight: weight,
         });
     };
     return (
@@ -185,7 +176,8 @@ const TableRowControl = ({name, onInputChange, onCellChange}) => {
                     className="p-2 border hover:bg-gray-100 cursor-pointer"
                     contentEditable={index !== values.length - 1}
                     onBlur={(e) => handleInputChange(index, e)}
-                    onKeyDown={(e) => handleKeyDown(index, e)} // Agregar el manejador de eventos onKeyDown
+                    onKeyDown={(e) => handleKeyDown(index, e)} // Agregar  eventos onKeyDown
+                    suppressContentEditableWarning={true}
                 >
                     {value}
                 </td>

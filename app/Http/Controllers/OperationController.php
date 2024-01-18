@@ -7,6 +7,7 @@ use App\Models\Operation;
 use App\Models\OperationWastesCategory;
 use App\Models\Organization;
 use App\Models\Waste;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Donors;
@@ -33,28 +34,32 @@ class OperationController extends Controller
         return Inertia::render('Operations/Index', ['donors' => $donors]);
     }
 
-    public function control(Request $request)
+    public function control(Request $request): Response
     {
+        $request->validate([
+            'date' => 'required',
+            'donors_id' => 'required'
+        ]);
+
         $categories = Category::all();
         $wastes = Waste::all();
-        $donors_id = $request->input('donors_id');
+        $donors_id = Donors::findOrFail($request->input('donors_id'));
         $date = $request->input('date');
-        $donors_id = Donors::find($donors_id);
         return Inertia::render('Operations/Control', ['categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes]);
     }
 
-    public function guardar(Request $request)
+    public function guardar(Request $request): RedirectResponse
     {
         $allCellValues = $request->input('allCellValues');
 
         $donors = $request->input('donors');
-        $weigth = $request->input('weigth');
+        $weight = $request->input('weight');
         $recovered = $request->input('recovered');
         $date = $request->input('date');
 
         $operation=new Operation();
         $operation->donor_id=$donors;
-        $operation->total_weight=$weigth;
+        $operation->total_weight=$weight;
         $operation->recovered=$recovered;
         $operation->percentage=0; //ACTUALIZAR DE ACUERDO AL TOTAL DE LOS KILOS
         $operation->date=$date;

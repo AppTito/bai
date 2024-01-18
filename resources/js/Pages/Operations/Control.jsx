@@ -26,6 +26,10 @@ export default function Index(props) {
         const value = event.target.value;
         setPesoProcesado(value);
 
+
+    };
+
+    const handlePesoTotalChange = (event) => {
         // Calcular el Peso Total: gaveta - procesado
         const total = parseFloat(pesoGavetas) - parseFloat(value);
         setPesoTotal(isNaN(total) ? "" : total);
@@ -78,13 +82,13 @@ export default function Index(props) {
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    htmlFor="grid-first-name"
+                                    htmlFor="grid-peso-total"
                                 >
                                     Peso Total
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                    id="grid-first-name"
+                                    id="grid-peso-total"
                                     type="number"
                                     placeholder="Peso Total"
                                     min={0}
@@ -95,13 +99,13 @@ export default function Index(props) {
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    htmlFor="grid-last-name"
+                                    htmlFor="grid-peso-recuperado"
                                 >
                                     Peso Recuperado
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-last-name"
+                                    id="grid-peso-recuperado"
                                     type="number"
                                     placeholder="Peso Recuperado"
                                     min={0}
@@ -113,18 +117,19 @@ export default function Index(props) {
                             <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                                 <label
                                     className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    htmlFor="grid-last-name"
+                                    htmlFor="grid-peso-final"
                                 >
                                     Peso Final
                                 </label>
                                 <input
                                     className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-last-name"
+                                    id="grid-peso-final"
                                     type="number"
                                     placeholder="Peso Final"
                                     min={0}
                                     contentEditable={false}
                                     value={pesoTotal}
+                                    onChange={handlePesoTotalChange}
                                 />
                             </div>
                         </div>
@@ -135,7 +140,7 @@ export default function Index(props) {
                         <div className="overflow-x-auto">
                             <TableRowControl waste={waste} date={date} donors={donors_id}
                                 categories={categories} onDataChange={handleTableChange}
-                                wastesColumns={waste} recovered = {pesoProcesado} weigth = {pesoGavetas}
+                                wastesColumns={waste} recovered = {pesoProcesado} weight = {pesoGavetas}
                             />
                         </div>
 

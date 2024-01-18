@@ -120,6 +120,7 @@ const TableRowControl = ({row, rowIndex, onInputChange, setTableRows, organizati
                     className="p-2 border hover:bg-gray-100 cursor-pointer"
                     contentEditable={index !== 4}
                     onBlur={(e) => handleInputChange(index, e)}
+                    suppressContentEditableWarning={true}
                 >
                     {index === 0 ? (
                         <select id={`organization-${rowIndex}`} value={selectedOrg || ""}
