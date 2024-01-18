@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('distributions', function (Blueprint $table) {
             $table->id();
             $table->date('date');
+            $table->foreignId('donor_id')->constrained();
             $table->foreignId('organization_id')->constrained();
             $table->decimal('percentage', 8, 2)->default(0);
             $table->decimal('kilos', 8, 2)->default(0);
