@@ -1,5 +1,6 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
+import vid from "../../vids/food.mp4";
 
 export default function Dashboard(props) {
     const { auth } = usePage().props;
@@ -15,14 +16,14 @@ export default function Dashboard(props) {
                     </div>
                     <br />
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        {/* video o gif dashboard*/}
-                        <video controls>
-                            <source
-                                src="/resources/vids/food-donation-7179417-5858097.mp4"
-                                type="video/mp4"
-                            />
-                            Your browser does not support the video tag.
-                            <track kind="captions" />
+                        {/*gif dashboard*/}
+                        <video
+                            className="w-full h-full object-cover"
+                            autoPlay
+                            loop
+                            muted
+                        >
+                            <source src={vid} type="video/mp4" />
                         </video>
                     </div>
                 </div>
