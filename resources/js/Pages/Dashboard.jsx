@@ -16,9 +16,14 @@ export default function Dashboard(props) {
                     <br />
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                         {/* video o gif dashboard*/}
-                        <div className="p-6 text-gray-900">
-                            <img src="https://media.giphy.com/media/3o7aD2FQDSVdppxIQg/giphy.gif" />
-                        </div>
+                        <video controls>
+                            <source
+                                src="/resources/vids/food-donation-7179417-5858097.mp4"
+                                type="video/mp4"
+                            />
+                            Your browser does not support the video tag.
+                            <track kind="captions" />
+                        </video>
                     </div>
                 </div>
             </div>
