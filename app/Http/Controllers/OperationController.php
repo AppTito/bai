@@ -61,7 +61,7 @@ class OperationController extends Controller
 
         $operation = new Operation();
         $operation->donor_id = $donors;
-        $operation->total_weight = $weigth;
+        $operation->total_weight = $weight;
         $operation->recovered = $recovered;
         $operation->percentage = 0; //ACTUALIZAR DE ACUERDO AL TOTAL DE LOS KILOS
         $operation->date = $date;
