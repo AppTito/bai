@@ -61,7 +61,7 @@ class OperationController extends Controller
 
         $operation = new Operation();
         $operation->donor_id = $donors;
-        $operation->total_weight = $weigth;
+        $operation->total_weight = $weight;
         $operation->recovered = $recovered;
         $operation->percentage = 0; //ACTUALIZAR DE ACUERDO AL TOTAL DE LOS KILOS
         $operation->date = $date;
@@ -105,7 +105,7 @@ class OperationController extends Controller
             ->whereDate('RankedOperations.date', $date)
             ->where('RankedOperations.row_num', '=', 1)
             ->latest()
-            ->paginate(4);
+            ->paginate(5);
         return Inertia::render('Operations/OperationsByDate', ['date' => $date, 'operations' => $operations]);
     }
 
@@ -119,7 +119,7 @@ class OperationController extends Controller
 
         //Sentencia para recuperar la operación de la fecha y el donante seleccionado en ControlByDate
         //modificar según sea necesario porque trae todo lo de la tabla donors y operations
-        
+
         /*
         SELECT  * from bai.operations  inner join bai.donors on operations.donor_id = donors.id where operations.donor_id = 1 AND date = "2024-01-17" order by operations.id desc LIMIT 1;
         */
