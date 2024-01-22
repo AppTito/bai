@@ -14,7 +14,6 @@ const CalendarSection = ({ selectedDate, onChange }) => {
                 selected={selectedDate}
                 onChange={onChange}
                 className="w-full p-2 border rounded border-gray-300 text-center"
-                isClearable
                 dateFormat="dd/MM/yyyy"
                 placeholderText="Seleccione una fecha"
                 withPortal
