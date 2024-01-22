@@ -21,6 +21,7 @@ class OrganizationController extends Controller
         $this->middleware('permission:organizations-delete', ['only' => ['destroy']]);
     }
 
+    /* Visualizar status 1 */
     public function index() :Response
     {
         $organization = Organization::where('status', 1)->latest()->paginate(4);

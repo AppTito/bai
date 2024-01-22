@@ -1,67 +1,89 @@
-import React from 'react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import React, { useEffect } from "react";
+import { Link, useForm, usePage } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
-export default function Edit(props) {
-    const { categoryValues } = usePage().props;
-
+export default function Edit({ id, toastr, onClose, categoryValue }) {
     const { data, setData, errors, put } = useForm({
-        value: categoryValues.value || "",
-        category_id: categoryValues.id || "",
-        categoryValues: categoryValues.category || "",
+        value: "",
+        category_id: id || 0, // Inicializa con un valor predeterminado (por ejemplo, 0) si id es indefinido.
+        categoryValues: "",
     });
+
+    useEffect(() => {
+        fetch("/api/categoriesValues-list")
+            .then((response) => response.json())
+            .then((apiResponse) => {
+                setData("categoryValues", apiResponse.data || []);
+
+                const selectedCategory = apiResponse.data.find(
+                    (item) => item.id === id
+                );
+
+                if (selectedCategory) {
+                    setData({
+                        value: selectedCategory.value,
+                        category_id: selectedCategory.category_id,
+                    });
+                } else {
+                    setData({
+                        value: "",
+                        category_id: 0,
+                    });
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching categories:", error);
+            });
+    }, [id]);
 
     function handleSubmit(e) {
         e.preventDefault();
-        put(route("categoryValues.update",categoryValues.id));
+        onClose();
+        toast.success("Editado");
+        put(route("categoryValues.update", id), {
+            value: data.value,
+            category_id: data.category_id,
+        });
     }
 
     return (
-        <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
-            <Head title="Valores de Categoria" />
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">
-                            <div className="flex items-center justify-between mb-6">
-                                <Link className="px-6 py-2 text-white bg-blue-500 rounded-md focus:outline-none"
-                                    href={route("categoryValues.index")} >
-                                    Back
-                                </Link>
-                            </div>
-                            <form name="createForm"  onSubmit={handleSubmit} >
-                                <div className="flex flex-col">
-                                    <div className="mb-4">
-                                        <label className="">Valor</label>
-                                        <input type="number" className="w-full px-4 py-2 rounded-md" label="Value"
-                                               name="value" value={data.value}
-                                               onChange={(event) =>
-                                                   setData("value", event.target.value)}
-                                        />
-                                        <span className="text-red-600">{errors.value}</span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Categorías</label>
-                                        <input type={"text"} className="w-full px-4 py-2 rounded-md" readOnly={true}
-                                            label="Category"  name="category_id"  value={data.categoryValues}
-                                            onChange={(event) =>
-                                                setData("category_id", event.target.value)}
-                                        />
-                                        <input type="hidden" name="category_id" value={data.category_id} />
-                                        <span className="text-red-600">{errors.category_id}</span>
-                                    </div>
-                                </div>
-                                <div className="mt-4">
-                                    <button type="submit"
-                                            className="px-6 py-2 font-bold text-white bg-green-500 rounded">
-                                        Save
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+        <div className="py-5">
+            <div className="text-center mb-5">
+                <h2 className="text-xl font-bold">Editar Valor {categoryValue}</h2>
             </div>
-        </AuthenticatedLayout>
+            <form name="createForm" onSubmit={handleSubmit}>
+                <div className="flex flex-col">
+                    <div className="mb-4">
+                        <label className="">Valor</label>
+                        <input
+                            type="number"
+                            className="w-full px-4 py-2 rounded-md"
+                            label="Value"
+                            name="value"
+                            value={data.value}
+                            onChange={(event) =>
+                                setData("value", event.target.value)
+                            }
+                        />
+                        <span className="text-red-600">{errors.value}</span>
+                    </div>
+                    
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                    <button
+                        type="submit"
+                        className="px-6 py-2 font-bold text-white bg-green-500 rounded"
+                    >
+                        Guardar
+                    </button>
+                    <Link
+                        className="px-6 py-2 text-white bg-red-500 rounded-md focus:outline-none"
+                        href={route("categoryValues.index")}
+                    >
+                        Cerrar
+                    </Link>
+                </div>
+            </form>
+        </div>
     );
 }

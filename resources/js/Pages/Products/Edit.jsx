@@ -1,71 +1,111 @@
-import React from 'react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import React, { useEffect, useState } from "react";
+import { Link, useForm, usePage } from "@inertiajs/react";
+import toast from "react-hot-toast";
 
-export default function Edit(props) {
-    const { product ,categories , productCategory  } = usePage().props;
+export default function Edit({ onClose, id }) {
+    const {
+        products: { data, categories: initialCategories },
+    } = usePage().props;
+    const product = data.find((item) => item.id === id);
+    const productCategory = product ? product.category : undefined;
 
-    const { data, setData, errors, put } = useForm({
-        detail: product.detail || "",
+    const [categories, setCategories] = useState(initialCategories);
+    const {
+        data: formData,
+        setData,
+        errors,
+        put,
+    } = useForm({
+        detail: product ? product.detail : "",
         category_id: productCategory ? productCategory.id : "",
     });
 
+    useEffect(() => {
+        fetch("/api/categories-list")
+            .then((response) => response.json())
+            .then((data) => {
+                setCategories(data.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching categories:", error);
+            });
+    }, []);
+
     function handleSubmit(e) {
         e.preventDefault();
-        put(route("products.update",product.id));
+        onClose();
+        toast.success("Editado");
+        if (!product || !productCategory) {
+            console.error("Product or productCategory is undefined");
+            return;
+        }
+
+        put(route("products.update", product.id), {
+            onSuccess: () => {
+                console.log("Producto actualizado con éxito");
+            },
+            onError: (errors) => {
+                console.error("Error al actualizar el producto:", errors);
+            },
+        });
     }
 
     return (
-        <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
-            <Head title="Editar Producto" />
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">
-                            <div className="flex items-center justify-between mb-6">
-                                <Link className="px-6 py-2 text-white bg-blue-500 rounded-md focus:outline-none"
-                                    href={route("products.index")} >
-                                    Atras
-                                </Link>
-                            </div>
-                            <form name="createForm" onSubmit={handleSubmit}>
-                                <div className="flex flex-col">
-                                    <div className="mb-4">
-                                        <label className="">Producto</label>
-                                        <input type="text" className="w-full px-4 py-2 rounded-md" label="Detail"
-                                               name="detail" value={data.detail}
-                                               onChange={(event) =>
-                                                   setData("detail", event.target.value)}
-                                        />
-                                        <span className="text-red-600">{errors.detail}</span>
-                                    </div>
-                                    <div className="mb-4">
-                                        <label className="">Categorías</label>
-                                        <select className="w-full px-4 py-2 rounded-md"
-                                                label="Category_id" name="category_id"  value={data.category_id}
-                                                onChange={(event) =>
-                                                    setData("category_id", event.target.value)
-                                                } >
-                                            {categories.map(({id,category}) => (
-                                                <option key={id} value={id}>
-                                                    {category}
-                                                </option>
-                                            ))}
-                                        </select>
-                                        <span className="text-red-600">{errors.category_id}</span>
-                                    </div>
-                                </div>
-                                <div className="mt-4">
-                                    <button type="submit"
-                                            className="px-6 py-2 font-bold text-white bg-green-500 rounded">
-                                        Save
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
+        <form name="editForm" onSubmit={handleSubmit}>
+            <div className="text-center mb-5">
+                <h2 className="text-xl font-bold">Editar Producto</h2>
+            </div>
+            <div className="flex flex-col">
+                <div className="mb-4">
+                    <label className="">Producto</label>
+                    <input
+                        type="text"
+                        className="w-full px-4 py-2 rounded-md"
+                        label="Detail"
+                        name="detail"
+                        value={formData.detail} // Usar formData para el valor
+                        onChange={(event) =>
+                            setData("detail", event.target.value)
+                        }
+                    />
+                    <span className="text-red-600">{errors.detail}</span>
+                </div>
+                <div className="mb-4">
+                    <label className="">Categorías</label>
+                    <select
+                        className="w-full px-4 py-2 rounded-md"
+                        label="Category_id"
+                        name="category_id"
+                        value={formData.category_id} // Usar formData para el valor
+                        onChange={(event) =>
+                            setData("category_id", event.target.value)
+                        }
+                    >
+                        <option value="">Seleccione Categoría</option>
+                        {Array.isArray(categories) &&
+                            categories.map(({ id, category }) => (
+                                <option key={id} value={id}>
+                                    {category}
+                                </option>
+                            ))}
+                    </select>
+                    <span className="text-red-600">{errors.category_id}</span>
                 </div>
             </div>
-        </AuthenticatedLayout>
+            <div className="flex justify-between items-center mt-4">
+                <button
+                    type="submit"
+                    className="px-6 py-2 font-bold text-white bg-green-500 rounded"
+                >
+                    Guardar
+                </button>
+                <Link
+                    className="px-6 py-2 text-white bg-red-500 rounded-md focus:outline-none"
+                    href={route("products.index")}
+                >
+                    Cerrar
+                </Link>
+            </div>
+        </form>
     );
 }
