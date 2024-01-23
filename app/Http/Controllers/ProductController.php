@@ -14,22 +14,25 @@ class ProductController extends Controller
 
     public function __construct()
     {
-        $this->middleware('permission:product-list|product-create|product-edit|product-delete',
-            ['only' => ['index','show']]);
-        $this->middleware('permission:product-create', ['only' => ['create','store']]);
-        $this->middleware('permission:product-edit', ['only' => ['edit','update']]);
+        $this->middleware(
+            'permission:product-list|product-create|product-edit|product-delete',
+            ['only' => ['index', 'show']]
+        );
+        $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
         $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
 
-    public function index():Response
+    /* Visualizar */
+    public function index(): Response
     {
-        $products = Product::with('category')->paginate(4);
+        $products = Product::with('category')->where('status', 1)->paginate(4);
         return Inertia::render('Products/Index', [
             'products' => $products
         ]);
     }
 
-    public function create():Response
+    public function create(): Response
     {
         $categories = Category::all();
         return Inertia::render('Products/Create', [
@@ -37,7 +40,7 @@ class ProductController extends Controller
         ]);
     }
 
-    public function store(ProductRequest $request):RedirectResponse
+    public function store(ProductRequest $request): RedirectResponse
     {
         $validatedData = $request->validated();
         Product::create($validatedData);
@@ -54,6 +57,7 @@ class ProductController extends Controller
             'productCategory' => $productCategory
         ]);
     }
+
 
     public function update(ProductRequest $request, Product $product): RedirectResponse
     {

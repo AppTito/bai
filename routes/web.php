@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\ApiCategoriaController;
+use App\Http\Controllers\ApiCategoryValueController;
+
+
 use App\Http\Controllers\AttentionController;
 use App\Http\Controllers\BankController;
 use App\Http\Controllers\CategoryValueController;
@@ -63,6 +67,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
     Route::get('/distribution/distributionbydate', [DistributionController::class, 'distributionbydate'])->name('distribution.distributionbydate');
 
+    Route::get('/api/categories-list', [ApiCategoriaController::class, 'index']);
+    Route::get('/api/categoriesValues-list', [ApiCategoryValueController::class, 'index']);
 });
 
 require __DIR__.'/auth.php';
