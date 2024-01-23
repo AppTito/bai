@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->foreignId('organization_id')->constrained();
+            $table->foreignId('donor_id')->constrained();
             $table->decimal('percentage', 8, 2)->default(0);
             $table->decimal('kilos_send', 8, 2)->default(0);
             $table->decimal('kilos_total', 8, 2)->default(0);

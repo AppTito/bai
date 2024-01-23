@@ -148,6 +148,7 @@ const TableRowControl = ({ row, rowIndex, onInputChange, organization}) => {
                         key={index}
                         id={`cell-${rowIndex}-${index}`}
                         className="p-2 border hover:bg-gray-100 cursor-pointer"
+                        suppressContentEditableWarning={true}
                         /* Valores no editables de la tabla: columna "total" y "Nota" */
                         contentEditable={
                             index !== values.length - 3

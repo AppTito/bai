@@ -1,17 +1,9 @@
 import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
+import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
-// Componente padre que maneja todas las filas
-const TableControl = ({
-    categories,
-    onDataChange,
-    wastesColumns,
-    date,
-    donors,
-    recovered,
-    weigth,
-}) => {
-    console.log(wastesColumns.length + 1);
+const TableControl = ({ categories, onDataChange,  wastesColumns,  date,  donors, recovered, weight,waste }) => {
+
     const [totalWeight, setTotalWeight] = useState(0);
     const names = categories.map((category) => category.category);
     const [columnTotals, setColumnTotals] = useState(
@@ -81,7 +73,7 @@ const TableControl = ({
             .map((row) => row[wastesColumns.length]) // Obtener valores de la columna "Peso Total"
             .reduce((acc, val) => acc + val, 0);
 
-        setTotalWeight(sumTotalWeight); // Actualizar el estado con la suma total de la columna "Peso Total"
+        setTotalWeight(sumTotalWeight); // Actualizar el estado con la suma total de la columna Peso Total
 
         return [...allValuesWithSums, columnSums]; // Devolver las filas y la suma total de columnas
     };
@@ -93,43 +85,52 @@ const TableControl = ({
             date: date,
             donors: donors.id,
             recovered: recovered,
-            weigth: weigth,
+            weight: weight,
         });
     };
     return (
         <>
-            {names.map((name, index) => (
-                <TableRowControl
-                    key={index}
-                    name={name}
-                    onInputChange={handleInputChange.bind(null, index)}
-                    onCellChange={handleCellChange}
-                />
-            ))}
-            <tr>
-                <td className="p-2 border">Total Por Grupo</td>
-                {columnTotals.map((total, index) => (
-                    <td key={index} className="p-2 border">
-                        {index === wastesColumns.length ? totalWeight : total}
-                    </td>
+            <table className="min-w-full border border-gray-300">
+                <thead>
+                <TableHeaderRow columnNames={waste} control/>
+                </thead>
+                <tbody>
+                {names.map((name, index) => (
+                    <TableRowControl
+                        key={index}
+                        name={name}
+                        onInputChange={handleInputChange.bind(null, index)}
+                        onCellChange={handleCellChange}
+                    />
                 ))}
-            </tr>
+                <tr>
+                    <td className="p-2 border">Total Por Grupo</td>
+                    {columnTotals.map((total, index) => (
+                        <td key={index} className="p-2 border">
+                            {index === wastesColumns.length ? totalWeight : total}
+                        </td>
+                    ))}
+                </tr>
+                </tbody>
+            </table>
+
             <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() => sendDataToDatabase()}
             >
                 Obtener Valores
-            </button>{" "}
+            </button>
+            {" "}
             {/* Botón para obtener todos los valores */}
         </>
     );
 };
 
-const TableRowControl = ({ name, onInputChange, onCellChange }) => {
+const TableRowControl = ({name, onInputChange, onCellChange}) => {
     const [values, setValues] = useState(Array(7).fill(0)); // Inicializar el estado con un array de 7 ceros
 
     const handleInputChange = (index, e) => {
-        const { textContent } = e.target;
+        const {textContent} = e.target;
         // Verificar si el valor ingresado es un número o un número decimal válido
         if (textContent === "" || !isNaN(textContent)) {
             const newValues = [...values]; // Crear una copia del array de valores
@@ -175,7 +176,8 @@ const TableRowControl = ({ name, onInputChange, onCellChange }) => {
                     className="p-2 border hover:bg-gray-100 cursor-pointer"
                     contentEditable={index !== values.length - 1}
                     onBlur={(e) => handleInputChange(index, e)}
-                    onKeyDown={(e) => handleKeyDown(index, e)} // Agregar el manejador de eventos onKeyDown
+                    onKeyDown={(e) => handleKeyDown(index, e)} // Agregar  eventos onKeyDown
+                    suppressContentEditableWarning={true}
                 >
                     {value}
                 </td>

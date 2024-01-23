@@ -6,10 +6,10 @@ const CalendarSection = ({ selectedDate, onChange }) => {
 
     return (
         <div className="mb-6">
-            <label className="block text-green-700 text-sm font-bold mb-2">
+            <label htmlFor="datePicker" className="block text-green-700 text-sm font-bold mb-2">
                 Seleccione una fecha
             </label>
-            <DatePicker
+            <DatePicker id="datePicker"
                 showIcon={true}
                 selected={selectedDate}
                 onChange={onChange}

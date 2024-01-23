@@ -1,28 +1,33 @@
 import React, { useState } from "react";
-import {Head, useForm} from "@inertiajs/react";
+import {Head, useForm, usePage} from "@inertiajs/react";
 import { usePermissions } from "@/hooks/usePermissions.js";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import CalendarSection from "@/Components/Operations/calendarSection";
+import useDateUtils from "@/hooks/useDateUtils";
 
 export default function Index(props) {
     const { hasPermission, hasRole } = usePermissions();
-    /* fecha actual */
+    const { donors } = usePage().props;
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const { formatDate } = useDateUtils();
+
     const { data, setData, errors, post } = useForm({
-        date: selectedDate.toISOString().slice(0, 10),
+        donors_id: "",
+        date: formatDate(selectedDate),
     });
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        setData("date", date.toISOString().slice(0, 10)); // Actualiza la fecha en el formulario
+        setData("date", formatDate(date)); // Actualiza la fecha en el formulario
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const formData = {
-            date: selectedDate.toISOString().slice(0, 10),
+            donors_id: data.donors_id,
+            date: formatDate(selectedDate),
         };
         post(route("estimations.distribution"), formData);
     }
@@ -34,13 +39,33 @@ export default function Index(props) {
                 <div className="bg-white rounded-lg overflow-hidden shadow-md w-96">
                     <form onSubmit={handleSubmit}>
                         <div className="p-8 text-center">
-                            {/* Calendar */}
                             <CalendarSection selectedDate={selectedDate} onChange={handleDateChange}/>
-                            {/* siguiente distribution*/}
+                            <div className="mb-6">
+                                <label className="block text-green-700 text-sm font-bold mb-2" htmlFor="donors_id">
+                                    Seleccione el Donante
+                                </label>
+                                <select className="w-full px-4 py-2 rounded-md"  name="donors_id" id="donors_id"
+                                    value={data.donors_id}
+                                    onChange={(event) =>
+                                        setData("donors_id", event.target.value)
+                                    }
+                                >
+                                    <option value="">
+                                        Seleccione el Donante
+                                    </option>
+                                    {donors.map(({id, name}) => (
+                                        <option key={id} value={id}>
+                                            {name}
+                                        </option>
+                                    ))}
+                                </select>
+                                <span className="text-red-600">
+                                    {errors.donors_id}
+                                </span>
+                            </div>
                             <div className="flex justify-end">
-                                <button
-                                    type="submit"
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                                <button type="submit"
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                                 >
                                     Siguiente
                                 </button>

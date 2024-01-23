@@ -55,6 +55,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/operations', [OperationController::class, 'index'])->name('operations.index');
     Route::post('/operations/control', [OperationController::class, 'control'])->name('operations.control');
     Route::post('/operations/control/guardar', [OperationController::class, 'guardar'])->name('operations.guardar');
+    Route::post('/operations/operationsbydate', [OperationController::class, 'operationsbydate'])->name('operations.operationsbydate');
+    Route::get('/operations/controlbydate', [OperationController::class, 'controlbydate'])->name('operations.controlbydate');
 
     /*Estimacion*/
     Route::get('/estimation', [EstimateController::class, 'index'])->name('estimations.index');
@@ -63,11 +65,10 @@ Route::middleware('auth')->group(function () {
 
     /*Distribucion*/
     Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
+    Route::get('/distribution/distributionbydate', [DistributionController::class, 'distributionbydate'])->name('distribution.distributionbydate');
 
     Route::get('/api/categories-list', [ApiCategoriaController::class, 'index']);
     Route::get('/api/categoriesValues-list', [ApiCategoryValueController::class, 'index']);
-    /*  */
-
 });
 
 require __DIR__.'/auth.php';
