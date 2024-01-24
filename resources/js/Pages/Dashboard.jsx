@@ -53,33 +53,38 @@ export default function Dashboard(props) {
                                 personas en situación de vulnerabilidad.
                             </p>
                         </div>
-                {/* btns direcciones vistas */}
-                <div className="flex justify-center mt-4">
-                    <a
-                        href="/operations"
-                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
-                    >
-                        Operaciones
-                    </a>
-                    <a
-                        href="/distribution"
-                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
-                    >
-                        Distribución
-                    </a>
-                    <a
-                        href="/users"
-                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
-                    >
-                        Usuarios
-                    </a>
-                    <a
-                        href="/badi"
-                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
-                    >
-                        Datos BADI
-                    </a>
-                </div>
+                        {/* btns direcciones vistas */}
+                        <div className="flex justify-center mt-4">
+                            <a
+                                href={route("operations.index")}
+                                active={route().current("operations.index")}
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+                            >
+                                Operaciones
+                            </a>
+                            <a
+                                href={route("distribution.distribution")}
+                                active={route().current(
+                                    "distribution.distribution"
+                                )}
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+                            >
+                                Distribución
+                            </a>
+                            <a
+                                href={route("users.index")}
+                                active={route().current("users.index")}
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+                            >
+                                Usuarios
+                            </a>
+                            <a
+                                 href={route('banks.index')} active={route().current('banks.index')}
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded m-2"
+                            >
+                                Datos BADI
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
