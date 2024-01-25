@@ -38,41 +38,105 @@ export default function Index(props) {
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Operaciones" />
             <div className="container mx-auto mt-8 py-12 max-w-7xl sm:px-6 lg:px-7 flex items-center justify-center h-screen">
-
                 <div className="flex flex-col items-center">
                     {/* Form 1 */}
-                    <form className="bg-white rounded-lg overflow-hidden shadow-md w-96 mb-8" onSubmit={(e) => handleSubmit(e, "operations.operationsbydate", { date1: formatDate(selectedDate1) })}>
+                    <form
+                        className="bg-white rounded-lg overflow-hidden shadow-md w-96 mb-8"
+                        onSubmit={(e) =>
+                            handleSubmit(e, "operations.operationsbydate", {
+                                date1: formatDate(selectedDate1),
+                            })
+                        }
+                    >
                         <div className="p-8 text-center">
-                            <label className="block text-green-700 text-sm font-bold mb-2">Buscar por fecha</label>
-                            <CalendarSection selectedDate={selectedDate1} onChange={handleDateChange1} />
+                            <label className="block text-green-700 text-sm font-bold mb-2">
+                                Buscar por fecha
+                            </label>
+                            <CalendarSection
+                                selectedDate={selectedDate1}
+                                onChange={handleDateChange1}
+                            />
                             <div className="flex justify-end mt-4">
-                                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Buscar</button>
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                                >
+                                    Buscar
+                                </button>
                             </div>
                         </div>
                     </form>
 
                     {/* Form 2 */}
-                    <form className="bg-white rounded-lg overflow-hidden shadow-md w-96" onSubmit={(e) => handleSubmit(e, "operations.control", { donors_id: data.donors_id, date: formatDate(selectedDate) })}>
+                    <div className="bg-white rounded-lg overflow-hidden shadow-md w-96">
+                        {/* <form
+                            onSubmit={(e) =>
+                                handleSubmit(e, "operations.control", {
+                                    donors_id: data.donors_id,
+                                    date: formatDate(selectedDate),
+                                })
+                            }
+                        > */}
                         <div className="p-8 text-center">
-                            <label className="block text-green-700 text-sm font-bold mb-2">Crear nuevo</label>
-                            <CalendarSection selectedDate={selectedDate} onChange={handleDateChange} />
+                            <label className="block text-green-700 text-sm font-bold mb-2">
+                                Crear nuevo
+                            </label>
+                            <CalendarSection
+                                selectedDate={selectedDate}
+                                onChange={handleDateChange}
+                            />
 
                             <div className="mb-6">
-                                <label className="block text-green-700 text-sm font-bold mb-2" htmlFor="donors_id_o">Seleccione el Donante</label>
-                                <select className="w-full px-4 py-2 rounded-md" id="donors_id_o" name="donors_id" value={data.donors_id} onChange={(event) => setData("donors_id", event.target.value)}>
-                                    <option value="">Seleccione el donante</option>
+                                <label
+                                    className="block text-green-700 text-sm font-bold mb-2"
+                                    htmlFor="donors_id_o"
+                                >
+                                    Seleccione el Donante
+                                </label>
+                                <select
+                                    className="w-full px-4 py-2 rounded-md"
+                                    id="donors_id_o"
+                                    name="donors_id"
+                                    value={data.donors_id}
+                                    onChange={(event) =>
+                                        setData("donors_id", event.target.value)
+                                    }
+                                >
+                                    <option value="">
+                                        Seleccione el donante
+                                    </option>
                                     {donors.map(({ id, name }) => (
-                                        <option key={id} value={id}>{name}</option>
+                                        <option key={id} value={id}>
+                                            {name}
+                                        </option>
                                     ))}
                                 </select>
-                                <span className="text-red-600">{errors.donors_id}</span>
+                                <span className="text-red-600">
+                                    {errors.donors_id}
+                                </span>
                             </div>
 
                             <div className="flex justify-end">
-                                <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Siguiente</button>
+                                <a
+                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                                    href={route("distribution.distribution")}
+                                    active={route().current(
+                                        "distribution.distribution"
+                                    )}                                >
+                                    Siguiente
+                                </a>
+                                {/*  <button
+                                        type="submit"
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                                        hre
+                                    >
+                                        Siguiente
+                                    </button> */}
                             </div>
                         </div>
-                    </form>
+                        {/*                         </form>
+                         */}{" "}
+                    </div>
                 </div>
             </div>
         </AuthenticatedLayout>
