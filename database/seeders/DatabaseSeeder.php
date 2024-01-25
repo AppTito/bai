@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             OrganizationSeeder::class,
             WastesSeeder::class,
             DonorsSeeder::class,
+            CategoryValuesTableSeeder::class,
         ]);
     }
 }

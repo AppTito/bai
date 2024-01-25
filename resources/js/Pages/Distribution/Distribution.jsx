@@ -31,7 +31,7 @@ const columnNames = [
 ];
 
 export default function Index(props) {
-    const { organization } = usePage().props;
+    const { organization , donors_id } = usePage().props;
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null],
@@ -40,6 +40,7 @@ export default function Index(props) {
     const { formatDate } = useDateUtils();
 
     const { data, setData, errors, post } = useForm({
+        donors_id: donors_id.id,
         date: formatDate(selectedDate),
     });
 
@@ -106,7 +107,7 @@ export default function Index(props) {
         donors_id: "",
         date: formatDate(selectedDate),
     };
-    
+
     const handleSubmit = (e, routeName, formData) => {
         e.preventDefault();
         post(route(routeName), formData);
@@ -121,7 +122,7 @@ export default function Index(props) {
                         {/* Titulo */}
                         <div className="flex items-center justify-between mb-4">
                             <h1 className="text-2xl font-bold text-green-700">
-                                Distribución → Donante_id
+                                Distribución → {donors_id.name}
                             </h1>
                         </div>
 
@@ -217,7 +218,7 @@ export default function Index(props) {
                             <form
                                 onSubmit={(e) =>
                                     handleSubmit(e, "operations.control", {
-                                        donors_id: 2,
+                                        donors_id: data.donors_id,
                                         date: formatDate(selectedDate),
                                     })
                                 }
@@ -241,15 +242,6 @@ export default function Index(props) {
                             </form>
                         </div>
 
-                        {/* guardar */}
-                        <div className="mt-4 text-end">
-                            <button
-                                onClick={addRow}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Guardar
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

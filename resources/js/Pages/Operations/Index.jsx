@@ -34,6 +34,11 @@ export default function Index(props) {
         post(route(routeName), formData);
     };
 
+    const handleSubmit2 = (e, routeName, formData) => {
+        e.preventDefault();
+        post(route(routeName), formData);
+    }
+
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Operaciones" />
@@ -69,14 +74,14 @@ export default function Index(props) {
 
                     {/* Form 2 */}
                     <div className="bg-white rounded-lg overflow-hidden shadow-md w-96">
-                        {/* <form
+                         <form
                             onSubmit={(e) =>
-                                handleSubmit(e, "operations.control", {
+                                handleSubmit2(e, "distribution.distribution", {
                                     donors_id: data.donors_id,
                                     date: formatDate(selectedDate),
                                 })
                             }
-                        > */}
+                        >
                         <div className="p-8 text-center">
                             <label className="block text-green-700 text-sm font-bold mb-2">
                                 Crear nuevo
@@ -117,25 +122,17 @@ export default function Index(props) {
                             </div>
 
                             <div className="flex justify-end">
-                                <a
+
+                                <button
+                                    type="submit"
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                                    href={route("distribution.distribution")}
-                                    active={route().current(
-                                        "distribution.distribution"
-                                    )}                                >
+                                >
                                     Siguiente
-                                </a>
-                                {/*  <button
-                                        type="submit"
-                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                                        hre
-                                    >
-                                        Siguiente
-                                    </button> */}
+                                </button>
                             </div>
                         </div>
-                        {/*                         </form>
-                         */}{" "}
+                         </form>
+
                     </div>
                 </div>
             </div>
