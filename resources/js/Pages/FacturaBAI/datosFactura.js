@@ -1,11 +1,14 @@
 const facturaData = {
+
     NotaDonacion: "00000195",
     Fecha: "20-12-2023",
+
     RazonSocial: "0",
     Direccion: "Barrio el Rosario y Av. Sucre y Heriberto Vallejos",
     Aporte: "Contado",
     Atencion: "0",
     Atendido: "Deysi Fernandez",
+    
     Ruc: "100200300001",
     Telefono: "0999999999",
     NGavetas: 25,

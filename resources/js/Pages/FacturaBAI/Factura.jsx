@@ -174,7 +174,7 @@ function Factura() {
                                             </th>
 
                                             <th className="cs-width_4 cs-semi_bold cs-primary_color cs-focus_bg">
-                                                Recibido por:
+                                                Recibí conforme:
                                             </th>
                                         </tr>
                                     </thead>
@@ -212,11 +212,11 @@ function Factura() {
                     className="cs-invoice_btn cs-color1"
                     onClick={() => window.print()}
                 >
-                    <MdPrint />
+                    <MdPrint className="text-3xl"/>
                     <span>Imprimir</span>
                 </a>
                 <a className="cs-invoice_btn cs-color2" onClick={generarPDF}>
-                    <FaFileDownload />
+                    <FaFileDownload className="text-2xl"/>
                     <span>Descargar</span>
                 </a>
             </div>
