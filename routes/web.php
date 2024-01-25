@@ -9,6 +9,7 @@ use App\Http\Controllers\BankController;
 use App\Http\Controllers\CategoryValueController;
 use App\Http\Controllers\DistributionController;
 use App\Http\Controllers\DonorController;
+use App\Http\Controllers\FacturaController;
 use App\Http\Controllers\EstimateController;
 use App\Http\Controllers\OperationController;
 use App\Http\Controllers\OrganizationController;
@@ -66,6 +67,9 @@ Route::middleware('auth')->group(function () {
     /*Distribucion*/
     Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
     Route::get('/distribution/distributionbydate', [DistributionController::class, 'distributionbydate'])->name('distribution.distributionbydate');
+
+
+    Route::get('/factura', [FacturaController::class, 'customPage'])->name('factura.index');
 
     Route::get('/api/categories-list', [ApiCategoriaController::class, 'index']);
     Route::get('/api/categoriesValues-list', [ApiCategoryValueController::class, 'index']);
