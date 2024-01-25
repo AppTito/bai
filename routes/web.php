@@ -68,8 +68,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
     Route::get('/distribution/distributionbydate', [DistributionController::class, 'distributionbydate'])->name('distribution.distributionbydate');
 
-
-    Route::get('/factura', [FacturaController::class, 'customPage'])->name('factura.index');
+    /* Factura */
+    Route::get('/factura', [FacturaController::class, 'Factura'])->name('factura.index');
 
     Route::get('/api/categories-list', [ApiCategoriaController::class, 'index']);
     Route::get('/api/categoriesValues-list', [ApiCategoryValueController::class, 'index']);

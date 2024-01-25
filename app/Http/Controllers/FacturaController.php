@@ -8,7 +8,7 @@ use Inertia\Response;
 
 class FacturaController extends Controller
 {
-    public function customPage(): Response
+    public function Factura(): Response
     {
         return Inertia::render('FacturaBAI/Factura');
     }
