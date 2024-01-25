@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage} from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
 
 export default function Index(props) {
@@ -25,8 +25,6 @@ export default function Index(props) {
     const handlePesoProcesadoChange = (event) => {
         const value = event.target.value;
         setPesoProcesado(value);
-
-
     };
 
     const handlePesoTotalChange = (event) => {
@@ -63,12 +61,23 @@ export default function Index(props) {
                         {/* Volver */}
                         <div className="flex justify-start mb-4">
                             <Link
-                            /* volver a distribution index */
-                               /*  href={route("distribution.distribution")} */ /* corregir back  con post envio de datos raro */
+                                /* volver a distribution index */
+                                /*  href={route("distribution.distribution")} */ /* corregir back  con post envio de datos raro */
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Volver
                             </Link>
+                        </div>
+
+                        {/* imprimir */}
+                        <div className="flex justify-end mb-4">
+                            <button
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                /* toda la pagina */
+                                onClick={() => window.print()}
+                            >
+                                🖨️
+                            </button>
                         </div>
 
                         {/* Tabla para llenar con los pesos */}
@@ -78,12 +87,17 @@ export default function Index(props) {
                             </h1>
                         </div>
                         <div className="overflow-x-auto">
-                             <TableRowControl waste={waste} date={date} donors={donors_id}
-                                categories={categories} onDataChange={handleTableChange}
-                                wastesColumns={waste} recovered = {pesoProcesado} weight = {pesoGavetas}
+                            <TableRowControl
+                                waste={waste}
+                                date={date}
+                                donors={donors_id}
+                                categories={categories}
+                                onDataChange={handleTableChange}
+                                wastesColumns={waste}
+                                recovered={pesoProcesado}
+                                weight={pesoGavetas}
                             />
                         </div>
-
                     </div>
                 </div>
             </div>

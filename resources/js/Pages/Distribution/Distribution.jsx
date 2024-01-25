@@ -119,15 +119,27 @@ export default function Index(props) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
                         {/* Volver operation index */}
+                        {/* Volver operation index */}
                         <div className="flex items-center mb-4">
                             <Link
                                 href={route("operations.index")}
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
-                                {" "}
                                 ← Volver a Operaciones
                             </Link>
+
+                            {/* Botón para imprimir */}
+                            <div className="flex ml-auto">
+                                <button
+                                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                    /* toda la pagina */
+                                    onClick={() => window.print()}
+                                >
+                                    🖨️
+                                </button>
+                            </div>
                         </div>
+
                         {/* Calendar y seleccionar fecha*/}
                         <div className="container mb-6 flex items-center">
                             <CalendarSection
