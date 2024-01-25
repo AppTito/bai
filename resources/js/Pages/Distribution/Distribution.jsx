@@ -204,9 +204,8 @@ export default function Index(props) {
                             </button>
                             <a
                                 className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
-                               /* ir a control */
-                                 href={route("operations.control")}
-                                  active={route().current("operations.control")}
+                               /* operacion control ir*/
+                                href={route("operations.control")}
 
                             >
                                 Control
