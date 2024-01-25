@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donors;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -12,11 +13,17 @@ use Illuminate\Support\Facades\DB;
 
 class DistributionController extends Controller
 {
-    //index
-    public function index()
+
+    public function index(Request $request): Response
     {
+        $request->validate([
+            'date' => 'required',
+            'donors_id' => 'required'
+        ]);
+        $donors_id = Donors::findOrFail($request->input('donors_id'));
+        $date = $request->input('date');
         $organization = Organization::all();
-        return Inertia::render('Distribution/Distribution', ['organization' => $organization]);
+        return Inertia::render('Distribution/Distribution', ['organization' => $organization, 'donors_id' => $donors_id, 'date' => $date]);
     }
 
     public function distributionbydate(Request $request): Response
@@ -24,7 +31,7 @@ class DistributionController extends Controller
         $organization = Organization::all();
         $date = $request->input('date');
         $donor_id = $request->input('donor_id');
-        
+
         //solo se utiliza para recuperar el nombre del donante
         $donor_name = DB::table('bai.donors')
             ->where('id', $donor_id)
@@ -32,9 +39,9 @@ class DistributionController extends Controller
 
         //Sentencia para buscar la distribución en la fecha y donante seleccionado en la tabla de OperationsByDate
         //modificar si es necesario
-        
+
         /*SELECT * FROM bai.distributions where donor_id = 1 AND date = "2024-01-16" order by id desc LIMIT 1;*/
-        
+
         /* $distribution = Distribution::join('donors', 'distributions.donor_id', '=', 'donors.id')
              ->where('distributions.donor_id', $donor_id)
              ->where('distributions.date', $date)
