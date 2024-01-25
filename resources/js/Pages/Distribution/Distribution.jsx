@@ -31,7 +31,7 @@ const columnNames = [
 ];
 
 export default function Index(props) {
-    const { organization , donors_id } = usePage().props;
+    const { organization, donors_id } = usePage().props;
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null],
@@ -102,7 +102,6 @@ export default function Index(props) {
         setPesoTotal(total.toString());
     };
 
-
     const initialFormData = {
         donors_id: "",
         date: formatDate(selectedDate),
@@ -119,13 +118,16 @@ export default function Index(props) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
-                        {/* Titulo */}
-                        <div className="flex items-center justify-between mb-4">
-                            <h1 className="text-2xl font-bold text-green-700">
-                                Distribución → {donors_id.name}
-                            </h1>
+                        {/* Volver operation index */}
+                        <div className="flex items-center mb-4">
+                            <Link
+                                href={route("operations.index")}
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                            >
+                                {" "}
+                                ← Volver a Operaciones
+                            </Link>
                         </div>
-
                         {/* Calendar y seleccionar fecha*/}
                         <div className="container mb-6 flex items-center">
                             <CalendarSection
@@ -135,6 +137,13 @@ export default function Index(props) {
                             <button className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
                                 <Link>Cargar</Link>
                             </button>
+                        </div>
+
+                        {/* Titulo */}
+                        <div className="flex items-center justify-center mb-4 text-center align-middle ">
+                            <h1 className="text-2xl font-bold text-green-700 ">
+                                Distribución → {donors_id.name}
+                            </h1>
                         </div>
 
                         {/* pesos */}
@@ -241,7 +250,6 @@ export default function Index(props) {
                                 </button>
                             </form>
                         </div>
-
                     </div>
                 </div>
             </div>

@@ -2,8 +2,16 @@ import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
-const TableControl = ({ categories, onDataChange,  wastesColumns,  date,  donors, recovered, weight,waste }) => {
-
+const TableControl = ({
+    categories,
+    onDataChange,
+    wastesColumns,
+    date,
+    donors,
+    recovered,
+    weight,
+    waste,
+}) => {
     const [totalWeight, setTotalWeight] = useState(0);
     const names = categories.map((category) => category.category);
     const [columnTotals, setColumnTotals] = useState(
@@ -92,45 +100,47 @@ const TableControl = ({ categories, onDataChange,  wastesColumns,  date,  donors
         <>
             <table className="min-w-full border border-gray-300">
                 <thead>
-                <TableHeaderRow columnNames={waste} control/>
+                    <TableHeaderRow columnNames={waste} control />
                 </thead>
                 <tbody>
-                {names.map((name, index) => (
-                    <TableRowControl
-                        key={index}
-                        name={name}
-                        onInputChange={handleInputChange.bind(null, index)}
-                        onCellChange={handleCellChange}
-                    />
-                ))}
-                <tr>
-                    <td className="p-2 border">Total Por Grupo</td>
-                    {columnTotals.map((total, index) => (
-                        <td key={index} className="p-2 border">
-                            {index === wastesColumns.length ? totalWeight : total}
-                        </td>
+                    {names.map((name, index) => (
+                        <TableRowControl
+                            key={index}
+                            name={name}
+                            onInputChange={handleInputChange.bind(null, index)}
+                            onCellChange={handleCellChange}
+                        />
                     ))}
-                </tr>
+                    <tr>
+                        <td className="p-2 border">Total Por Grupo</td>
+                        {columnTotals.map((total, index) => (
+                            <td key={index} className="p-2 border">
+                                {index === wastesColumns.length
+                                    ? totalWeight
+                                    : total}
+                            </td>
+                        ))}
+                    </tr>
                 </tbody>
             </table>
-
+            <br />
+            <div className="flex justify-end">
             <button
                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                 onClick={() => sendDataToDatabase()}
             >
                 Obtener Valores
             </button>
-            {" "}
-            {/* Botón para obtener todos los valores */}
+        </div>
         </>
     );
 };
 
-const TableRowControl = ({name, onInputChange, onCellChange}) => {
+const TableRowControl = ({ name, onInputChange, onCellChange }) => {
     const [values, setValues] = useState(Array(7).fill(0)); // Inicializar el estado con un array de 7 ceros
 
     const handleInputChange = (index, e) => {
-        const {textContent} = e.target;
+        const { textContent } = e.target;
         // Verificar si el valor ingresado es un número o un número decimal válido
         if (textContent === "" || !isNaN(textContent)) {
             const newValues = [...values]; // Crear una copia del array de valores

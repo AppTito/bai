@@ -63,7 +63,8 @@ export default function Index(props) {
                         {/* Volver */}
                         <div className="flex justify-start mb-4">
                             <Link
-                                href={}
+                            /* volver a distribution index */
+                               /*  href={route("distribution.distribution")} */ /* corregir back  con post envio de datos raro */
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Volver
@@ -71,9 +72,11 @@ export default function Index(props) {
                         </div>
 
                         {/* Tabla para llenar con los pesos */}
-                        <h2 className="text-2xl font-bold text-start text-green-700 p-2">
-                            Control:
-                        </h2>
+                        <div className="flex items-center justify-center mb-4 text-center align-middle ">
+                            <h1 className="text-2xl font-bold text-green-700 ">
+                                Control → {donors_id.name}
+                            </h1>
+                        </div>
                         <div className="overflow-x-auto">
                              <TableRowControl waste={waste} date={date} donors={donors_id}
                                 categories={categories} onDataChange={handleTableChange}
