@@ -101,6 +101,17 @@ export default function Index(props) {
         setPesoTotal(total.toString());
     };
 
+
+    const initialFormData = {
+        donors_id: "",
+        date: formatDate(selectedDate),
+    };
+    
+    const handleSubmit = (e, routeName, formData) => {
+        e.preventDefault();
+        post(route(routeName), formData);
+    };
+
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Control" />
@@ -110,7 +121,7 @@ export default function Index(props) {
                         {/* Titulo */}
                         <div className="flex items-center justify-between mb-4">
                             <h1 className="text-2xl font-bold text-green-700">
-                                Distribución → Donante
+                                Distribución → Donante_id
                             </h1>
                         </div>
 
@@ -202,14 +213,32 @@ export default function Index(props) {
                             >
                                 + Añadir Distribución
                             </button>
-                            <a
-                                className="bg-red-400 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
-                               /* operacion control ir*/
-                                href={route("operations.control")}
-
+                            {/* form post ir a control enviar la fecha y un donandte con id */}
+                            <form
+                                onSubmit={(e) =>
+                                    handleSubmit(e, "operations.control", {
+                                        donors_id: 2,
+                                        date: formatDate(selectedDate),
+                                    })
+                                }
                             >
-                                Control
-                            </a>
+                                <input
+                                    type="hidden"
+                                    name="date"
+                                    value={data.date}
+                                />
+                                <input
+                                    type="hidden"
+                                    name="donors_id"
+                                    value="2"
+                                />
+                                <button
+                                    type="submit"
+                                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                >
+                                    Control
+                                </button>
+                            </form>
                         </div>
 
                         {/* guardar */}

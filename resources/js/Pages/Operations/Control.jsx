@@ -27,10 +27,10 @@ export default function Index(props) {
                             Control:
                         </h2>
                         <div className="overflow-x-auto">
-                            <TableRowControl waste={waste} date={date} donors={donors_id}
+                           {/*  <TableRowControl waste={waste} date={date} donors={donors_id}
                                 categories={categories} onDataChange={handleTableChange}
                                 wastesColumns={waste} recovered = {pesoProcesado} weight = {pesoGavetas}
-                            />
+                            /> */}
                         </div>
 
                     </div>
