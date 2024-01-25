@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ApiCategoriaController;
 use App\Http\Controllers\ApiCategoryValueController;
+use App\Http\Controllers\ApiOrganizationsController;
+use App\Http\Controllers\ApiDonorsController;
 
 
 use App\Http\Controllers\AttentionController;
@@ -69,6 +71,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/api/categories-list', [ApiCategoriaController::class, 'index']);
     Route::get('/api/categoriesValues-list', [ApiCategoryValueController::class, 'index']);
+    Route::get('/api/organizations-list', [ApiOrganizationsController::class, 'index']);
+    Route::get('/api/donors-list', [ApiDonorsController::class, 'index']);
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

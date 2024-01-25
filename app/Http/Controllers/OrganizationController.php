@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrganizationRequest;
 use App\Models\Organization;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -29,7 +28,7 @@ class OrganizationController extends Controller
     }
 
     public function create(): Response
-    {
+    {/*  */
         return Inertia::render('Organization/Create');
     }
 
