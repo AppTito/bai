@@ -125,7 +125,7 @@ export default function Index(props) {
                                 href={route("operations.index")}
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
-                                ← Volver a Operaciones
+                                Volver
                             </Link>
 
                             {/* Botón para imprimir */}
