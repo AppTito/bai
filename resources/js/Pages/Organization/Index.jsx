@@ -1,61 +1,39 @@
-/* Modals */
+/* Modal */
 import { Button, Modal } from "flowbite-react";
-
-/* useState es necesario para inicializar los Modals */
 import { useState } from "react";
 
+/* Slidebar */
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage, Link, useForm } from "@inertiajs/react";
+
+import { Head, usePage } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
 import Pagination from "@/Components/Pagination";
 import Table from "@/Components/Table";
 
-import { HiOutlineExclamationCircle } from "react-icons/hi";
+/* Componentes de Crear y Editar */
+import Create from "./Create";
+import Edit from "./Edit";
 
-/* Toastr para notificaciones */
+/* Íconos y Toastr */
+import { HiOutlineExclamationCircle } from "react-icons/hi";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Index(props) {
-
     /* Caracter booleano para abrir y cerrar Modals */
     const [openModalDelete, setOpenModalDelete] = useState(false);
     const [openModalInsert, setOpenModalInsert] = useState(false);
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
 
-    const [valorID, setValorID] = useState(0);
+    const [valorID, setValorID] = useState(null);
 
     const { organization } = usePage().props;
-
-    /* Entidades de la tabla "organizaciones" */
     const columns = ["name", "code", "address", "ruc"];
     const labels = ["Nombre", "Código", "Dirección", "RUC"];
 
-    /* Toastr */
-    const notify = () => toast('');
+    const [setToastrMessage] = useState(null);
 
-    /* Tomar el ".create" y poner esto "" */
-    const actions = ["", "organizations.edit", destroy];
-
-    /* Esto recomiendo eliminar al equipo backend
-    metiendo lo que está en el formulario ModalInsert */
-    const { data, setData, errors, post } = useForm({
-        code: "",
-        address: "",
-        ruc: "",
-        name: "",
-    });
-
-    /* Almacenar datos del ModalInsert */
-    function handleSubmit(e) {
-        e.preventDefault();
-        post(route("organizations.store"));
-        setOpenModalInsert(false);
-        toast.success('Organización Registrada!'); // Notificación de registro exitoso
-    }
-
-    function FormularioActualizar(e) {
-        e.preventDefault();
-        put(route("organizations.update", organization.id));
+    function toastr(message) {
+        setToastrMessage(message);
     }
 
     /* Función Eliminar */
@@ -71,19 +49,21 @@ export default function Index(props) {
     function confirmDelete() {
         Inertia.delete(route("organizations.destroy", valorID));
         setOpenModalDelete(false);
-        toast.error("Organización eliminada!")
-
+        toast.error("Organización eliminada!");
     }
+
+    const openUpdateModal = (id) => {
+        setValorID(id);
+        console.log(id);
+        setOpenModalUpdate(true);
+    };
+    const actions = ["", (id) => openUpdateModal(id), destroy];
 
     return (
         /* Auth de roles */
 
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Organizaciones" />
-
-            <Button onClick={() => setOpenModalUpdate(true)}>
-                Toggle modal
-            </Button>
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
@@ -103,6 +83,7 @@ export default function Index(props) {
                                     labels={labels}
                                     actions={actions}
                                     per={"organization"}
+                                    openUpdateModal={openUpdateModal}
                                 />
                                 <Pagination
                                     class="mt-6"
@@ -116,102 +97,49 @@ export default function Index(props) {
                 {/* Modal Insert */}
                 <Modal
                     show={openModalInsert}
-                    onClose={() => setOpenModalInsert(false)}
+                    onClose={() => {
+                        setOpenModalInsert(false);
+                        setToastrMessage(null); // Limpiar el mensaje del toastr al cerrar el modal
+                    }}
                     size="sm"
                     className={openModalInsert ? "bg-black bg-opacity-50" : ""}
                 >
-                    <Modal.Header>
-                        <h1>Hola</h1>
-                    </Modal.Header>
                     <Modal.Body>
                         <div className="space-y-6">
-                            <form name="createForm" onSubmit={handleSubmit}>
-                                <div className="flex flex-col mb-4">
-                                    <label>Código</label>
-                                    <input
-                                        type="text"
-                                        className="w-full px-4 py-2 rounded-md"
-                                        name="code"
-                                        value={data.code}
-                                        onChange={(event) =>
-                                            setData("code", event.target.value)
-                                        }
-                                    />
-                                    <span className="text-red-600">
-                                        {errors.code}
-                                    </span>
-                                </div>
-
-                                <div className="flex flex-col mb-4">
-                                    <label>Nombre</label>
-                                    <input
-                                        type="text"
-                                        className="w-full px-4 py-2 rounded-md"
-                                        name="name"
-                                        value={data.name}
-                                        onChange={(event) =>
-                                            setData("name", event.target.value)
-                                        }
-                                    />
-                                    <span className="text-red-600">
-                                        {errors.name}
-                                    </span>
-                                </div>
-
-                                <div className="flex flex-col mb-4">
-                                    <label>Dirección</label>
-                                    <input
-                                        type="text"
-                                        className="w-full px-4 py-2 rounded-md"
-                                        name="address"
-                                        value={data.address}
-                                        onChange={(event) =>
-                                            setData(
-                                                "address",
-                                                event.target.value
-                                            )
-                                        }
-                                    />
-                                    <span className="text-red-600">
-                                        {errors.address}
-                                    </span>
-                                </div>
-
-                                <div className="flex flex-col mb-4">
-                                    <label>RUC</label>
-                                    <input
-                                        type="text"
-                                        className="w-full px-4 py-2 rounded-md"
-                                        name="ruc"
-                                        value={data.ruc}
-                                        onChange={(event) =>
-                                            setData("ruc", event.target.value)
-                                        }
-                                    />
-                                    <span className="text-red-600">
-                                        {errors.ruc}
-                                    </span>
-                                </div>
-                            </form>
+                            <Create
+                                onClose={() => setOpenModalInsert(false)}
+                                organization={organization}
+                                auth={props.auth}
+                                errors={props.errors}
+                                toastr={toastr}
+                            />
                         </div>
                     </Modal.Body>
-                    <Modal.Footer>
-                        <Button
-                            className="bg-green-500 mr-2"
-                            onClick={handleSubmit}
-                        >
-                            Crear
-                        </Button>
-
-                        <Button
-                            color="gray"
-                            onClick={() => setOpenModalInsert(false)}
-                        >
-                            Cancelar
-                        </Button>
-                    </Modal.Footer>
                 </Modal>
                 {/* End Modal Insert */}
+
+                {/* Modal Update */}
+                <Modal
+                    show={openModalUpdate}
+                    onClose={() => {
+                        setOpenModalUpdate(false);
+                        setToastrMessage(null); // Limpiar el mensaje del toastr al cerrar el modal
+                    }}
+                    size="sm"
+                    className={openModalUpdate ? "bg-black bg-opacity-50" : ""}
+                >
+                    <Modal.Body>
+                        <div className="space-y-6">
+                            <Edit
+                                id={valorID}
+                                onSave={() => toastr("Guardado")}
+                                onClose={() => setOpenModalUpdate(false)}
+                                toastr={toastr}
+                            />
+                        </div>
+                    </Modal.Body>
+                </Modal>
+                {/* End Modal Update */}
 
                 {/* Modal Eliminar */}
                 <Modal
@@ -247,106 +175,6 @@ export default function Index(props) {
                     </Modal.Body>
                 </Modal>
                 {/* End Modal Eliminar */}
-
-                {/* Modal Actualizar */}
-                <Modal
-                    show={openModalUpdate}
-                    onClose={() => setOpenModalUpdate(false)}
-                    size="sm"
-                    className={openModalUpdate ? "bg-black bg-opacity-50" : ""}
-                >
-                    <Modal.Header>
-                        <h1>Hola</h1>
-                    </Modal.Header>
-                    <Modal.Body>
-                        <div className="space-y-6">
-                            <form name="createForm" onSubmit={handleSubmit}>
-                                <div className="flex flex-col mb-4">
-                                    <label>Código</label>
-                                    <input
-                                        type="text"
-                                        className="w-full px-4 py-2 rounded-md"
-                                        name="code"
-                                        value={data.code}
-                                        onChange={(event) =>
-                                            setData("code", event.target.value)
-                                        }
-                                    />
-                                    <span className="text-red-600">
-                                        {errors.code}
-                                    </span>
-                                </div>
-
-                                <div className="flex flex-col mb-4">
-                                    <label>Nombre</label>
-                                    <input
-                                        type="text"
-                                        className="w-full px-4 py-2 rounded-md"
-                                        name="name"
-                                        value={data.name}
-                                        onChange={(event) =>
-                                            setData("name", event.target.value)
-                                        }
-                                    />
-                                    <span className="text-red-600">
-                                        {errors.name}
-                                    </span>
-                                </div>
-
-                                <div className="flex flex-col mb-4">
-                                    <label>Dirección</label>
-                                    <input
-                                        type="text"
-                                        className="w-full px-4 py-2 rounded-md"
-                                        name="address"
-                                        value={data.address}
-                                        onChange={(event) =>
-                                            setData(
-                                                "address",
-                                                event.target.value
-                                            )
-                                        }
-                                    />
-                                    <span className="text-red-600">
-                                        {errors.address}
-                                    </span>
-                                </div>
-
-                                <div className="flex flex-col mb-4">
-                                    <label>RUC</label>
-                                    <input
-                                        type="text"
-                                        className="w-full px-4 py-2 rounded-md"
-                                        name="ruc"
-                                        value={data.ruc}
-                                        onChange={(event) =>
-                                            setData("ruc", event.target.value)
-                                        }
-                                    />
-                                    <span className="text-red-600">
-                                        {errors.ruc}
-                                    </span>
-                                </div>
-                            </form>
-                        </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button
-                            className="bg-green-500 mr-2"
-                            onClick={handleSubmit}
-                        >
-                            Crear
-                        </Button>
-
-                        <Button
-                            color="gray"
-                            onClick={() => setOpenModalUpdate(false)}
-                        >
-                            Cancelar
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-                {/* End Modal Actualizar */}
 
                 {/* Propiedades Toastr */}
                 <Toaster position="bottom-right" reverseOrder={false} />

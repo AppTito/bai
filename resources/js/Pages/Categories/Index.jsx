@@ -102,7 +102,7 @@ export default function Index(props) {
                         </div>
                     </div>
                 </div>
-                {/* Modal Insert */}
+                {/*  Modal Insert  */}
                 <Modal
                     show={openModalInsert}
                     onClose={() => {

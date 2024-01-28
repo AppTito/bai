@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             CategoriesTableSeeder::class,
             BankTableSeeder::class,
             OrganizationSeeder::class,
+            CategoryValuesTableSeeder::class,
             WastesSeeder::class,
             DonorsSeeder::class,
             CategoryValuesTableSeeder::class,
