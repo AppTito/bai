@@ -9,7 +9,7 @@ export default function Edit({ onClose, id }) {
     const product = data.find((item) => item.id === id);
     const productCategory = product ? product.category : undefined;
 
-    const [categories, setCategories] = useState(initialCategories);
+    const [categories, setCategories] = useState(initialCategories || []);
     const {
         data: formData,
         setData,
@@ -21,14 +21,17 @@ export default function Edit({ onClose, id }) {
     });
 
     useEffect(() => {
-        fetch("/api/categories-list")
-            .then((response) => response.json())
-            .then((data) => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch("/api/categories-list");
+                const data = await response.json();
                 setCategories(data.data);
-            })
-            .catch((error) => {
+            } catch (error) {
                 console.error("Error fetching categories:", error);
-            });
+            }
+        };
+
+        fetchCategories();
     }, []);
 
     function handleSubmit(e) {
@@ -63,7 +66,7 @@ export default function Edit({ onClose, id }) {
                         className="w-full px-4 py-2 rounded-md"
                         label="Detail"
                         name="detail"
-                        value={formData.detail} // Usar formData para el valor
+                        value={formData.detail}
                         onChange={(event) =>
                             setData("detail", event.target.value)
                         }
@@ -76,7 +79,7 @@ export default function Edit({ onClose, id }) {
                         className="w-full px-4 py-2 rounded-md"
                         label="Category_id"
                         name="category_id"
-                        value={formData.category_id} // Usar formData para el valor
+                        value={formData.category_id}
                         onChange={(event) =>
                             setData("category_id", event.target.value)
                         }

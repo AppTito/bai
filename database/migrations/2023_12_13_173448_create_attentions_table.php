@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('organization_id')->constrained();
             $table->string('name');
-            $table->string('dni',10);
+            $table->string('dni', 10);
             $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
