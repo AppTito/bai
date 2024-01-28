@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage} from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
 
 export default function Index(props) {
@@ -25,8 +25,6 @@ export default function Index(props) {
     const handlePesoProcesadoChange = (event) => {
         const value = event.target.value;
         setPesoProcesado(value);
-
-
     };
 
     const handlePesoTotalChange = (event) => {
@@ -63,87 +61,43 @@ export default function Index(props) {
                         {/* Volver */}
                         <div className="flex justify-start mb-4">
                             <Link
-                                href={route("operations.index")}
+                                /* volver a distribution index */
+                                /*  href={route("distribution.distribution")} */ /* corregir back  con post envio de datos raro */
                                 className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
                             >
                                 Volver
                             </Link>
                         </div>
 
-                        {/* Pesos */}
-                        <h2 className="text-2xl font-bold text-start text-green-700 p-2">
-                            Donante: {donors_id.name}
-                        </h2>
-                        <h2 className="text-2xl font-bold text-start text-green-700 p-2">
-                            Fecha: {date}
-                        </h2>
-                        {/* Inputs de pesos */}
-                        <div className="flex flex-wrap mb-4">
-                            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                <label
-                                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    htmlFor="grid-peso-total"
-                                >
-                                    Peso Total
-                                </label>
-                                <input
-                                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                    id="grid-peso-total"
-                                    type="number"
-                                    placeholder="Peso Total"
-                                    min={0}
-                                    value={pesoGavetas}
-                                    onChange={handlePesoGavetasChange}
-                                />
-                            </div>
-                            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                <label
-                                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    htmlFor="grid-peso-recuperado"
-                                >
-                                    Peso Recuperado
-                                </label>
-                                <input
-                                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-peso-recuperado"
-                                    type="number"
-                                    placeholder="Peso Recuperado"
-                                    min={0}
-                                    contentEditable={false}
-                                    value={pesoProcesado}
-                                    onChange={handlePesoProcesadoChange}
-                                />
-                            </div>
-                            <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                <label
-                                    className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                    htmlFor="grid-peso-final"
-                                >
-                                    Peso Final
-                                </label>
-                                <input
-                                    className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                    id="grid-peso-final"
-                                    type="number"
-                                    placeholder="Peso Final"
-                                    min={0}
-                                    contentEditable={false}
-                                    value={pesoTotal}
-                                    onChange={handlePesoTotalChange}
-                                />
-                            </div>
-                        </div>
-                        {/* Tabla para llenar con los pesos */}
-                        <h2 className="text-2xl font-bold text-start text-green-700 p-2">
-                            Control:
-                        </h2>
-                        <div className="overflow-x-auto">
-                            <TableRowControl waste={waste} date={date} donors={donors_id}
-                                categories={categories} onDataChange={handleTableChange}
-                                wastesColumns={waste} recovered = {pesoProcesado} weight = {pesoGavetas}
-                            />
+                        {/* imprimir */}
+                        <div className="flex justify-end mb-4">
+                            <button
+                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                                /* toda la pagina */
+                                onClick={() => window.print()}
+                            >
+                                🖨️
+                            </button>
                         </div>
 
+                        {/* Tabla para llenar con los pesos */}
+                        <div className="flex items-center justify-center mb-4 text-center align-middle ">
+                            <h1 className="text-2xl font-bold text-green-700 ">
+                                Control → {donors_id.name}
+                            </h1>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <TableRowControl
+                                waste={waste}
+                                date={date}
+                                donors={donors_id}
+                                categories={categories}
+                                onDataChange={handleTableChange}
+                                wastesColumns={waste}
+                                recovered={pesoProcesado}
+                                weight={pesoGavetas}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

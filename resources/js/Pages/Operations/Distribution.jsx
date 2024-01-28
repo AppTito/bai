@@ -40,6 +40,7 @@ export default function Index(props) {
         const newRow = [null, ...Array(columnNames.length - 2).fill(0), null]; // Crea una nueva fila con la primera columna como null y el resto de las columnas con valores de 0
         setTableRows((prevRows) => [...prevRows, newRow]);
     };
+    
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>

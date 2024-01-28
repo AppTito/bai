@@ -29,10 +29,8 @@ class CategoryValuesTableSeeder extends Seeder
             ['category_id' => 14, 'value' => 0, 'status' => true],
             ['category_id' => 15, 'value' => 0, 'status' => true],
             ['category_id' => 16, 'value' => 0, 'status' => true],
-            ['category_id' => 17, 'value' => 0, 'status' => true],];
-
-        // Eliminar todos los registros de la tabla sin restablecer los índices
-        DB::table('category_values')->delete();
+            ['category_id' => 17, 'value' => 0, 'status' => true],
+        ];
 
         // Insertar datos en la tabla category_values
         DB::table('category_values')->insert($categoryValues);
