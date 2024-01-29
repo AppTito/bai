@@ -124,19 +124,19 @@ export default function Edit({ onClose, id }) {
                     </div>
                 </div>
                 <div className="flex justify-between items-center mt-4">
-                <button
-                    type="submit"
-                    className="px-6 py-2 font-bold text-white bg-green-500 rounded"
-                >
-                    Guardar
-                </button>
-                <Link
-                    className="px-6 py-2 text-white bg-red-500 rounded-md focus:outline-none"
-                    href={route("organizations.index")}
-                >
-                    Cerrar
-                </Link>
-            </div>
+                    <button
+                        type="submit"
+                        className="px-6 py-2 font-bold text-white bg-green-500 rounded"
+                    >
+                        Guardar
+                    </button>
+                    <Link
+                        className="px-6 py-2 text-white bg-red-500 rounded-md focus:outline-none"
+                        href={route("organizations.index")}
+                    >
+                        Cerrar
+                    </Link>
+                </div>
             </form>
         </div>
     );

@@ -1,67 +1,68 @@
-import React, { useEffect, useState } from "react";
-import { Link, useForm, usePage } from "@inertiajs/react";
+import React, { useEffect, useState  } from "react";
+import { Link, useForm } from "@inertiajs/react";
 import toast from "react-hot-toast";
 
 export default function Edit({ onClose, id }) {
-    const page = usePage();
-
-    // Verificar si page o page.props no están definidos
-    if (!page || !page.props) {
-        console.error("Error: page o page.props no está definido");
-        return null;
-    }
-
-    const { attentions = {} } = page.props;
-    const { data = [], organization: initialOrganization } = attentions;
-
-    // Verificar si data no está definido
-    if (!data) {
-        console.error("Error: data no está definido");
-        return null;
-    }
-
-    const attention = data.find((item) => item.id === id);
-    const attentionOrganization = attention ? attention.organization : undefined;
-
-    const [organization, setOrganization] = useState(initialOrganization);
-
-    const {
-        data: formData,
-        setData,
-        errors,
-        put,
-    } = useForm({
-        organization_id: attentionOrganization ? attentionOrganization.id : "",
-        dni: attention ? attention.dni : "",
-        name: attention ? attention.name : "",
-        phone: attention ? attention.phone : "",
-        email: attention ? attention.email : "",
+    const { data, setData, errors, put } = useForm({
+        organization_id: "",
+        dni: "",
+        name: "",
+        phone: "",
+        email: "",
+        attentions: [],
     });
 
-    useEffect(() => {
-        const fetchOrganizations = async () => {
-            try {
-                const response = await fetch("/api/organizations-list");
-                const data = await response.json();
-                setOrganization(data.data);
-            } catch (error) {
-                console.error("Error fetching organizations:", error);
-            }
-        };
+    /* Listado del Select */
+    const [organization, setAttention] = useState([]);
 
-        fetchOrganizations();
+    /* Llamada por medio de API */
+    useEffect(() => {
+        fetch("/api/organizations-list")
+            .then((response) => response.json())
+            .then((data) => {
+                setAttention(data.data);
+            })
+            .catch((error) => {
+                console.error("Error fetching attentions:", error);
+            });
     }, []);
+
+    useEffect(() => {
+        fetch("/api/attentions-list")
+            .then((response) => response.json())
+            .then((apiResponse) => {
+                setData("attentions", apiResponse.data || []);
+
+                const selected = apiResponse.data.find(
+                    (item) => item.id === id
+                );
+
+                if (selected) {
+                    setData({
+                        organization_id: selected.organization_id,
+                        dni: selected.dni,
+                        name: selected.name,
+                        phone: selected.phone,
+                        email: selected.email,
+                    });
+                } else {
+                    setData("organization_id", "");
+                    setData("dni", "");
+                    setData("name", "");
+                    setData("phone", "");
+                    setData("email", "");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching:", error);
+            });
+    }, [id]);
 
     function handleSubmit(e) {
         e.preventDefault();
         onClose();
         toast.success("Editado");
-        if (!attention || !attentionOrganization) {
-            console.error("undefined");
-            return;
-        }
-
-        put(route("attentions.update", attention.id), {
+        put(route("attentions.update", id), {
             onSuccess: () => {
                 console.log("Actualizado con éxito");
             },
@@ -84,18 +85,18 @@ export default function Edit({ onClose, id }) {
                             className="w-full px-4 py-2 rounded-md"
                             label="Organization_id"
                             name="organization_id"
-                            value={formData.organization_id}
+                            value={data.organization_id}
                             onChange={(event) =>
                                 setData("organization_id", event.target.value)
                             }
                         >
-                            <option value="">Seleccione Organización</option>
-                            {Array.isArray(organization) &&
-                                organization.map(({ id, name }) => (
-                                    <option key={id} value={id}>
-                                        {name}
-                                    </option>
-                                ))}
+                             <option value="">Seleccione Organización</option>
+                        {organization.map(({ id, name }) => (
+                            <option key={id} value={id}>
+                                {name}
+                            </option>
+                        ))}
+                            
                         </select>
                         <span className="text-red-600">
                             {errors.organization_id}
@@ -108,7 +109,7 @@ export default function Edit({ onClose, id }) {
                             className="w-full px-4 py-2 rounded-md"
                             label="Name"
                             name="name"
-                            value={formData.name}
+                            value={data.name}
                             onChange={(event) =>
                                 setData("name", event.target.value)
                             }
@@ -122,7 +123,7 @@ export default function Edit({ onClose, id }) {
                             className="w-full px-4 py-2 rounded-md"
                             label="Dni"
                             name="dni"
-                            value={formData.dni}
+                            value={data.dni}
                             onChange={(event) =>
                                 setData("dni", event.target.value)
                             }
@@ -136,7 +137,7 @@ export default function Edit({ onClose, id }) {
                             className="w-full px-4 py-2 rounded-md"
                             label="Phone"
                             name="phone"
-                            value={formData.phone}
+                            value={data.phone}
                             onChange={(event) =>
                                 setData("phone", event.target.value)
                             }
@@ -150,7 +151,7 @@ export default function Edit({ onClose, id }) {
                             className="w-full px-4 py-2 rounded-md"
                             label="Email"
                             name="email"
-                            value={formData.email}
+                            value={data.email}
                             onChange={(event) =>
                                 setData("email", event.target.value)
                             }
@@ -158,14 +159,20 @@ export default function Edit({ onClose, id }) {
                         <span className="text-red-600">{errors.email}</span>
                     </div>
                 </div>
-                <div className="mt-4">
-                    <button
-                        type="submit"
-                        className="px-6 py-2 font-bold text-white bg-green-500 rounded"
-                    >
-                        Save
-                    </button>
-                </div>
+                <div className="flex justify-between items-center mt-4">
+                <button
+                    type="submit"
+                    className="px-6 py-2 font-bold text-white bg-green-500 rounded"
+                >
+                    Guardar
+                </button>
+                <Link
+                    className="px-6 py-2 text-white bg-red-500 rounded-md focus:outline-none"
+                    href={route("attentions.index")}
+                >
+                    Cerrar
+                </Link>
+            </div>
             </form>
         </div>
     );
