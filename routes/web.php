@@ -5,6 +5,7 @@ use App\Http\Controllers\ApiCategoryValueController;
 use App\Http\Controllers\ApiOrganizationsController;
 use App\Http\Controllers\ApiDonorsController;
 use App\Http\Controllers\ApiAttentionsController;
+use App\Http\Controllers\ApiBankController;
 
 
 use App\Http\Controllers\AttentionController;
@@ -75,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/organizations-list', [ApiOrganizationsController::class, 'index']);
     Route::get('/api/donors-list', [ApiDonorsController::class, 'index']);
     Route::get('/api/attentions-list', [ApiAttentionsController::class, 'index']);
+    Route::get('/api/banks-list', [ApiBankController::class, 'index']);
 });
 
 require __DIR__ . '/auth.php';

@@ -54,7 +54,7 @@ class ProductController extends Controller
         return Inertia::render('Products/Edit', [
             'product' => $product,
             'categories' => $categories,
-            'productCategory' => $productCategory
+            'productCategory' => $productCategory/*  */
         ]);
     }
 
