@@ -68,8 +68,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/estimation/distribution/guardar', [EstimateController::class, 'guardar'])->name('estimations.guardar');
 
     /*Distribucion*/
-    Route::post('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
+    Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
     Route::get('/distribution/distributionbydate', [DistributionController::class, 'distributionbydate'])->name('distribution.distributionbydate');
+    Route::get('/distribution/load', [DistributionController::class, 'loadData']) ->name('distribution.load');
+//    Route::post('/operations/control', [DistributionController::class, 'control'])->name('operations.control');
+
 
     Route::get('/api/categories-list', [ApiCategoriaController::class, 'index']);
     Route::get('/api/categoriesValues-list', [ApiCategoryValueController::class, 'index']);

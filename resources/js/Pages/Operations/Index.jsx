@@ -17,7 +17,7 @@ export default function Index(props) {
         date1: formatDate(selectedDate1),
     };
 
-    const { data, setData, errors, post } = useForm(initialFormData);
+    const { data, setData, errors, post,get } = useForm(initialFormData);
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -36,7 +36,7 @@ export default function Index(props) {
 
     const handleSubmit2 = (e, routeName, formData) => {
         e.preventDefault();
-        post(route(routeName), formData);
+        get(route(routeName), formData);
     }
 
     return (

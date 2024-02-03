@@ -36,18 +36,22 @@ class OperationController extends Controller
         return Inertia::render('Operations/Index', ['donors' => $donors]);
     }
 
-    public function control(Request $request): Response
+    public function control(Request $request)
     {
         $request->validate([
             'date' => 'required',
-            'donors_id' => 'required'
+            'donors_id' => 'required',
+            'totals' => 'required'
         ]);
-
+        $donorsId = $request->input('donors_id');
         $categories = Category::all();
         $wastes = Waste::all();
-        $donors_id = Donors::findOrFail($request->input('donors_id'));
-        $date = $request->input('date');
-        return Inertia::render('Operations/Control', ['categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes]);
+        $donors_id = Donors::findOrFail($donorsId);
+        $date =$request->input('date');
+        $totals = $request->input('totals');
+//        return [ 'categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes, 'totals' => $totals, ];
+        return Inertia::render('Operations/Control', [
+            'categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes, 'totals' => $totals, ]);
     }
 
     public function guardar(Request $request): RedirectResponse
