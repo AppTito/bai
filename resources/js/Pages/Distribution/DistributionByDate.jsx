@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
-import TableRowControl from "@/Components/Distribution/TableRowControl";
+import TableRowControlAlternative from "@/Components/Distribution/TableRowControlAlternative";
 import TableHeaderRow from "@/Components/TableTheadControl";
 
 /* Columnas */
@@ -26,7 +26,6 @@ const columnNames = [
     { "Procesado (KFC)": "procesado-kfc" },
     { Total: "total" },
     { "Kg Pendientes": "kg-pendientes" },
-    { Nota: "nota" },
 ];
 
 export default function Index(props) {
@@ -69,7 +68,7 @@ export default function Index(props) {
                                     <TableHeaderRow columnNames={columnNames} />
                                 </thead>
                                 <tbody>
-                                    <TableRowControl
+                                    <TableRowControlAlternative
                                         tableRows={tableRows}
                                         organization={organization}
                                     />
