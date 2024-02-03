@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, Link, usePage } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import TableRowControl from "@/Components/Operations/TableRowControl";
 
 export default function Index(props) {
-    const { categories, donors_id, date, waste } = usePage().props;
-
+    const { categories, donors_id, date, waste,totals } = usePage().props;
+    console.log(totals)
     // Estados para los valores de peso
     const [pesoGavetas, setPesoGavetas] = useState("");
     const [pesoProcesado, setPesoProcesado] = useState("");
@@ -59,15 +59,14 @@ export default function Index(props) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
                         {/* Volver */}
-                        <div className="flex justify-start mb-4">
-                            <Link
-                                /* volver a distribution index */
-                                /*  href={route("distribution.distribution")} */ /* corregir back  con post envio de datos raro */
-                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Volver
-                            </Link>
-                        </div>
+                        {/*<div className="flex justify-start mb-4">*/}
+                        {/*    <Link*/}
+                        {/*          href={route("distribution.distribution")} */ /* corregir back  con post envio de datos raro */}
+                        {/*        className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"*/}
+                        {/*    >*/}
+                        {/*        Volver*/}
+                        {/*    </Link>*/}
+                        {/*</div>*/}
 
                         {/* imprimir */}
                         <div className="flex justify-end mb-4">
