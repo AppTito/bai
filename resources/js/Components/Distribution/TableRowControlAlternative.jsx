@@ -5,7 +5,7 @@ import { Icon } from "@iconify/react";
 const TableRowControlAlt = ({ tableRows, organization }) => {
     const [columnTotals, setColumnTotals] = useState([
         null,
-        ...Array(18).fill(0),
+        ...Array(18).fill(0), /* aqui se llenan los datos */
     ]);
 
     const handleTotalChange = (index, e) => {

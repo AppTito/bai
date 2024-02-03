@@ -4,6 +4,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import TableRowControlAlternative from "@/Components/Distribution/TableRowControlAlternative";
 import TableHeaderRow from "@/Components/TableTheadControl";
+import TableRowControl from "@/Components/Operations/TableRowControl";
+
 
 /* Columnas */
 const columnNames = [
@@ -43,12 +45,26 @@ export default function Index(props) {
         donors_id: donor_id,
         date: date,
     };
+
+    /* control */
+    const ColumnsControl ={
+
+    }
+
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Distribución por fecha" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
+                        {/* volver operaciones por fecha */}
+                        {/* <Link
+                            href={route("operations.operationsbydate")}
+                            className="text-green-700 font-bold bg"
+                        >
+                            Volver
+                        </Link> */}
+
                         {/* Titulo */}
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-2xl font-bold text-start text-green-700 p-2">
@@ -61,8 +77,10 @@ export default function Index(props) {
                             </h2>
                         </div>
 
-
                         <div className="overflow-x-auto mb-1">
+                            <h3 className="text-xl font-bold text-start text-green-800 p-1">
+                                Distribución
+                            </h3>
                             <table className="min-w-full border border-gray-300 text-center mt-5">
                                 <thead>
                                     <TableHeaderRow columnNames={columnNames} />
@@ -75,33 +93,14 @@ export default function Index(props) {
                                 </tbody>
                             </table>
                         </div>
-                        <div className="flex mt-4">
-                            <button
-                                onClick={addRow}
-                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                + Añadir Distribución
-                            </button>
-                        </div>
-                        {/* guardar */}
-                        <div className="mt-4 text-end">
-                            <button
-                                onClick={addRow}
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Guardar
-                            </button>
-                        </div>
 
-                        <div className="mt-4 text-end">
-
-                            
-                            <Link
-                                href={route("operations.controlbydate", formData)}
-                                className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
-                            >
-                                Control por fecha
-                            </Link>
+                        <div className="overflow-x-auto mb-1">
+                            <h3 className="text-xl font-bold text-start text-green-800 p-2">
+                                Control
+                            </h3>
+                            <table>
+                                
+                            </table>
                         </div>
                     </div>
                 </div>
