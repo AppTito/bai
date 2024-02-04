@@ -6,7 +6,6 @@ import TableRowControlAlternative from "@/Components/Distribution/TableRowContro
 import TableHeaderRow from "@/Components/TableTheadControl";
 import TableRowControl from "@/Components/Operations/TableRowControl";
 
-
 /* Columnas */
 const columnNames = [
     { Organización: "organization" },
@@ -31,7 +30,9 @@ const columnNames = [
 ];
 
 export default function Index(props) {
-    const { organization, date, donor_name, donor_id } = usePage().props;
+
+    const { organization, date, donor_name, donor_id, waste, categories } =
+        usePage().props;
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null],
     ]);
@@ -47,9 +48,24 @@ export default function Index(props) {
     };
 
     /* control */
-    const ColumnsControl ={
+    // Función para manejar el cambio en los valores de la tabla
+    const handleTableChange = (newAllCellValues) => {
+        // Actualizar el estado con todos los valores de las celdas
+        const columnSums = Array(7).fill(0);
+        newAllCellValues.forEach((row) => {
+            row.forEach((value, index) => {
+                columnSums[index] += value;
+            });
+        });
 
-    }
+        // Actualizar los estados solo si hay cambios
+        setPesoGavetas(newAllCellValues[17][6].toString());
+        setPesoProcesado(newAllCellValues[17][0].toString());
+        const valueGavetas = parseFloat(pesoGavetas);
+        const valueProcesado = parseFloat(pesoProcesado);
+        const total = valueGavetas - valueProcesado;
+        setPesoTotal(total.toString());
+    };
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
@@ -89,6 +105,9 @@ export default function Index(props) {
                                     <TableRowControlAlternative
                                         tableRows={tableRows}
                                         organization={organization}
+                                        waste={waste}
+                                        wastesColumns={waste}
+                                        
                                     />
                                 </tbody>
                             </table>
@@ -98,9 +117,18 @@ export default function Index(props) {
                             <h3 className="text-xl font-bold text-start text-green-800 p-2">
                                 Control
                             </h3>
-                            <table>
-                                
-                            </table>
+                            <div className="overflow-x-auto">
+                                <TableRowControl
+                                    waste={waste}
+                                    date={date}
+                                    donors={donor_id}
+                                    categories={categories}
+                                    onDataChange={handleTableChange}
+                                    wastesColumns={waste}
+                                    recovered={""}
+                                    weight={""}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
