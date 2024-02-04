@@ -19,6 +19,7 @@ const mapIcon = (iconName) => {
         proteina: "mdi:food-drumstick",
         jugos: "mdi:glass",
         carbohidratos: "mdi:food-croissant",
+        floristeria: "mdi:flower",
         enlatados: "mdi:lotion-outline",
         "proteina-kfc": "mdi:food-drumstick",
         "procesado-kfc": "mdi:food-variant",

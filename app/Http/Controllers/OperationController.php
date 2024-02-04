@@ -49,7 +49,7 @@ class OperationController extends Controller
         $donors_id = Donors::findOrFail($donorsId);
         $date =$request->input('date');
         $totals = $request->input('totals');
-//        return [ 'categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes, 'totals' => $totals, ];
+        $totals = array_slice($totals, 1,17);
         return Inertia::render('Operations/Control', [
             'categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes, 'totals' => $totals, ]);
     }
