@@ -72,8 +72,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
     Route::get('/distribution/distributionbydate', [DistributionController::class, 'distributionbydate'])->name('distribution.distributionbydate');
     Route::get('/distribution/load', [DistributionController::class, 'loadData']) ->name('distribution.load');
-//    Route::post('/operations/control', [DistributionController::class, 'control'])->name('operations.control');
-
 
     /* Factura */
     Route::get('/factura', [FacturaController::class, 'Factura'])->name('factura.index');

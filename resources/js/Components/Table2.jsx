@@ -8,7 +8,6 @@ import {Button} from "@/Components/Button.jsx";
 import {ClientPlusIcon} from "@/Components/Icons/ClientPlusIcon.jsx";
 import {SecurityIcon} from "@/Components/Icons/SecurityIcon.jsx";
 import {CheckCircleIcon} from "@/Components/Icons/CheckCircleIcon.jsx";
-// import axios from 'axios';
 
 import { router } from '@inertiajs/react'
 export function Table({ organization,donors_id ,date2 }) {
@@ -30,6 +29,7 @@ export function Table({ organization,donors_id ,date2 }) {
         { Proteina: "proteina" },
         { Jugos: "jugos" },
         { Carbohidratos: "carbohidratos" },
+        { Floristeria: "floristeria" },
         { Enlatados: "enlatados" },
         { "Proteina (KFC)": "proteina-kfc" },
         { "Procesado (KFC)": "procesado-kfc" },
@@ -40,13 +40,13 @@ export function Table({ organization,donors_id ,date2 }) {
     const [data, setData] = useState([
         { id: 1, organization: initialOrganization, percentage: 0, fruver: 0, lacteos: 0, panaderia: 0,
             granos: 0, embutidos: 0, huevos: 0, reposteria: 0, procesados: 0, salsas: 0, proteina: 0,
-            jugos: 0, carbohidratos: 0, enlatados: 0, proteinakfc: 0, procesadokfc: 0, pendingKg: 0
+            jugos: 0, carbohidratos: 0,floristeria: 0, enlatados: 0, proteinakfc: 0, procesadokfc: 0, pendingKg: 0
         }
     ]);
     const [editedData, setEditedData] = useState({
         id: null, organization: { id: null, name: '' }, percentage: 0, fruver:0, lacteos:0, panaderia:0,
         granos:0, embutidos:0, huevos:0, reposteria:0, procesados:0, salsas:0, proteina:0, jugos:0,
-        carbohidratos:0, enlatados:0, proteinakfc:0, procesadokfc:0, pendingKg: 0,
+        carbohidratos:0,floristeria: 0, enlatados:0, proteinakfc:0, procesadokfc:0, pendingKg: 0,
     });
     const { formatDate } = useDateUtils();
     const [ sendData , setSendData] = useState([
@@ -84,9 +84,9 @@ export function Table({ organization,donors_id ,date2 }) {
 
     const calculatePendingKg = useCallback((fruver, lacteos,
         panaderia, granos, embutidos, huevos, reposteria, procesados, salsas,
-        proteina, jugos, carbohidratos, enlatados, proteinakfc, procesadokfc) => {
+        proteina, jugos, carbohidratos,floristeria , enlatados, proteinakfc, procesadokfc) => {
         return fruver + lacteos + panaderia + granos + embutidos + huevos + reposteria + procesados + salsas +
-            proteina + jugos + carbohidratos + enlatados + proteinakfc + procesadokfc;
+            proteina + jugos + carbohidratos + floristeria + enlatados + proteinakfc + procesadokfc;
     }, []);
 
     const calculateTotals = useCallback(() => {
@@ -103,6 +103,7 @@ export function Table({ organization,donors_id ,date2 }) {
         const totalProteina = data.reduce((acc, row) => acc + parseFloat(row.proteina) || 0, 0);
         const totalJugos = data.reduce((acc, row) => acc + parseFloat(row.jugos) || 0, 0);
         const totalCarbohidratos = data.reduce((acc, row) => acc + parseFloat(row.carbohidratos) || 0, 0);
+        const totalFloristeria = data.reduce((acc, row) => acc + parseFloat(row.floristeria) || 0, 0);
         const totalEnlatados = data.reduce((acc, row) => acc + parseFloat(row.enlatados) || 0, 0);
         const totalProteinaKfc = data.reduce((acc, row) => acc + parseFloat(row.proteinakfc) || 0, 0);
         const totalProcesadoKfc = data.reduce((acc, row) => acc + parseFloat(row.procesadokfc) || 0, 0);
@@ -112,19 +113,19 @@ export function Table({ organization,donors_id ,date2 }) {
                 parseFloat(row.panaderia) || 0, parseFloat(row.granos) || 0, parseFloat(row.embutidos) || 0,
                 parseFloat(row.huevos) || 0, parseFloat(row.reposteria) || 0, parseFloat(row.procesados) || 0,
                 parseFloat(row.salsas) || 0, parseFloat(row.proteina) || 0, parseFloat(row.jugos) || 0,
-                parseFloat(row.carbohidratos) || 0, parseFloat(row.enlatados) || 0, parseFloat(row.proteinakfc) || 0,
-                parseFloat(row.procesadokfc) || 0), 0
+                parseFloat(row.carbohidratos) || 0, parseFloat(row.floristeria) || 0,  parseFloat(row.enlatados) || 0,
+                parseFloat(row.proteinakfc) || 0, parseFloat(row.procesadokfc) || 0), 0
         );
         return { totalPercentage, totalFruver, totalLacteos, totalPanaderia, totalGranos, totalEmbutidos,
-            totalHuevos, totalReposteria, totalProcesados, totalSalsas, totalProteina, totalJugos,
-            totalCarbohidratos, totalEnlatados, totalProteinaKfc, totalProcesadoKfc,totalKg, totalPendingKg };
+            totalHuevos, totalReposteria , totalProcesados, totalSalsas, totalProteina, totalJugos,
+            totalCarbohidratos, totalFloristeria ,totalEnlatados, totalProteinaKfc, totalProcesadoKfc,totalKg, totalPendingKg };
     }, [data,calculatePendingKg]);
 
     const handleAddRow = () => {
         const newRow = {
             id: data.length + 1, organization: initialOrganization, percentage: 0, fruver: 0, lacteos: 0, panaderia: 0,
             granos: 0, embutidos: 0, huevos: 0, reposteria: 0,  procesados: 0, salsas: 0, proteina: 0, jugos: 0,
-            carbohidratos: 0, enlatados: 0, proteinakfc: 0, procesadokfc: 0, pendingKg: 0,
+            carbohidratos: 0,floristeria: 0, enlatados: 0, proteinakfc: 0, procesadokfc: 0, pendingKg: 0,
           };
         setData((prevData) => [...prevData, newRow]);
     };
@@ -133,19 +134,28 @@ export function Table({ organization,donors_id ,date2 }) {
         setData((prevData) => prevData.filter((row) => row.id !== id));
     };
 
-    const handleShowRow = (id) => {
-        console.log(data.find((row) => row.id === id));
-    }
+    // const handleShowRow = (id) => {
+    //     data.find((row) => row.id === id);
+    //     console.log(data.find((row) => row.id === id));
+    // }
+
+    const handleShowRow = (e) => {
+        e.preventDefault();
+        const id = e.target.closest('tr').dataset.id;
+        const selectedRow = data.find((row) => row.id === id);
+        console.log(selectedRow);
+        router.post('/factura', selectedRow)
+    };
 
     const handleEditRow = (id, organization, percentage, fruver, lacteos, panaderia,
         granos, embutidos, huevos, reposteria, procesados, salsas, proteina, jugos,
-        carbohidratos, enlatados, proteinakfc, procesadokfc, pendingKg) => {
+        carbohidratos,floristeria, enlatados, proteinakfc, procesadokfc, pendingKg) => {
         setEditingId(id);
         const selectedOrganization = findOrganizationById(organization, id);
         setEditedData((prevState) => ({
             ...prevState, id, organization: selectedOrganization, percentage, fruver, lacteos, panaderia,
             granos, embutidos, huevos, reposteria, procesados, salsas, proteina, jugos,
-            carbohidratos, enlatados, proteinakfc, procesadokfc, pendingKg,
+            carbohidratos,floristeria, enlatados, proteinakfc, procesadokfc, pendingKg,
         }));
     };
 
@@ -168,6 +178,7 @@ export function Table({ organization,donors_id ,date2 }) {
                     proteina:editedData.proteina,
                     jugos:editedData.jugos,
                     carbohidratos:editedData.carbohidratos,
+                    floristeria:editedData.floristeria,
                     enlatados:editedData.enlatados,
                     proteinakfc:editedData.proteinakfc,
                     procesadokfc:editedData.procesadokfc,
@@ -175,7 +186,8 @@ export function Table({ organization,donors_id ,date2 }) {
                         editedData.lacteos, editedData.panaderia, editedData.granos,
                         editedData.embutidos, editedData.huevos, editedData.reposteria,
                         editedData.procesados, editedData.salsas, editedData.proteina,
-                        editedData.jugos, editedData.carbohidratos, editedData.enlatados,
+                        editedData.jugos, editedData.carbohidratos,
+                        editedData.floristeria, editedData.enlatados,
                         editedData.proteinakfc, editedData.procesadokfc),
                     pendingKg: editedData.pendingKg,
                 }
@@ -186,7 +198,7 @@ export function Table({ organization,donors_id ,date2 }) {
         setEditedData({
             id: null, organization: { id: null, name: '' }, percentage: 0,
             fruver:0, lacteos:0, panaderia:0, granos:0, embutidos:0, huevos:0, reposteria:0,
-            procesados:0, salsas:0, proteina:0, jugos:0, carbohidratos:0, enlatados:0,
+            procesados:0, salsas:0, proteina:0, jugos:0, carbohidratos:0,floristeria: 0, enlatados:0,
             proteinakfc:0, procesadokfc:0, pendingKg: 0,
         });
     };
@@ -196,7 +208,7 @@ export function Table({ organization,donors_id ,date2 }) {
         setEditedData({
             id: null, organization: { id: null, name: '' }, percentage: 0,
             fruver:0, lacteos:0, panaderia:0, granos:0, embutidos:0, huevos:0, reposteria:0,
-            procesados:0, salsas:0, proteina:0, jugos:0, carbohidratos:0, enlatados:0,
+            procesados:0, salsas:0, proteina:0, jugos:0, carbohidratos:0,floristeria: 0, enlatados:0,
             proteinakfc:0, procesadokfc:0, pendingKg: 0,
         });
     };
@@ -218,12 +230,13 @@ export function Table({ organization,donors_id ,date2 }) {
             proteina: row.proteina,
             jugos: row.jugos,
             carbohidratos: row.carbohidratos,
+            floristeria: row.floristeria,
             enlatados: row.enlatados,
             proteinakfc: row.proteinakfc,
             procesadokfc: row.procesadokfc,
             totalKg: calculatePendingKg(row.fruver,   row.lacteos, row.panaderia, row.granos,
                 row.embutidos, row.huevos, row.reposteria, row.procesados, row.salsas,
-                row.proteina, row.jugos, row.carbohidratos, row.enlatados, row.proteinakfc,
+                row.proteina, row.jugos, row.carbohidratos, row.floristeria , row.enlatados, row.proteinakfc,
                 row.procesadokfc),
             pendingKg: row.pendingKg,
         }));
@@ -237,7 +250,6 @@ export function Table({ organization,donors_id ,date2 }) {
                 date: date2,
                 totals: calculateTotals(),
             };
-        console.log('Enviando datos:', sendData);
         router.post('/operations/control', formData)
     }
 
@@ -260,6 +272,7 @@ export function Table({ organization,donors_id ,date2 }) {
                 selectedRow.proteina,
                 selectedRow.jugos,
                 selectedRow.carbohidratos,
+                selectedRow.floristeria,
                 selectedRow.enlatados,
                 selectedRow.proteinakfc,
                 selectedRow.procesadokfc,
@@ -283,7 +296,6 @@ export function Table({ organization,donors_id ,date2 }) {
         try {
             // const url = new URL('http://localhost/bai/public/distribution/load');
             const url = new URL('http://bai.test/distribution/load');
-            // const url = new URL('http://bai.test/distribution');
             url.searchParams.append('date', formatDate(selectedDate));
             url.searchParams.append('donors_id', donors_id.id);
 
@@ -320,6 +332,7 @@ export function Table({ organization,donors_id ,date2 }) {
                 proteina: 0,
                 jugos: 0,
                 carbohidratos: 0,
+                floristeria: 0,
                 enlatados: 0,
                 proteinakfc: 0,
                 procesadokfc: 0,
@@ -365,6 +378,7 @@ export function Table({ organization,donors_id ,date2 }) {
                                     handleRowClick={handleRowClick}
                                     handleDeleteRow={handleDeleteRow}
                                     handleShowRow={handleShowRow}
+                                    onSubmitShowRow={handleShowRow}
                                     editedData={editedData}
                                 />
                             ))}
@@ -385,6 +399,7 @@ export function Table({ organization,donors_id ,date2 }) {
                                 <td className="px-2 py-2">{totals.totalProteina}</td>
                                 <td className="px-2 py-2">{totals.totalJugos}</td>
                                 <td className="px-2 py-2">{totals.totalCarbohidratos}</td>
+                                <td className="px-2 py-2">{totals.totalFloristeria}</td>
                                 <td className="px-2 py-2">{totals.totalEnlatados}</td>
                                 <td className="px-2 py-2">{totals.totalProteinaKfc}</td>
                                 <td className="px-2 py-2">{totals.totalProcesadoKfc}</td>
@@ -401,7 +416,7 @@ export function Table({ organization,donors_id ,date2 }) {
                         <span className="inline-block mx-2"> Guardar </span>
                     </Button>
                     <form onSubmit={handleSubmit}>
-                        <button type="submit" className="bg-gray-400 my-2 p-1 rounded-xl font-title text-white flex flex-row items-center justify-center ">
+                        <button type="submit" className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title ">
                             <CheckCircleIcon/> Control</button>
                     </form>
                 </div>

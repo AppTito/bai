@@ -2,16 +2,16 @@ import {Button} from "@/Components/Button.jsx";
 import {DeleteIcon} from "@/Components/Icons/DeleteIcon.jsx";
 import {EyeOpenIcon} from "@/Components/Icons/EyeOpenIcon.jsx";
 
-export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputChange, handleRowClick, handleDeleteRow,handleShowRow, organizations,editedData,calculatePendingKg}) {
+export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputChange, handleRowClick, handleDeleteRow,handleShowRow,onSubmitShowRow, organizations,editedData,calculatePendingKg}) {
 
     const { id, organization, percentage, fruver, lacteos, panaderia,
         granos, embutidos, huevos, reposteria, procesados, salsas, proteina, jugos,
-        carbohidratos, enlatados, proteinakfc, procesadokfc, pendingKg } = row;
+        carbohidratos, floristeria,enlatados, proteinakfc, procesadokfc, pendingKg } = row;
 
     return (
         <>
-            <tr onClick={() => handleRowClick(id)} className={`${isEditing ? 'bg-gray-200' : ''} cursor-pointer`} >
-                <td className="px-2 py-2 border-b">
+            <tr onClick={() => handleRowClick(id)} data-id={id} className={`${isEditing ? 'bg-gray-200' : ''} cursor-pointer`} >
+                <td className="w-3 px-2 py-2 border-b">
                     {isEditing ? (
                         <select
                             id="organizationSelect"
@@ -204,6 +204,19 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
                 <td className="px-2 py-2 border-b">
                     {isEditing ? (
                         <input className='w-14'
+                            id="floristeriaInput"
+                            name="floristeria"
+                            type="number"
+                            value={editedData.floristeria}
+                            onChange={onInputChange}
+                        />
+                    ) : (
+                        floristeria
+                    )}
+                </td>
+                <td className="px-2 py-2 border-b">
+                    {isEditing ? (
+                        <input className='w-14'
                             id="enlatadosInput"
                             name="enlatados"
                             type="number"
@@ -241,7 +254,7 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
                     )}
                 </td>
                 <td className="px-2 py-2 border-b">{ calculatePendingKg(fruver, lacteos,panaderia, granos, embutidos, huevos, reposteria, procesados,
-                    salsas, proteina, jugos, carbohidratos, enlatados, proteinakfc, procesadokfc)}</td>
+                    salsas, proteina, jugos, carbohidratos,floristeria, enlatados, proteinakfc, procesadokfc)}</td>
                 <td className="px-2 py-2 border-b">
                     {isEditing ? (
                         <input className='w-14'
@@ -263,9 +276,14 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
                             <Button  size="sm" onClick={() => handleDeleteRow(id)} danger="true" >
                                 <DeleteIcon />
                             </Button>
-                            <Button size="sm" onClick={() => handleShowRow(id)} >
+                            {/* <Button size="sm" onClick={() => handleShowRow(id)} >
                                 <EyeOpenIcon />
-                            </Button>
+                            </Button> */}
+                            <form onSubmit={() => handleShowRow(id)}>
+                                <Button size="sm" type="submit">
+                                    <EyeOpenIcon />
+                                </Button>
+                            </form>
                         </div>
                     )}
                 </td>

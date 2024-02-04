@@ -2,16 +2,9 @@ import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
-const TableControl = ({
-    categories,
-    onDataChange,
-    wastesColumns,
-    date,
-    donors,
-    recovered,
-    weight,
-    waste,
-}) => {
+const TableControl = ({  categories, onDataChange, wastesColumns, date,
+    donors,  recovered, weight,  waste,totals }) => {
+    console.log(totals);
     const [totalWeight, setTotalWeight] = useState(0);
     const names = categories.map((category) => category.category);
     const [columnTotals, setColumnTotals] = useState(
