@@ -119,7 +119,6 @@ export default function Index(props) {
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
                         {/* Volver operation index */}
-                        {/* Volver operation index */}
                         <div className="flex items-center mb-4">
                             <Link
                                 href={route("operations.index")}
