@@ -35,9 +35,8 @@ const TableRowControlAlt = ({ tableRows, organization }) => {
                 {columnTotals.map((total, index) => (
                     <td
                         key={index}
-                        className="bg-lime-700 p-2 border hover:bg-gray-100 cursor-pointer"
+                        className="bg-lime-100 p-2 border hover:bg-gray-100 cursor-pointer"
                         suppressContentEditableWarning={true}
-                        contentEditable={index !== 0}
                         onBlur={(e) => handleTotalChange(index, e)}
                         onKeyDown={(e) => {}}
                     >
