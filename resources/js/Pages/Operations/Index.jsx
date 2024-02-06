@@ -36,7 +36,7 @@ export default function Index(props) {
 
     const handleSubmit2 = (e, routeName, formData) => {
         e.preventDefault();
-        get(route(routeName), formData);
+        post(route(routeName), formData);
     }
 
     return (
@@ -54,9 +54,9 @@ export default function Index(props) {
                         }
                     >
                         <div className="p-8 text-center">
-                            <label className="block text-green-700 text-sm font-bold mb-2">
+                            <h2 className="block text-green-700 text-sm font-bold mb-2">
                                 Buscar por fecha
-                            </label>
+                            </h2>
                             <CalendarSection
                                 selectedDate={selectedDate1}
                                 onChange={handleDateChange1}
@@ -82,57 +82,46 @@ export default function Index(props) {
                                 })
                             }
                         >
-                        <div className="p-8 text-center">
-                            <label className="block text-green-700 text-sm font-bold mb-2">
-                                Crear nuevo
-                            </label>
-                            <CalendarSection
-                                selectedDate={selectedDate}
-                                onChange={handleDateChange}
-                            />
+                            <div className="p-8 text-center">
+                                <h2 className="block text-green-700 text-sm font-bold mb-2">
+                                    Crear nuevo
+                                </h2>
+                                <CalendarSection
+                                    selectedDate={selectedDate}
+                                    onChange={handleDateChange}
+                                />
 
-                            <div className="mb-6">
-                                <label
-                                    className="block text-green-700 text-sm font-bold mb-2"
-                                    htmlFor="donors_id_o"
-                                >
-                                    Seleccione el Donante
-                                </label>
-                                <select
-                                    className="w-full px-4 py-2 rounded-md"
-                                    id="donors_id_o"
-                                    name="donors_id"
-                                    value={data.donors_id}
-                                    onChange={(event) =>
-                                        setData("donors_id", event.target.value)
-                                    }
-                                >
-                                    <option value="">
-                                        Seleccione el donante
-                                    </option>
-                                    {donors.map(({ id, name }) => (
-                                        <option key={id} value={id}>
-                                            {name}
+                                <div className="mb-6">
+                                    <label className="block text-green-700 text-sm font-bold mb-2" htmlFor="donors_id_o" >
+                                        Seleccione el Donante
+                                    </label>
+                                    <select className="w-full px-4 py-2 rounded-md" id="donors_id_o"  name="donors_id"
+                                            value={data.donors_id}
+                                            onChange={(event) =>
+                                                setData("donors_id", event.target.value)
+                                            } >
+                                        <option value="">
+                                            Seleccione el donante
                                         </option>
-                                    ))}
-                                </select>
-                                <span className="text-red-600">
-                                    {errors.donors_id}
-                                </span>
+                                        {donors.map(({ id, name }) => (
+                                            <option key={id} value={id}>
+                                                {name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <span className="text-red-600">
+                                        {errors.donors_id}
+                                    </span>
+                                </div>
+                                <div className="flex justify-end">
+                                    <button type="submit"
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                                    >
+                                        Siguiente
+                                    </button>
+                                </div>
                             </div>
-
-                            <div className="flex justify-end">
-
-                                <button
-                                    type="submit"
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
-                                >
-                                    Siguiente
-                                </button>
-                            </div>
-                        </div>
                          </form>
-
                     </div>
                 </div>
             </div>

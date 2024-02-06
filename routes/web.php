@@ -69,12 +69,12 @@ Route::middleware('auth')->group(function () {
     Route::post('/estimation/distribution/guardar', [EstimateController::class, 'guardar'])->name('estimations.guardar');
 
     /*Distribucion*/
-    Route::get('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
+    Route::post('/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
     Route::get('/distribution/distributionbydate', [DistributionController::class, 'distributionbydate'])->name('distribution.distributionbydate');
     Route::get('/distribution/load', [DistributionController::class, 'loadData']) ->name('distribution.load');
 
     /* Factura */
-    Route::get('/factura', [FacturaController::class, 'Factura'])->name('factura.index');
+    Route::post('/factura', [FacturaController::class, 'Factura'])->name('factura.index');
 
     Route::get('/api/categories-list', [ApiCategoriaController::class, 'index']);
     Route::get('/api/categoriesValues-list', [ApiCategoryValueController::class, 'index']);
