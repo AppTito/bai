@@ -13,6 +13,8 @@ use App\Models\Distribution;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Category;
+use App\Models\Waste;
 
 class DistributionController extends Controller
 {
@@ -49,6 +51,12 @@ class DistributionController extends Controller
         $date = $request->input('date');
         $donor_id = $request->input('donor_id');
 
+        $categories = Category::all();
+        $wastes = Waste::all();
+        $donors_id = $request->input('donors_id');
+        $date = $request->input('date');
+        $donors_id = Donors::find($donors_id);
+
         //solo se utiliza para recuperar el nombre del donante
         $donor_name = DB::table('bai.donors')
             ->where('id', $donor_id)
@@ -74,6 +82,8 @@ class DistributionController extends Controller
                 'donor_name' => $donor_name,
                 'date' => $date,
                 'organization' => $organization,
+                'categories' => $categories,
+                'waste' => $wastes
             ]
         );
     }

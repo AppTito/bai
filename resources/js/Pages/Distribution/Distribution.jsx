@@ -19,7 +19,6 @@ export default function Index(props) {
                         </Link>
                     </div>
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
-                        {/* Titulo */}
                         <div className="flex items-center justify-center mb-4 text-center align-middle ">
                             <h1 className="text-2xl font-bold text-green-700 ">
                                 Distribución → {donors_id.name} {date}

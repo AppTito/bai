@@ -32,7 +32,7 @@ const TableControl = ({ tableRows, organization }) => {
             <tr>
                 {/* El único valor de la fila que suma cada columna le asigno TOTAL */}
                 {columnTotals.map((total, index) => (
-                    <td key={index} className="bg-green-600 p-2 border">
+                    <td key={index} className="bg-lime-700 p-2 border">
                         {total !== null ? total : "TOTAL"}
                     </td>
                 ))}
