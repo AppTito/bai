@@ -48,10 +48,9 @@ export function Table({ organization,donors_id ,date2 ,category }) {
 
     const onChangeOrganization = useCallback((e) => {
         const selectedOrganization = findOrganizationById(organization, Number(e.target.value));
-        setEditedData(prevState => ({
-            ...prevState,
-            organization: selectedOrganization || { id: null, name: '' },
-        }));
+        const id = rowId-1;
+        setEditedData(prevState =>  ({
+            ...prevState, [id ]: { ...prevState[id], organization: { id: selectedOrganization.id, name: selectedOrganization.name } }, }));
     }, [findOrganizationById, organization]);
 
     function onInputChange(event) {
@@ -73,45 +72,19 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         setSendData("date", formatDate(date));
     };
 
-    const calculatePendingKg = useCallback((fruver, lacteos, panaderia,  granos, embutidos,
-        huevos,cereales, reposteria, carbohidratoprocesado, salsaaderezocondimentos, proteinaprocesada, jugosbebidas,
-        carbohidrato,floristeria, enlatadosconservas, proteinakfc, alimentoprocesadokfc) => {
-        return fruver + lacteos + panaderia + granos + embutidos + huevos + cereales + reposteria + carbohidratoprocesado + salsaaderezocondimentos +
-        proteinaprocesada + jugosbebidas + carbohidrato + floristeria + enlatadosconservas + proteinakfc + alimentoprocesadokfc;
+    const calculatePendingKg = useCallback((...values) => {
+        return values.reduce((acc, value) => acc + value, 0);
     }, []);
 
     const calculateTotals = useCallback(() => {
         const totalPercentage = data.reduce((acc, row) => acc + parseFloat(row.percentage) || 0, 0);
-        const totalFruver = data.reduce((acc, row) => acc + parseFloat(row.fruver) || 0, 0);
-        const totalLacteos = data.reduce((acc, row) => acc + parseFloat(row.lacteos) || 0, 0);
-        const totalPanaderia = data.reduce((acc, row) => acc + parseFloat(row.panaderia) || 0, 0);
-        const totalGranos = data.reduce((acc, row) => acc + parseFloat(row.granos) || 0, 0);
-        const totalEmbutidos = data.reduce((acc, row) => acc + parseFloat(row.embutidos) || 0, 0);
-        const totalHuevos = data.reduce((acc, row) => acc + parseFloat(row.huevos) || 0, 0);
-        const totalCereales = data.reduce((acc, row) => acc + parseFloat(row.cereales) || 0, 0);
-        const totalReposteria = data.reduce((acc, row) => acc + parseFloat(row.reposteria) || 0, 0);
-        const totalProcesados = data.reduce((acc, row) => acc + parseFloat(row.carbohidratoprocesado) || 0, 0);
-        const totalSalsas = data.reduce((acc, row) => acc + parseFloat(row.salsaaderezocondimentos) || 0, 0);
-        const totalProteina = data.reduce((acc, row) => acc + parseFloat(row.proteinaprocesada) || 0, 0);
-        const totalJugos = data.reduce((acc, row) => acc + parseFloat(row.jugosbebidas) || 0, 0);
-        const totalCarbohidratos = data.reduce((acc, row) => acc + parseFloat(row.carbohidrato) || 0, 0);
-        const totalFloristeria = data.reduce((acc, row) => acc + parseFloat(row.floristeria) || 0, 0);
-        const totalEnlatados = data.reduce((acc, row) => acc + parseFloat(row.enlatadosconservas) || 0, 0);
-        const totalProteinaKfc = data.reduce((acc, row) => acc + parseFloat(row.proteinakfc) || 0, 0);
-        const totalProcesadoKfc = data.reduce((acc, row) => acc + parseFloat(row.alimentoprocesadokfc) || 0, 0);
-        const totalPendingKg = data.reduce((acc, row) => acc + parseFloat(row.pendingKg) || 0, 0);
-        const totalKg = data.reduce(
-            (acc, row) => acc + calculatePendingKg(parseFloat(row.fruver) || 0, parseFloat(row.lacteos) || 0,
-                parseFloat(row.panaderia) || 0, parseFloat(row.granos) || 0, parseFloat(row.embutidos) || 0,
-                parseFloat(row.huevos) || 0,parseFloat(row.cereales) || 0, parseFloat(row.reposteria) || 0, parseFloat(row.carbohidratoprocesado) || 0,
-                parseFloat(row.salsaaderezocondimentos) || 0, parseFloat(row.proteinaprocesada) || 0, parseFloat(row.jugosbebidas) || 0,
-                parseFloat(row.carbohidrato) || 0, parseFloat(row.floristeria) || 0,  parseFloat(row.enlatadosconservas) || 0,
-                parseFloat(row.proteinakfc) || 0, parseFloat(row.alimentoprocesadokfc) || 0), 0
-        );
-        return { totalPercentage, totalFruver, totalLacteos, totalPanaderia, totalGranos, totalEmbutidos,
-            totalHuevos,totalCereales, totalReposteria , totalProcesados, totalSalsas, totalProteina, totalJugos,
-            totalCarbohidratos, totalFloristeria ,totalEnlatados, totalProteinaKfc, totalProcesadoKfc,totalKg, totalPendingKg };
-    }, [data,calculatePendingKg]);
+        const totalValues = Object.keys(categoryData).map((key) => {
+            return data.reduce((acc, row) => acc + row[key] || 0, 0)
+        });
+        const totalPendingKg = data.reduce((acc, row) => acc + parseFloat(row.pendingKg) ||   0, 0);
+        const totalKg = calculatePendingKg(...totalValues);
+        return { totalPercentage, totalValues, totalPendingKg, totalKg };
+    }, [editedData, calculatePendingKg]);
 
     const handleAddRow = () => {
         const newRow = {
@@ -128,7 +101,8 @@ export function Table({ organization,donors_id ,date2 ,category }) {
     const handleSubmit2 = (e,id) => {
         e.preventDefault();
         const selectedRow = data.find((row) => row.id === id);
-        router.post('/factura', selectedRow);
+        console.log("selectedRow",selectedRow);
+        // router.post('/factura', selectedRow);
     }
 
     function handleSubmit(e) {
@@ -224,24 +198,10 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                         <tfoot>
                             <tr>
                                 <td className="px-2 py-2">Totales</td>
-                                <td className="px-2 py-2">{totals.totalPercentage}</td>
-                                <td className="px-2 py-2">{totals.totalFruver}</td>
-                                <td className="px-2 py-2">{totals.totalLacteos}</td>
-                                <td className="px-2 py-2">{totals.totalPanaderia}</td>
-                                <td className="px-2 py-2">{totals.totalGranos}</td>
-                                <td className="px-2 py-2">{totals.totalEmbutidos}</td>
-                                <td className="px-2 py-2">{totals.totalHuevos}</td>
-                                <td className="px-2 py-2">{totals.totalCereales}</td>
-                                <td className="px-2 py-2">{totals.totalReposteria}</td>
-                                <td className="px-2 py-2">{totals.totalProcesados}</td>
-                                <td className="px-2 py-2">{totals.totalSalsas}</td>
-                                <td className="px-2 py-2">{totals.totalProteina}</td>
-                                <td className="px-2 py-2">{totals.totalJugos}</td>
-                                <td className="px-2 py-2">{totals.totalCarbohidratos}</td>
-                                <td className="px-2 py-2">{totals.totalFloristeria}</td>
-                                <td className="px-2 py-2">{totals.totalEnlatados}</td>
-                                <td className="px-2 py-2">{totals.totalProteinaKfc}</td>
-                                <td className="px-2 py-2">{totals.totalProcesadoKfc}</td>
+                                <td className="-2 py-">{totals.totalPercentage}</td>
+                                {totals.totalValues.map((total, index) => (
+                                    <td key={index} className="px-2 py-2">{total}</td>
+                                ))}
                                 <td className="px-2 py-2">{totals.totalKg}</td>
                                 <td className="px-2 py-2">{totals.totalPendingKg}</td>
                                 <td className="px-2 py-2"></td>

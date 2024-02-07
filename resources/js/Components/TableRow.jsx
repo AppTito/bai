@@ -1,6 +1,7 @@
 import {Button} from "@/Components/Button.jsx";
 import {DeleteIcon} from "@/Components/Icons/DeleteIcon.jsx";
 import {EyeOpenIcon} from "@/Components/Icons/EyeOpenIcon.jsx";
+import { useState } from 'react';
 
 export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputChange, handleDeleteRow,handleSubmit2, organizations,editedData,calculatePendingKg}) {
 
@@ -10,9 +11,9 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
 
     return (
         <>
-            <tr data-id={id} className={` cursor-pointer`} >
-                <td className="w-3 px-2 py-2 border-b">
-                    {isEditing  ? (
+            <tr data-id={id} className={`${isEditing ? 'bg-gray-200' : ''} cursor-pointer`} >
+                {/* <td className="w-3 px-2 py-2 border-b">
+                   {isEditing  ? (
                         <select
                             id="organization"
                             value={editedData.organization.id}
@@ -30,6 +31,16 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
                     ) : (
                         organization.name
                     )}
+                </td> */}
+                <td className="w-3 px-2 py-2 border-b">
+                    <select id="organization" value={organization.name }
+                        onChange={(e) => onSelectChangeOrganization(e,id)} >
+                        <option value="" disabled> Donante </option>
+                        {organizations.map((org) => (
+                        <option key={org.id} value={org.id}>
+                            {org.name}
+                        </option> ))}
+                    </select>
                 </td>
                 <td className="px-2 py-2 border-b" >
                     <div id="percentage"
@@ -244,20 +255,16 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
                     </div>
                 </td>
                 <td className="px-2 py-2 border-b" >
-                    {isEditing ? (
-                        <></>
-                    ) : (
-                        <div className='flex flex-row justify-around' >
-                            <Button  size="sm" onClick={() => handleDeleteRow(id)} danger="true" >
-                                <DeleteIcon />
-                            </Button>
-                            <form onSubmit={(e) => handleSubmit2(e, id)}>
-                                <button type="submit" className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title ">
-                                    <EyeOpenIcon /> Ver
-                                </button>
-                            </form>
-                        </div>
-                    )}
+                    <div className='flex flex-row justify-around' >
+                        <Button  size="sm" onClick={() => handleDeleteRow(id)} danger="true" >
+                            <DeleteIcon />
+                        </Button>
+                        <form onSubmit={(e) => handleSubmit2(e, id)}>
+                            <button type="submit" className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title ">
+                                <EyeOpenIcon /> Ver
+                            </button>
+                        </form>
+                    </div>
                 </td>
             </tr>
         </>
