@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Donors;
+use App\Models\Estimate;
+use App\Models\Waste;
 use Inertia\Inertia;
 use Inertia\Response;
-
+use Illuminate\Http\JsonResponse;
 use App\Models\Distribution;
 use App\Models\Organization;
 use Illuminate\Http\Request;
@@ -26,6 +29,20 @@ class DistributionController extends Controller
         $date = $request->input('date');
         $organization = Organization::all();
         return Inertia::render('Distribution/Distribution', ['organization' => $organization, 'donors_id' => $donors_id, 'date' => $date]);
+    }
+
+    public function loadData(Request $request): JsonResponse
+    {
+        $date = $request->input('date');
+        $donor_id = $request->input('donors_id');
+        $estimates = Estimate::select('organization_id', 'percentage','donor_id', 'kilos_total' , 'kilos_pending')
+            ->where('date', $date)
+            ->where('percentage', '!=', 0)
+            ->where('donor_id', '=', $donor_id)
+            ->get();
+        $orgLength = $estimates->count();
+        $totalKilos = $estimates->sum('kilos_total');
+        return response()->json(['orgLength' => $orgLength, 'totalKilos' => $totalKilos, 'estimates' => $estimates]);
     }
 
     public function distributionbydate(Request $request): Response

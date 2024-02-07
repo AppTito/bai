@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
 import { Icon } from "@iconify/react";
 
-const TableControl = ({ tableRows, organization}) => {
+const TableControl = ({ tableRows, organization }) => {
     /* Definir la cantidad de 0s a llenar */
     const [columnTotals, setColumnTotals] = useState([
         null,
@@ -41,7 +41,7 @@ const TableControl = ({ tableRows, organization}) => {
     );
 };
 
-const TableRowControl = ({ row, rowIndex, onInputChange, organization}) => {
+const TableRowControl = ({ row, rowIndex, onInputChange, organization }) => {
     // Estado para el valor seleccionado del select
     const [selectedOrg, setSelectedOrg] = useState(null);
 
@@ -114,12 +114,11 @@ const TableRowControl = ({ row, rowIndex, onInputChange, organization}) => {
                                 value={selectedOrg || ""}
                                 onChange={(e) => setSelectedOrg(e.target.value)}
                                 className="w-40 mt-1 block py-1 pr-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-sm"
-
-                                >
+                            >
                                 <option value="" disabled hidden>
                                     Seleccione
                                 </option>
-                                {organization.map(({id, name}) => (
+                                {organization.map(({ id, name }) => (
                                     <option key={id} value={id}>
                                         {name}
                                     </option>
@@ -134,9 +133,15 @@ const TableRowControl = ({ row, rowIndex, onInputChange, organization}) => {
                             key={index}
                             className="p-2 border hover:bg-gray-100 cursor-pointer"
                         >
-                            <Link className="flex items-center justify-center bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-700">
-                            <Icon className="mr-1" icon="iconamoon:invoice" />
-                                 Ver
+                            <Link
+                                href='/factura'
+                                className="flex items-center justify-center bg-orange-500 text-white font-bold py-2 px-4 rounded hover:bg-orange-700"
+                            >
+                                <Icon
+                                    className="mr-1"
+                                    icon="iconamoon:invoice"
+                                />
+                                Ver
                             </Link>
                         </td>
                     );
@@ -150,9 +155,7 @@ const TableRowControl = ({ row, rowIndex, onInputChange, organization}) => {
                         className="p-2 border hover:bg-gray-100 cursor-pointer"
                         suppressContentEditableWarning={true}
                         /* Valores no editables de la tabla: columna "total" y "Nota" */
-                        contentEditable={
-                            index !== values.length - 3
-                        }
+                        contentEditable={index !== values.length - 3}
                         /* Uso de onBlur para evitar que los dígitos se ingresen al revés en lugar de onInput */
                         onBlur={(e) =>
                             handleCellBlur(index, e.target.textContent)

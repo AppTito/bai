@@ -21,6 +21,9 @@ class WastesSeeder extends Seeder
             ['item' => 'Basura'],
             ['item' => 'Refrigerio'],
             ['item' => 'Consumo Inmediato'],
+            ['item' => 'Reciclaje Papel'],
+            ['item' => 'Reciclaje Carton'],
+            ['item' => 'Reciclaje Plastico'],
 
         ];
 
