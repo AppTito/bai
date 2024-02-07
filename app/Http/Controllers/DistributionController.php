@@ -13,8 +13,7 @@ use App\Models\Distribution;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Category;
-use App\Models\Waste;
+
 
 class DistributionController extends Controller
 {
