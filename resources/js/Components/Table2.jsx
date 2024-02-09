@@ -46,13 +46,13 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         }
     }, []);
 
-    const onChangeOrganization = useCallback((e) => {
+    const onChangeOrganization = useCallback((e,rowId) => {
         const selectedOrganization = findOrganizationById(organization, Number(e.target.value));
         const id = rowId-1;
         setEditedData(prevState =>  ({
             ...prevState, [id ]: { ...prevState[id], organization: { id: selectedOrganization.id, name: selectedOrganization.name } }, }));
     }, [findOrganizationById, organization]);
-
+    console.log("editedData",editedData); 
     function onInputChange(event) {
         const targetId = event.target.id;
         const newValue = parseFloat(event.target.innerText) || 0;
