@@ -22,6 +22,9 @@ class DatabaseSeeder extends Seeder
             WastesSeeder::class,
             DonorsSeeder::class,
             CategoryValuesTableSeeder::class,
+            ControlSeeder::class,
+            DistributionSeeder::class,
+            OperationSeeder::class
         ]);
     }
 }

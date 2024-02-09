@@ -9,7 +9,7 @@ class Operation extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'donors_id',
+        'donor_id',
         'total_weight',
         'recovered',
         'percentage',
