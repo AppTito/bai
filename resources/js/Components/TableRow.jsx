@@ -23,34 +23,34 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
     return (
         <tr data-id={id}>
             <td className="w-3 px-2 py-2 border-b">
-                {isEditing  ? (
-                    <select
-                        id="organization"
-                        value={editedData.organization.id}
-                        onChange={onSelectChangeOrganization}
-                    >
-                        <option value="" disabled>
-                            Donante
-                        </option>
-                        {organizations.map((org) => (
-                            <option key={org.id} value={org.id}>
-                                {org.name}
-                            </option>
-                        ))}
-                    </select>
-                ) : (
-                    organization.name
-                )}
-                {/*<select id="organization"*/}
-                {/*    value={organization.name}*/}
-                {/*    onChange={(e) => onSelectChangeOrganization(e, id)} >*/}
-                {/*    <option value="" disabled> Donante </option>*/}
-                {/*    {organizations.map((org) => (*/}
-                {/*        <option key={org.id} value={org.id}>*/}
-                {/*            {org.name}*/}
+                {/*{isEditing  ? (*/}
+                {/*    <select*/}
+                {/*        id="organization"*/}
+                {/*        value={editedData.organization.id}*/}
+                {/*        onChange={onSelectChangeOrganization}*/}
+                {/*    >*/}
+                {/*        <option value="" disabled>*/}
+                {/*            Donante*/}
                 {/*        </option>*/}
-                {/*    ))}*/}
-                {/*</select>*/}
+                {/*        {organizations.map((org) => (*/}
+                {/*            <option key={org.id} value={org.id}>*/}
+                {/*                {org.name}*/}
+                {/*            </option>*/}
+                {/*        ))}*/}
+                {/*    </select>*/}
+                {/*) : (*/}
+                {/*    organization.name*/}
+                {/*)}*/}
+                <select id="organization"
+                    value={organization.name}
+                    onChange={(e) => onSelectChangeOrganization(e, id)} >
+                    <option value="" disabled> Donante </option>
+                    {organizations.map((org) => (
+                        <option key={org.id} value={org.id}>
+                            {org.name}
+                        </option>
+                    ))}
+                </select>
             </td>
             {fields.map((field) => (
                 <td key={field.id} className="px-2 py-2 border-b">

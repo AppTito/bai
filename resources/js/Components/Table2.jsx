@@ -51,8 +51,16 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         const id = rowId-1;
         setEditedData(prevState =>  ({
             ...prevState, [id ]: { ...prevState[id], organization: { id: selectedOrganization.id, name: selectedOrganization.name } }, }));
+        // Update data state
+        setData(prevData => {
+            const newData = [...prevData];
+            newData[id].organization = { id: selectedOrganization.id, name: selectedOrganization.name };
+            return newData;
+        });
     }, [findOrganizationById, organization]);
-    console.log("editedData",editedData); 
+    console.log("",data);
+    console.log("editedData",editedData);
+
     function onInputChange(event) {
         const targetId = event.target.id;
         const newValue = parseFloat(event.target.innerText) || 0;
@@ -64,6 +72,12 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                 newState[idRow][targetId] = newValue;
                 return newState;
             });
+            setData((prevData) => {
+                const newData = [...prevData];
+                newData[idRow][targetId] = newValue;
+                return newData;
+
+            }   );
         }
     }
 
