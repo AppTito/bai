@@ -37,12 +37,14 @@ return new class extends Migration
             $table->double('granos');
             $table->double('embutidos');
             $table->double('huevos');
+            $table->double('cereales');
             $table->double('reposteria');
             $table->double('procesados');
             $table->double('salsas');
             $table->double('proteina');
             $table->double('jugos');
             $table->double('carbohidratos');
+            $table->double('floristeria');
             $table->double('enlatados');
             $table->double('proteina_kfc');
             $table->double('procesado_kfc');

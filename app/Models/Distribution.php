@@ -9,7 +9,7 @@ class Distribution extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'donors_id',
+        'donor_id',
         'date',
         'porcentaje',
         'fruver',
@@ -18,12 +18,14 @@ class Distribution extends Model
         'granos',
         'embutidos',
         'huevos',
+        'cereales',
         'reposteria',
         'procesados',
         'salsas',
         'proteina',
         'jugos',
         'carbohidratos',
+        'floristeria',
         'enlatados',
         'proteina_kfc',
         'procesado_kfc',

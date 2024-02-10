@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Donors;
 use App\Models\Estimate;
+use App\Models\Operation;
 use App\Models\Waste;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -33,15 +34,18 @@ class DistributionController extends Controller
 
     public function loadData(Request $request): JsonResponse
     {
+        //dd($request->all());
+        
         $date = $request->input('date');
         $donor_id = $request->input('donors_id');
         $estimates = Estimate::select('organization_id', 'percentage','donor_id', 'kilos_total' , 'kilos_pending')
-            ->where('date', $date)
-            ->where('percentage', '!=', 0)
-            ->where('donor_id', '=', $donor_id)
-            ->get();
+        ->where('date', $date)
+        ->where('percentage', '!=', 0)
+        ->where('donor_id', '=', $donor_id)
+        ->get();
         $orgLength = $estimates->count();
         $totalKilos = $estimates->sum('kilos_total');
+        
         return response()->json(['orgLength' => $orgLength, 'totalKilos' => $totalKilos, 'estimates' => $estimates]);
     }
 

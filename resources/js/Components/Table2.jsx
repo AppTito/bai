@@ -151,6 +151,7 @@ export function Table({ organization,donors_id ,date2 ,category }) {
 
     function handleSubmitSave(e) {
         e.preventDefault()
+        
         const formData = {
             donors_id: donors_id.id,
             date: date2,
@@ -160,15 +161,15 @@ export function Table({ organization,donors_id ,date2 ,category }) {
             pesoFinal: pesoTotal,
         };
         console.log("formData",formData);
-        // router.post('/operations/control', formData)
+         router.post('/operations/control', formData)
     }
 
     const totals = calculateTotals();
 
     const handleLoadData = async () => {
         try {
-            // const url = new URL('http://localhost/bai/public/distribution/load');
-            const url = new URL('http://bai.test/distribution/load');
+             const url = new URL('http://localhost/bai/public/distribution/load');
+            //const url = new URL('http://bai.test/distribution/load');
             url.searchParams.append('date', formatDate(selectedDate));
             url.searchParams.append('donors_id', donors_id.id);
 

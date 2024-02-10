@@ -8,6 +8,7 @@ use Inertia\Response;
 use App\Models\Donors;
 use App\Models\Category;
 use App\Models\Operation;
+use App\Models\Distribution;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -43,13 +44,50 @@ class OperationController extends Controller
             'donors_id' => 'required',
             'totals' => 'required'
         ]);
+        $operation = new Operation;
+        $distribution = new Distribution;
         $donorsId = $request->input('donors_id');
         $categories = Category::all();
         $wastes = Waste::all();
         $donors_id = Donors::findOrFail($donorsId);
         $date =$request->input('date');
         $totals = $request->input('totals');
+        $porcentaje = $request->input('totals');
         $totals = array_slice($totals, 1,17);
+        
+        //dd($porcentaje);
+        //guardar operacion
+        $operation->donor_id=$donorsId;
+        $operation->total_weight=$request->input('pesoTotal');
+        $operation->recovered=$request->input("pesoRecuperado");
+        $operation->percentage=$porcentaje["totalPercentage"];
+        $operation->date=$date;
+        $operation->save();
+        //guardar distribucion
+        $distribution->donor_id=$donorsId;
+        $distribution->date=$date;
+        $distribution->porcentaje=$porcentaje["totalPercentage"];
+        $distribution->fruver=$totals["totalValues"][0];
+        $distribution->lacteos=$totals["totalValues"][1];
+        $distribution->panaderia=$totals["totalValues"][2];
+        $distribution->granos=$totals["totalValues"][3];
+        $distribution->embutidos=$totals["totalValues"][4];
+        $distribution->huevos=$totals["totalValues"][5];
+        $distribution->cereales=$totals["totalValues"][6];
+        $distribution->reposteria=$totals["totalValues"][7];
+        $distribution->procesados=$totals["totalValues"][8];
+        $distribution->salsas=$totals["totalValues"][9];
+        $distribution->proteina=$totals["totalValues"][10];
+        $distribution->jugos=$totals["totalValues"][11];
+        $distribution->carbohidratos=$totals["totalValues"][12];
+        $distribution->floristeria=$totals["totalValues"][13];
+        $distribution->enlatados=$totals["totalValues"][14];
+        $distribution->proteina_kfc=$totals["totalValues"][15];
+        $distribution->procesado_kfc=$totals["totalValues"][16];
+        $distribution->total=$totals["totalKg"];
+        $distribution->kg_pendientes=$totals["totalPendingKg"];
+        $distribution->save();
+
         return Inertia::render('Operations/Control', [
             'categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes, 'totals' => $totals, ]);
     }
