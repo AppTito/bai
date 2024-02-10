@@ -25,13 +25,11 @@ export function Table({ organization,donors_id ,date2 ,category }) {
     const lastOtherNames = [ { Total: "totalKg" }, { "Kg Pendientes": "pendingKg" }, { Nota: "nota" }, ];
     const categoryData = categoryNames.reduce((acc, cat) => ({ ...acc, [Object.keys(cat)[1]]: 0 }), {});
 
-    // Estados para los valores de pesob
     const [pesoGavetas, setPesoGavetas] = useState("");
     const [pesoProcesado, setPesoProcesado] = useState("");
     const [pesoTotal, setPesoTotal] = useState("");
     const [totalKg, setTotalKg] = useState(0);
     const [displayTotalKg, setDisplayTotalKg] = useState(0);
-    // const [displayTotalKg, setDisplayTotalKg] = useState(totalKg);
 
     const [data, setData] = useState([
         { id: 1, organization: initialOrganization, percentage: 0,...categoryData, pendingKg: 0 }
@@ -45,7 +43,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         { date: formatDate(selectedDate) },
         { donors_id: donors_id.id}
     ]);
-    const [editingId, setEditingId] = useState(true);
 
     const findOrganizationById = useCallback((orgArray, id) => {
         if (Array.isArray(orgArray)) {
@@ -58,6 +55,7 @@ export function Table({ organization,donors_id ,date2 ,category }) {
     const onChangeOrganization = useCallback((e,rowId) => {
         const selectedOrganization = findOrganizationById(organization, Number(e.target.value));
         const id = rowId-1;
+
         setEditedData(prevState =>  ({
             ...prevState, [id ]: { ...prevState[id], organization: { id: selectedOrganization.id, name: selectedOrganization.name } }, }));
 
@@ -115,22 +113,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
 
         return { totalPercentage, totalValues, totalPendingKg, totalKg };
     }, [editedData, calculatePendingKg, displayTotalKg]);
-    //vale
-    // const handleAddRow = () => {
-    //     const newRow = {
-    //         id: data.length + 1, organization: initialOrganization, percentage: 0, ...categoryData, pendingKg: 0,
-    //     };
-    //     setData((prevData) => [...prevData, newRow]);
-    //     setEditedData((prevData) => [...prevData, newRow]);
-    // };
-
-    // const handleAddRow = () => {
-    //     const newRow = {
-    //         id: data.length + 1, organization: initialOrganization, percentage: 0, ...categoryData, pendingKg: 0,
-    //     };
-    //     setData((prevData) => [...(Array.isArray(prevData) ? prevData : []), newRow]);
-    //     setEditedData((prevData) => [...(Array.isArray(prevData) ? prevData : []), newRow]);
-    // };
 
     const handleAddRow = () => {
         const newRow = {
@@ -138,7 +120,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         };
         setData((prevData) => [...(Array.isArray(prevData) ? prevData : []), newRow]);
 
-        // Asegúrate de que cada fila en 'data' tenga un objeto correspondiente en 'editedData'
         setEditedData((prevData) => {
             const newData = Array.isArray(prevData) ? [...prevData] : [];
             newData[newRow.id - 1] = newRow;
@@ -183,7 +164,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
     }
 
     const totals = calculateTotals();
-    const isEditing = (id) => editingId === id;
 
     const handleLoadData = async () => {
         try {
@@ -294,7 +274,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                                 <TableRow
                                     key={row.id}
                                     row={row}
-                                    isEditing={isEditing(row.id)}
                                     organizations={organization}
                                     onSelectChangeOrganization={onChangeOrganization}
                                     onInputChange={onInputChange}

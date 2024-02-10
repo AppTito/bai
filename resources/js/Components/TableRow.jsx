@@ -1,7 +1,6 @@
 import {Button} from "@/Components/Button.jsx";
 import {DeleteIcon} from "@/Components/Icons/DeleteIcon.jsx";
 import {EyeOpenIcon} from "@/Components/Icons/EyeOpenIcon.jsx";
-import { useState } from 'react';
 
 const renderEditableCell = ({ id, name, value, onChange, editedData }) => (
     <div key={id} className="px-2 py-2 border-b">
@@ -11,7 +10,7 @@ const renderEditableCell = ({ id, name, value, onChange, editedData }) => (
     </div>
 );
 
-export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputChange, handleDeleteRow,handleSubmit2, organizations,editedData,calculatePendingKg }) {
+export function TableRow({ row, onSelectChangeOrganization, onInputChange, handleDeleteRow,handleSubmit2, organizations,editedData,calculatePendingKg }) {
 
     const { id, organization, percentage, fruver, lacteos, panaderia,  granos, embutidos,
         huevos,cereales, reposteria, carbohidratoprocesado, salsaaderezocondimentos, proteinaprocesada, jugosbebidas,
@@ -37,11 +36,8 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
             {fields.map((field) => (
                 <td key={field.id} className="px-2 py-2 border-b">
                     {renderEditableCell({
-                        id: field.id,
-                        name: field.name,
-                        value: row[field.name],
-                        onChange: onInputChange,
-                        editedData,
+                        id: field.id, name: field.name, value: row[field.name],
+                        onChange: onInputChange,  editedData,
                     })}
                 </td>
             ))}
