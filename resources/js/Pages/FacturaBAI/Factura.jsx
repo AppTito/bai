@@ -6,7 +6,9 @@ import html2canvas from "html2canvas";
 import { FaFileDownload } from "react-icons/fa";
 import { MdPrint } from "react-icons/md";
 
-function Factura() {
+function Factura({organization,filteredData}) {
+    console.log(organization,filteredData);
+
     React.useEffect(() => {
         calcularTotalKilos();
     }, []);
@@ -37,7 +39,7 @@ function Factura() {
         <div className="cs-container">
             <div className="cs-invoice cs-style1" id="download_section">
                 <div className="cs-invoice_in">
-                    <h4 className="font-extrabold mx-auto text-center mb-7">
+                    <h4 className="mx-auto font-extrabold text-center mb-7">
                         FUNDACIÓN DE AYUDA SOCIAL BANCO DE ALIMENTOS
                     </h4>
 
@@ -150,7 +152,7 @@ function Factura() {
                                 <table>
                                     <tbody>
                                         <tr className="cs-border_left">
-                                            <td className="cs-width_7 cs-semi_bold cs-primary_color cs-focus_bg text-right">
+                                            <td className="text-right cs-width_7 cs-semi_bold cs-primary_color cs-focus_bg">
                                                 TOTAL KILOS:
                                             </td>
                                             <td className="cs-width_1 cs-semi_bold cs-focus_bg cs-primary_color cs-text_left">
@@ -163,13 +165,13 @@ function Factura() {
                         </div>
                     </div>
                     {/* aqui las firmas */}
-                    <div className="cs-table cs-style1 mt-10">
+                    <div className="mt-10 cs-table cs-style1">
                         <div className="cs-round_border">
                             <div className="cs-table_responsive">
                                 <table>
                                     <thead className="border-b">
                                         <tr>
-                                            <th className="cs-width_4 cs-semi_bold cs-primary_color cs-focus_bg border-r-2">
+                                            <th className="border-r-2 cs-width_4 cs-semi_bold cs-primary_color cs-focus_bg">
                                                 Entregado por:
                                             </th>
 
@@ -180,19 +182,19 @@ function Factura() {
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th className="cs-width_4 text-center border-r-2"></th>
+                                            <th className="text-center border-r-2 cs-width_4"></th>
                                             <th className="cs-width_4"></th>
                                         </tr>
                                         <tr>
-                                            <th className="cs-width_4 text-center border-r-2"></th>
+                                            <th className="text-center border-r-2 cs-width_4"></th>
                                             <th className="cs-width_4"></th>
                                         </tr>
                                         <tr>
-                                            <th className="cs-width_4 text-center border-r-2"></th>
+                                            <th className="text-center border-r-2 cs-width_4"></th>
                                             <th className="cs-width_4"></th>
                                         </tr>
                                         <tr>
-                                            <th className="cs-width_4 text-center border-r-2">
+                                            <th className="text-center border-r-2 cs-width_4">
                                                 {facturaData.Atendido}
                                             </th>
                                             <th className="cs-width_4"></th>

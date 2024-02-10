@@ -4,7 +4,7 @@ import { Head,Link, usePage } from "@inertiajs/react";
 import {Table} from "@/Components/Table2.jsx";
 
 export default function Index(props) {
-    const { organization, donors_id, date } = usePage().props;
+    const { organization, donors_id, date, category } = usePage().props;
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Control" />
@@ -24,7 +24,7 @@ export default function Index(props) {
                                 Distribución → {donors_id.name} {date}
                             </h1>
                         </div>
-                        <Table organization={organization} donors_id={donors_id} date2={date}/>
+                        <Table organization={organization} donors_id={donors_id} date2={date} category={category}/>
                     </div>
                 </div>
             </div>

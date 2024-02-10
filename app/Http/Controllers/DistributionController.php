@@ -27,7 +27,8 @@ class DistributionController extends Controller
         $donors_id = Donors::findOrFail($request->input('donors_id'));
         $date = $request->input('date');
         $organization = Organization::all();
-        return Inertia::render('Distribution/Distribution', ['organization' => $organization, 'donors_id' => $donors_id, 'date' => $date]);
+        $category = Category::all()->where('status', 1);
+        return Inertia::render('Distribution/Distribution', ['organization' => $organization, 'donors_id' => $donors_id, 'date' => $date, 'category' => $category]);
     }
 
     public function loadData(Request $request): JsonResponse
