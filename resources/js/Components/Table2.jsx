@@ -7,8 +7,9 @@ import {CompanyIcon} from "@/Components/Icons/CompanyIcon.jsx";
 import {Button} from "@/Components/Button.jsx";
 import {ClientPlusIcon} from "@/Components/Icons/ClientPlusIcon.jsx";
 import {CheckCircleIcon} from "@/Components/Icons/CheckCircleIcon.jsx";
-
+import {SecurityIcon} from "@/Components/Icons/SecurityIcon.jsx";
 import { router } from '@inertiajs/react'
+
 export function Table({ organization,donors_id ,date2 ,category }) {
 
     const initialOrganization = { id: '', name: 'Seleccione un Donante' };
@@ -23,6 +24,14 @@ export function Table({ organization,donors_id ,date2 ,category }) {
     const firstOtherNames = [ { Organización: "organization" }, { "Porcentaje (%)": "percentage" }, ];
     const lastOtherNames = [ { Total: "totalKg" }, { "Kg Pendientes": "pendingKg" }, { Nota: "nota" }, ];
     const categoryData = categoryNames.reduce((acc, cat) => ({ ...acc, [Object.keys(cat)[1]]: 0 }), {});
+
+    // Estados para los valores de pesob
+    const [pesoGavetas, setPesoGavetas] = useState("");
+    const [pesoProcesado, setPesoProcesado] = useState("");
+    const [pesoTotal, setPesoTotal] = useState("");
+    const [totalKg, setTotalKg] = useState(0);
+    const [displayTotalKg, setDisplayTotalKg] = useState(0);
+    // const [displayTotalKg, setDisplayTotalKg] = useState(totalKg);
 
     const [data, setData] = useState([
         { id: 1, organization: initialOrganization, percentage: 0,...categoryData, pendingKg: 0 }
@@ -51,34 +60,36 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         const id = rowId-1;
         setEditedData(prevState =>  ({
             ...prevState, [id ]: { ...prevState[id], organization: { id: selectedOrganization.id, name: selectedOrganization.name } }, }));
-        // Update data state
+
         setData(prevData => {
             const newData = [...prevData];
             newData[id].organization = { id: selectedOrganization.id, name: selectedOrganization.name };
             return newData;
         });
     }, [findOrganizationById, organization]);
-    console.log("",data);
-    console.log("editedData",editedData);
 
     function onInputChange(event) {
         const targetId = event.target.id;
         const newValue = parseFloat(event.target.innerText) || 0;
         const idRow = parseFloat(event.target.closest('tr').dataset.id)-1;
-        const row = data.find((row) => row.id) ;
-        if (row) {
-            setEditedData((prevState) => {
-                const newState = { ...prevState };
-                newState[idRow][targetId] = newValue;
-                return newState;
-            });
-            setData((prevData) => {
-                const newData = [...prevData];
-                newData[idRow][targetId] = newValue;
-                return newData;
 
-            }   );
-        }
+        setEditedData((prevState) => {
+            const newState = { ...prevState };
+            if (!newState[idRow]) {
+                newState[idRow] = { ...categoryData };
+            }
+            newState[idRow][targetId] = newValue;
+            return newState;
+        });
+
+        setData((prevData) => {
+            const newData = [...prevData];
+            if (!newData[idRow]) {
+                newData[idRow] = { ...categoryData };
+            }
+            newData[idRow][targetId] = newValue;
+            return newData;
+        });
     }
 
     const handleDateChange = (date) => {
@@ -97,15 +108,42 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         });
         const totalPendingKg = data.reduce((acc, row) => acc + parseFloat(row.pendingKg) ||   0, 0);
         const totalKg = calculatePendingKg(...totalValues);
+
+        if (totalKg > displayTotalKg) {
+            setDisplayTotalKg(totalKg);
+        }
+
         return { totalPercentage, totalValues, totalPendingKg, totalKg };
-    }, [editedData, calculatePendingKg]);
+    }, [editedData, calculatePendingKg, displayTotalKg]);
+    //vale
+    // const handleAddRow = () => {
+    //     const newRow = {
+    //         id: data.length + 1, organization: initialOrganization, percentage: 0, ...categoryData, pendingKg: 0,
+    //     };
+    //     setData((prevData) => [...prevData, newRow]);
+    //     setEditedData((prevData) => [...prevData, newRow]);
+    // };
+
+    // const handleAddRow = () => {
+    //     const newRow = {
+    //         id: data.length + 1, organization: initialOrganization, percentage: 0, ...categoryData, pendingKg: 0,
+    //     };
+    //     setData((prevData) => [...(Array.isArray(prevData) ? prevData : []), newRow]);
+    //     setEditedData((prevData) => [...(Array.isArray(prevData) ? prevData : []), newRow]);
+    // };
 
     const handleAddRow = () => {
         const newRow = {
             id: data.length + 1, organization: initialOrganization, percentage: 0, ...categoryData, pendingKg: 0,
         };
-        setData((prevData) => [...prevData, newRow]);
-        setEditedData((prevData) => [...prevData, newRow]);
+        setData((prevData) => [...(Array.isArray(prevData) ? prevData : []), newRow]);
+
+        // Asegúrate de que cada fila en 'data' tenga un objeto correspondiente en 'editedData'
+        setEditedData((prevData) => {
+            const newData = Array.isArray(prevData) ? [...prevData] : [];
+            newData[newRow.id - 1] = newRow;
+            return newData;
+        });
     };
 
     const handleDeleteRow = (id) => {
@@ -116,7 +154,7 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         e.preventDefault();
         const selectedRow = data.find((row) => row.id === id);
         console.log("selectedRow",selectedRow);
-        // router.post('/factura', selectedRow);
+        router.post('/factura', selectedRow);
     }
 
     function handleSubmit(e) {
@@ -127,6 +165,20 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                 totals: calculateTotals(),
             };
             console.log("formData",formData);
+        router.post('/operations/control', formData)
+    }
+
+    function handleSubmitSave(e) {
+        e.preventDefault()
+        const formData = {
+            donors_id: donors_id.id,
+            date: date2,
+            totals: calculateTotals(),
+            pesoTotal: displayTotalKg,
+            pesoRecuperado: pesoProcesado,
+            pesoFinal: pesoTotal,
+        };
+        console.log("formData",formData);
         // router.post('/operations/control', formData)
     }
 
@@ -148,7 +200,7 @@ export function Table({ organization,donors_id ,date2 ,category }) {
             });
 
             const data = await response.json();
-
+            console.log("data",data);
             const organizationMap = organization.reduce((acc, org) => {
                 acc[org.id] = org;
                 return acc;
@@ -165,12 +217,26 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                 totalKg: 0,
                 pendingKg: parseFloat(estimate.kilos_pending),
             }));
+            const totalKg = data.totalKilos;
+            setTotalKg(totalKg);
+            setDisplayTotalKg(totalKg);
 
             setData(newData);
             setEditedData(newData);
         } catch (error) {
             console.error('Error al cargar datos:', error.message);
         }
+    };
+
+    const handlePesoProcesadoChange = (event) => {
+        const value = parseFloat(event.target.value);
+        if (value > displayTotalKg) {
+            alert("Peso Recuperado no puede ser mayor que Peso Total");
+            return;
+        }
+        setPesoProcesado(value);
+        const total = displayTotalKg - value;
+        setPesoTotal(isNaN(total) ? "" : total);
     };
 
     return (
@@ -186,6 +252,37 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                         <CompanyIcon />
                         <span className="inline-block mx-2"> Cargar Estimación </span>
                     </Button>
+                </div>
+                <div className="flex flex-wrap mb-4">
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                               htmlFor="grid-peso-total" >
+                            Peso Total
+                        </label>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200
+                            rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="grid-peso-total" type="number" placeholder="Peso Total"  min={0} value={displayTotalKg}
+                            readOnly />
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            htmlFor="grid-peso-recuperado"  >
+                            Peso Recuperado
+                        </label>
+                        <input  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200
+                            rounded py-3 px-4 leading-tight " id="grid-peso-recuperado"  type="number"
+                            placeholder="Peso Recuperado" min={0}  contentEditable={false} value={pesoProcesado}
+                            onChange={handlePesoProcesadoChange} />
+                    </div>
+                    <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                            htmlFor="grid-peso-final" >
+                            Peso Final
+                        </label>
+                        <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200
+                            rounded py-3 px-4 leading-tight" id="grid-peso-final" type="number"
+                            placeholder="Peso Final"  min={0} contentEditable={false} value={pesoTotal} readOnly />
+                    </div>
                 </div>
                 <div className="relative overflow-x-auto border shadow-md sm:rounded-lg">
                     <table className="w-full bg-white border border-gray-300">
@@ -224,6 +321,10 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                     </table>
                 </div>
                 <div className="flex flex-row justify-between">
+                    <Button size="sm" onClick={handleSubmitSave}>
+                        <SecurityIcon/>
+                        <span className="inline-block mx-2"> Guardar </span>
+                    </Button>
                     <form onSubmit={handleSubmit}>
                         <button type="submit" className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title ">
                             <CheckCircleIcon/> Control</button>

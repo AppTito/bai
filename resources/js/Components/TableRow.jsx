@@ -4,11 +4,11 @@ import {EyeOpenIcon} from "@/Components/Icons/EyeOpenIcon.jsx";
 import { useState } from 'react';
 
 const renderEditableCell = ({ id, name, value, onChange, editedData }) => (
-    <td key={id} className="px-2 py-2 border-b">
+    <div key={id} className="px-2 py-2 border-b">
         <div id={name} name={name} contentEditable={true} suppressContentEditableWarning={true} onBlur={onChange} value={editedData[name]} >
             {value}
         </div>
-    </td>
+    </div>
 );
 
 export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputChange, handleDeleteRow,handleSubmit2, organizations,editedData,calculatePendingKg }) {
@@ -23,27 +23,9 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
     return (
         <tr data-id={id}>
             <td className="w-3 px-2 py-2 border-b">
-                {/*{isEditing  ? (*/}
-                {/*    <select*/}
-                {/*        id="organization"*/}
-                {/*        value={editedData.organization.id}*/}
-                {/*        onChange={onSelectChangeOrganization}*/}
-                {/*    >*/}
-                {/*        <option value="" disabled>*/}
-                {/*            Donante*/}
-                {/*        </option>*/}
-                {/*        {organizations.map((org) => (*/}
-                {/*            <option key={org.id} value={org.id}>*/}
-                {/*                {org.name}*/}
-                {/*            </option>*/}
-                {/*        ))}*/}
-                {/*    </select>*/}
-                {/*) : (*/}
-                {/*    organization.name*/}
-                {/*)}*/}
-                <select id="organization"
-                    value={organization.name}
-                    onChange={(e) => onSelectChangeOrganization(e, id)} >
+                <select id={`organization-${id}`}
+                        value={organization.id} name="organization" className="w-40 mt-1 block py-1 pr-8 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary focus:border-primary text-sm"
+                    onChange={(e) => onSelectChangeOrganization(e, id)}  autoComplete="organization">
                     <option value="" disabled> Donante </option>
                     {organizations.map((org) => (
                         <option key={org.id} value={org.id}>
@@ -55,10 +37,10 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
             {fields.map((field) => (
                 <td key={field.id} className="px-2 py-2 border-b">
                     {renderEditableCell({
-                    id: field.id,
-                    name: field.name,
-                    value: row[field.name],
-                    onChange: onInputChange,
+                        id: field.id,
+                        name: field.name,
+                        value: row[field.name],
+                        onChange: onInputChange,
                         editedData,
                     })}
                 </td>
@@ -74,17 +56,17 @@ export function TableRow({ row, isEditing, onSelectChangeOrganization, onInputCh
                 </div>
             </td>
             <td className="px-2 py-2 border-b">
-            <div className="flex flex-row justify-around">
-                <Button size="sm" onClick={() => handleDeleteRow(id)} danger="true">
-                <DeleteIcon />
-                </Button>
-                <form onSubmit={(e) => handleSubmit2(e, id)}>
-                    <button type="submit"
-                        className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title" >
-                        <EyeOpenIcon />
-                    </button>
-                </form>
-            </div>
+                <div className="flex flex-row justify-around">
+                    <Button size="sm" onClick={() => handleDeleteRow(id)} danger="true">
+                    <DeleteIcon />
+                    </Button>
+                    <form onSubmit={(e) => handleSubmit2(e, id)}>
+                        <button type="submit"
+                            className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title" >
+                            <EyeOpenIcon />
+                        </button>
+                    </form>
+                </div>
             </td>
         </tr>
     );
