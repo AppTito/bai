@@ -4,7 +4,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import TableRowControlAlternative from "@/Components/Distribution/TableRowControlAlternative";
 import TableHeaderRow from "@/Components/TableTheadControl";
-import TableRowControl from "@/Components/Operations/TableRowControl";
+import TableRowControlAlt from "@/Components/Distribution/TableRowControlAlt";
 
 /* Columnas */
 const columnNames = [
@@ -31,7 +31,7 @@ const columnNames = [
 
 export default function Index(props) {
 
-    const { organization, date, donor_name, donor_id, waste, categories } =
+    const { organization, date, donor_name, donor_id,  categories } =
         usePage().props;
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null],
@@ -118,16 +118,16 @@ export default function Index(props) {
                                 Control
                             </h3>
                             <div className="overflow-x-auto">
-                                <TableRowControl
-                                    waste={waste}
-                                    date={date}
-                                    donors={donor_id}
-                                    categories={categories}
-                                    onDataChange={handleTableChange}
-                                    wastesColumns={waste}
-                                    recovered={""}
-                                    weight={""}
-                                />
+                                <table className="min-w-full border border-gray-300 text-center mt-5">
+                                    <thead>
+                                        {/* filas control */}
+                                        
+                                        
+                                    </thead>
+                                    <tbody>
+                                        <TableRowControlAlt />
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
