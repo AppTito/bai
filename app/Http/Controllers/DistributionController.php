@@ -34,8 +34,6 @@ class DistributionController extends Controller
 
     public function loadData(Request $request): JsonResponse
     {
-        //dd($request->all());
-        
         $date = $request->input('date');
         $donor_id = $request->input('donors_id');
         $estimates = Estimate::select('organization_id', 'percentage','donor_id', 'kilos_total' , 'kilos_pending')
@@ -45,7 +43,7 @@ class DistributionController extends Controller
         ->get();
         $orgLength = $estimates->count();
         $totalKilos = $estimates->sum('kilos_total');
-        
+
         return response()->json(['orgLength' => $orgLength, 'totalKilos' => $totalKilos, 'estimates' => $estimates]);
     }
 

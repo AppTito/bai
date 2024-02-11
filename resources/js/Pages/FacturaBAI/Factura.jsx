@@ -6,8 +6,9 @@ import html2canvas from "html2canvas";
 import { FaFileDownload } from "react-icons/fa";
 import { MdPrint } from "react-icons/md";
 
-function Factura({organization,filteredData}) {
-    console.log(organization,filteredData);
+function Factura({organization,categories}) {
+    console.log(organization);
+    console.log(categories);
 
     React.useEffect(() => {
         calcularTotalKilos();

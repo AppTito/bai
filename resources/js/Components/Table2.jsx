@@ -6,9 +6,9 @@ import {TableRow} from "@/Components/TableRow.jsx";
 import {CompanyIcon} from "@/Components/Icons/CompanyIcon.jsx";
 import {Button} from "@/Components/Button.jsx";
 import {ClientPlusIcon} from "@/Components/Icons/ClientPlusIcon.jsx";
-import {CheckCircleIcon} from "@/Components/Icons/CheckCircleIcon.jsx";
 import {SecurityIcon} from "@/Components/Icons/SecurityIcon.jsx";
 import { router } from '@inertiajs/react'
+import {CheckCircleIcon} from "lucide-react";
 
 export function Table({ organization,donors_id ,date2 ,category }) {
 
@@ -138,38 +138,43 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         router.post('/factura', selectedRow);
     }
 
-    function handleSubmit(e) {
+    // function handleSubmit(e) {
+    //     e.preventDefault()
+    //         const formData = {
+    //             donors_id: donors_id.id,
+    //             date: date2,
+    //             totals: calculateTotals(),
+    //         };
+    //         console.log("formData",formData);
+    //     router.post('/operations/control', formData)
+    // }
+
+    function handleSubmitSave(e) {
         e.preventDefault()
+
+        if (pesoProcesado > 0) {
             const formData = {
                 donors_id: donors_id.id,
                 date: date2,
                 totals: calculateTotals(),
+                pesoTotal: displayTotalKg,
+                pesoRecuperado: pesoProcesado,
+                pesoFinal: pesoTotal,
             };
             console.log("formData",formData);
-        router.post('/operations/control', formData)
-    }
-
-    function handleSubmitSave(e) {
-        e.preventDefault()
-        
-        const formData = {
-            donors_id: donors_id.id,
-            date: date2,
-            totals: calculateTotals(),
-            pesoTotal: displayTotalKg,
-            pesoRecuperado: pesoProcesado,
-            pesoFinal: pesoTotal,
-        };
-        console.log("formData",formData);
-         router.post('/operations/control', formData)
+            router.post('/operations/control', formData)
+        } else {
+            alert("Por favor, ingrese un valor para Peso Recuperado");
+            setPesoProcesado(0);
+        }
     }
 
     const totals = calculateTotals();
 
     const handleLoadData = async () => {
         try {
-             const url = new URL('http://localhost/bai/public/distribution/load');
-            //const url = new URL('http://bai.test/distribution/load');
+            // const url = new URL('http://localhost/bai/public/distribution/load');
+            const url = new URL('http://bai.test/distribution/load');
             url.searchParams.append('date', formatDate(selectedDate));
             url.searchParams.append('donors_id', donors_id.id);
 
@@ -242,61 +247,61 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                         </label>
                         <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200
                             rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                            id="grid-peso-total" type="number" placeholder="Peso Total"  min={0} value={displayTotalKg}
-                            readOnly />
+                               id="grid-peso-total" type="number" placeholder="Peso Total"  min={0} value={displayTotalKg}
+                               readOnly />
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                            htmlFor="grid-peso-recuperado"  >
+                               htmlFor="grid-peso-recuperado"  >
                             Peso Recuperado
                         </label>
                         <input  className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200
                             rounded py-3 px-4 leading-tight " id="grid-peso-recuperado"  type="number"
-                            placeholder="Peso Recuperado" min={0}  contentEditable={false} value={pesoProcesado}
-                            onChange={handlePesoProcesadoChange} />
+                                placeholder="Peso Recuperado" min={0}  contentEditable={false} value={pesoProcesado}
+                                onChange={handlePesoProcesadoChange} />
                     </div>
                     <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                            htmlFor="grid-peso-final" >
+                               htmlFor="grid-peso-final" >
                             Peso Final
                         </label>
                         <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200
                             rounded py-3 px-4 leading-tight" id="grid-peso-final" type="number"
-                            placeholder="Peso Final"  min={0} contentEditable={false} value={pesoTotal} readOnly />
+                               placeholder="Peso Final"  min={0} contentEditable={false} value={pesoTotal} readOnly />
                     </div>
                 </div>
                 <div className="relative overflow-x-auto border shadow-md sm:rounded-lg">
                     <table className="w-full bg-white border border-gray-300">
                         <thead className="text-sm text-[#ffc42a] bg-[#00553f] uppercase">
-                            <TableHead firstOtherNames={firstOtherNames} categoryNames={categoryNames} lastOtherNames={lastOtherNames} />
+                        <TableHead firstOtherNames={firstOtherNames} categoryNames={categoryNames} lastOtherNames={lastOtherNames} />
                         </thead>
                         <tbody>
-                            {data.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    row={row}
-                                    organizations={organization}
-                                    onSelectChangeOrganization={onChangeOrganization}
-                                    onInputChange={onInputChange}
-                                    calculatePendingKg={calculatePendingKg}
-                                    handleDeleteRow={handleDeleteRow}
-                                    handleSubmit2={handleSubmit2}
-                                    editedData={editedData}
-                                    setEditedData={setEditedData}
-                                />
-                            ))}
+                        {data.map((row) => (
+                            <TableRow
+                                key={row.id}
+                                row={row}
+                                organizations={organization}
+                                onSelectChangeOrganization={onChangeOrganization}
+                                onInputChange={onInputChange}
+                                calculatePendingKg={calculatePendingKg}
+                                handleDeleteRow={handleDeleteRow}
+                                handleSubmit2={handleSubmit2}
+                                editedData={editedData}
+                                setEditedData={setEditedData}
+                            />
+                        ))}
                         </tbody>
                         <tfoot>
-                            <tr>
-                                <td className="px-2 py-2">Totales</td>
-                                <td className="-2 py-">{totals.totalPercentage}</td>
-                                {totals.totalValues.map((total, index) => (
-                                    <td key={index} className="px-2 py-2">{total}</td>
-                                ))}
-                                <td className="px-2 py-2">{totals.totalKg}</td>
-                                <td className="px-2 py-2">{totals.totalPendingKg}</td>
-                                <td className="px-2 py-2"></td>
-                            </tr>
+                        <tr>
+                            <td className="px-2 py-2">Totales</td>
+                            <td className="-2 py-">{totals.totalPercentage}</td>
+                            {totals.totalValues.map((total, index) => (
+                                <td key={index} className="px-2 py-2">{total}</td>
+                            ))}
+                            <td className="px-2 py-2">{totals.totalKg}</td>
+                            <td className="px-2 py-2">{totals.totalPendingKg}</td>
+                            <td className="px-2 py-2"></td>
+                        </tr>
                         </tfoot>
                     </table>
                 </div>
@@ -305,10 +310,10 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                         <SecurityIcon/>
                         <span className="inline-block mx-2"> Guardar </span>
                     </Button>
-                    <form onSubmit={handleSubmit}>
-                        <button type="submit" className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title ">
-                            <CheckCircleIcon/> Control</button>
-                    </form>
+                    {/*<form onSubmit={handleSubmit}>*/}
+                    {/*    <button type="submit" className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title ">*/}
+                    {/*        <CheckCircleIcon/> Control</button>*/}
+                    {/*</form>*/}
                 </div>
             </div>
         </>
