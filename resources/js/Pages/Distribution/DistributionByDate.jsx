@@ -4,6 +4,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import TableRowControlAlternative from "@/Components/Distribution/TableRowControlAlternative";
 import TableHeaderRow from "@/Components/TableTheadControl";
+import TableRowControl from "@/Components/Operations/TableRowControl";
 import TableRowControlAlt from "@/Components/Distribution/TableRowControlAlt";
 
 /* Columnas */
@@ -123,7 +124,11 @@ export default function Index(props) {
                                         <TableHeaderRow columnNames={columnNames} control />
                                     </thead>
                                     <tbody>
-                                        <TableRowControlAlt />
+                                        <TableRowControl
+                                            names={categories}
+                                            waste={waste}
+                                            
+                                        />
                                     </tbody>
                                 </table>
                             </div>

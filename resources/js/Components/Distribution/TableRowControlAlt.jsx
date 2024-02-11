@@ -2,14 +2,23 @@ import React, { useState } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
-const TableRowControlAlt = () => {
+/* tabla  alternativa de control pero solo fila de totales vacia */
+const TableRowControlAlt = ({ waste }) => {
+   
+
     return (
-        <tr>
-            <td className="p-2 border">Total Por Grupo</td>
-        </tr>
+        <table className="min-w-full border border-gray-300">
+            <thead>
+                <TableHeaderRow columnNames={waste} control />
+            </thead>
+            <tbody>
+                {/* total por grupo */}
+                <tr>
+                   
+                </tr>
+            </tbody>
+        </table>
     );
 };
 
-
 export default TableRowControlAlt;
-
