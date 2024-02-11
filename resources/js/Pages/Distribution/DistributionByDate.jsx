@@ -31,7 +31,7 @@ const columnNames = [
 
 export default function Index(props) {
 
-    const { organization, date, donor_name, donor_id,  categories } =
+    const { organization, date, donor_name, donor_id, waste, categories } =
         usePage().props;
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null],
@@ -120,9 +120,7 @@ export default function Index(props) {
                             <div className="overflow-x-auto">
                                 <table className="min-w-full border border-gray-300 text-center mt-5">
                                     <thead>
-                                        {/* filas control */}
-                                        
-                                        
+                                        <TableHeaderRow columnNames={columnNames} control />
                                     </thead>
                                     <tbody>
                                         <TableRowControlAlt />
