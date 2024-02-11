@@ -3,18 +3,28 @@ import { Inertia } from "@inertiajs/inertia";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
 /* tabla  alternativa de control pero solo fila de totales vacia */
-const TableRowControlAlt = ({ waste }) => {
+const TableRowControlAlt = ({ 
+    
+    
+ }) => {
    
 
     return (
         <table className="min-w-full border border-gray-300">
-            <thead>
-                <TableHeaderRow columnNames={waste} control />
-            </thead>
+           
             <tbody>
                 {/* total por grupo */}
                 <tr>
-                   
+                    <td className="border border-gray-300 p-2">Total</td>
+                    <td className="border border-gray-300 p-2">0</td>
+                    <td className="border border-gray-300 p-2">0</td>
+                    <td className="border border-gray-300 p-2">0</td>
+                    <td className="border border-gray-300 p-2">0</td>
+                    <td className="border border-gray-300 p-2">0</td>
+                    <td className="border border-gray-300 p-2">0</td>
+                    <td className="border border-gray-300 p-2">0</td>
+                    <td className="border border-gray-300 p-2">0</td>
+                    
                 </tr>
             </tbody>
         </table>

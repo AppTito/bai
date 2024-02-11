@@ -121,14 +121,12 @@ export default function Index(props) {
                             <div className="overflow-x-auto">
                                 <table className="min-w-full border border-gray-300 text-center mt-5">
                                     <thead>
-                                        <TableHeaderRow columnNames={columnNames} control />
+                                        <TableHeaderRow columnNames={categories} control />
                                     </thead>
                                     <tbody>
-                                        <TableRowControl
-                                            names={categories}
-                                            waste={waste}
+                                        <TableRowControlAlt
                                             
-                                        />
+                                            ></TableRowControlAlt>
                                     </tbody>
                                 </table>
                             </div>
