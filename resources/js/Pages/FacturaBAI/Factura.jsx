@@ -1,26 +1,24 @@
 import React, { useState } from "react";
 import "../../../css/factura/styles.css";
-import facturaData from "./datosFactura";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { FaFileDownload } from "react-icons/fa";
 import { MdPrint } from "react-icons/md";
 
-function Factura({organization,categories}) {
-    console.log(organization);
-    console.log(categories);
-
+function Factura({ organization, categories }) {
     React.useEffect(() => {
         calcularTotalKilos();
-    }, []);
+    }, [categories]);
 
     const [totalKilos, setTotalKilos] = useState(0);
 
     function calcularTotalKilos() {
         let sumaKilos = 0;
-        facturaData.DatosTabla.forEach((item) => {
-            sumaKilos += parseFloat(item.Kilos);
-        });
+        if (categories && Object.values(categories).length > 0) {
+            Object.values(categories).forEach((item) => {
+                sumaKilos += parseFloat(item.product);
+            });
+        }
         setTotalKilos(sumaKilos);
     }
 
@@ -36,6 +34,23 @@ function Factura({organization,categories}) {
         });
     };
 
+    const fechaActual = new Date();
+
+    const dia = fechaActual.getDate();
+    const mes = fechaActual.getMonth() + 1;
+    const ano = fechaActual.getFullYear();
+    const hora = fechaActual.getHours();
+    const minuto = fechaActual.getMinutes();
+
+    // Formatear la fecha como "DD/MM/AAAA" (puedes ajustar el formato según tus necesidades)
+    const FechaActual = `${fechaActual.getDate()}/${
+        fechaActual.getMonth() + 1
+    }/${fechaActual.getFullYear()}`;
+
+    const NotaDonacion = `${ano}${mes < 10 ? "0" : ""}${dia}${mes}${
+        hora < 10 ? "0" : ""
+    }${hora}${minuto < 10 ? "0" : ""}${minuto}`;
+
     return (
         <div className="cs-container">
             <div className="cs-invoice cs-style1" id="download_section">
@@ -50,13 +65,13 @@ function Factura({organization,categories}) {
                                 <b className="cs-primary_color">
                                     Nota de Donación:
                                 </b>{" "}
-                                {facturaData.NotaDonacion}
+                                {NotaDonacion}
                             </p>
                             <p className="cs-invoice_date cs-primary_color cs-m0">
                                 <b className="cs-primary_color">
                                     Fecha de Emisión:
                                 </b>{" "}
-                                {facturaData.Fecha}
+                                {FechaActual}
                             </p>
                         </div>
                         <div className="cs-invoice_right cs-text_right">
@@ -75,18 +90,9 @@ function Factura({organization,categories}) {
                                 <b className="cs-primary_color">
                                     Razón Social:{" "}
                                 </b>
-                                {facturaData.RazonSocial} <br />
+                                {organization.name} <br />
                                 <b className="cs-primary_color">Dirección: </b>
-                                {facturaData.Direccion} <br />
-                                <b className="cs-primary_color">Aporte: </b>
-                                {facturaData.Aporte} <br />
-                                <b className="cs-primary_color">Atención: </b>
-                                {facturaData.Atencion}
-                                <br />
-                                <b className="cs-primary_color">
-                                    Atendido por:{" "}
-                                </b>
-                                {facturaData.Atendido}
+                                {organization.address} <br />
                             </p>
                         </div>
                         <div className="cs-invoice_right cs-invoice_left">
@@ -94,15 +100,9 @@ function Factura({organization,categories}) {
                                 <b className="cs-primary_color">
                                     Identificación:{" "}
                                 </b>
-                                {facturaData.Ruc} <br />
-                                <b className="cs-primary_color">Teléfono: </b>
-                                {facturaData.Telefono} <br />
-                                <b className="cs-primary_color">
-                                    Nro. Gavetas:{" "}
-                                </b>
-                                {facturaData.NGavetas} <br />
+                                {organization.ruc} <br />
                                 <b className="cs-primary_color">Código: </b>
-                                {facturaData.CodigoO}
+                                {organization.code}
                             </p>
                         </div>
                     </div>
@@ -127,20 +127,20 @@ function Factura({organization,categories}) {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {facturaData.DatosTabla.map(
+                                        {Object.values(categories).map(
                                             (item, index) => (
                                                 <tr key={index}>
                                                     <td className="cs-width_1">
-                                                        {item.Codigo}
+                                                        {item.code}
                                                     </td>
                                                     <td className="cs-width_2">
-                                                        {item.GrupoProducto}
+                                                        {item.category}
                                                     </td>
                                                     <td className="cs-width_4">
-                                                        {item.Detalle}
+                                                        {item.indicator}
                                                     </td>
                                                     <td className="cs-width_1">
-                                                        {item.Kilos}
+                                                        {item.product}
                                                     </td>
                                                 </tr>
                                             )
@@ -196,7 +196,7 @@ function Factura({organization,categories}) {
                                         </tr>
                                         <tr>
                                             <th className="text-center border-r-2 cs-width_4">
-                                                {facturaData.Atendido}
+                                                {/* {facturaData.Atendido} */}
                                             </th>
                                             <th className="cs-width_4"></th>
                                         </tr>
@@ -215,11 +215,11 @@ function Factura({organization,categories}) {
                     className="cs-invoice_btn cs-color1"
                     onClick={() => window.print()}
                 >
-                    <MdPrint className="text-3xl"/>
+                    <MdPrint className="text-3xl" />
                     <span>Imprimir</span>
                 </a>
                 <a className="cs-invoice_btn cs-color2" onClick={generarPDF}>
-                    <FaFileDownload className="text-2xl"/>
+                    <FaFileDownload className="text-2xl" />
                     <span>Descargar</span>
                 </a>
             </div>
