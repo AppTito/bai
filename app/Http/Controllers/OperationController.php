@@ -12,7 +12,7 @@ use App\Models\Distribution;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-
+use App\Models\Control;
 
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -101,7 +101,7 @@ class OperationController extends Controller
         $recovered = $request->input('recovered');
         $date = $request->input('date');
 
-        $operation = new Operation();
+        /*  $operation = new Operation();
         $operation->donor_id = $donors;
         $operation->total_weight = $weight;
         $operation->recovered = $recovered;
@@ -110,11 +110,30 @@ class OperationController extends Controller
         $operation->user_id = 1;
         $operation->save();
 
-        $ultimoRegistro = Operation::orderBy('id', 'desc')->first();
+        $ultimoRegistro = Operation::orderBy('id', 'desc')->first(); */
         $longitud = count($allCellValues);
         $longitudColumnas = count($allCellValues[0]);
 
-        for ($fila = 0; $fila < $longitud - 1; $fila++) {
+        /* Guardar datos en la tabla de control */
+        $control = new Control;
+        $control->donor_id = $donors;
+        $control->date = $date;
+        $longFin = $longitud - 1;
+
+        $control->recuperado = $allCellValues[$longFin][0];
+        $control->c_animal = $allCellValues[$longFin][1];
+        $control->compostaje = $allCellValues[$longFin][2];
+        $control->basura = $allCellValues[$longFin][3];
+        $control->refrigerio = $allCellValues[$longFin][4];
+        $control->c_inmediato = $allCellValues[$longFin][5];
+        $control->r_papel = $allCellValues[$longFin][6];
+        $control->r_carton = $allCellValues[$longFin][7];
+        $control->r_plastico = $allCellValues[$longFin][8];
+        $control->total = $allCellValues[$longFin][9];
+
+        $control->save();
+
+        /* for ($fila = 0; $fila < $longitud - 1; $fila++) {
             for ($columna = 0; $columna < $longitudColumnas - 1; $columna++) {
                 $opWasteCat = new OperationWastesCategory();
                 $opWasteCat->waste_id = ($columna + 1);
@@ -123,7 +142,7 @@ class OperationController extends Controller
                 $opWasteCat->amount = $allCellValues[$fila][$columna];
                 $opWasteCat->save();
             }
-        }
+        } */
         return redirect()->route('operations.index');
     }
 

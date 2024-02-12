@@ -4,7 +4,11 @@ import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
 const TableControl = ({  categories, onDataChange, wastesColumns, date,
     donors,  recovered, weight,  waste,totals }) => {
-    console.log(totals);
+    let totalsArray = Object.values(totals.totalValues);
+    const sum = totalsArray.reduce((a, b) => a + b, 0);
+    totalsArray.push(sum);
+    console.log('totalsArray',totalsArray);
+
     const [totalWeight, setTotalWeight] = useState(0);
     const names = categories.map((category) => category.category);
     const [columnTotals, setColumnTotals] = useState(
@@ -49,45 +53,51 @@ const TableControl = ({  categories, onDataChange, wastesColumns, date,
         onDataChange(getAllCellValues());
     };
 
-    // Función para obtener todos los valores de las celdas
     const getAllCellValues = () => {
-        const allValuesWithSums = allCellValues.map((row) => {
+        const allValuesWithSums = allCellValues.map((row, rowIndex) => {
             const sumOfFirstSixColumns = row
-                .slice(0, wastesColumns.length + 1 - 1)
+                .slice(1, wastesColumns.length + 1)
                 .reduce((acc, val) => acc + val, 0);
             return [
-                ...row.slice(0, wastesColumns.length + 1 - 1),
+                totalsArray[rowIndex], // Agregar totalsArray a la fila
+                ...row.slice(1, wastesColumns.length + 1),
                 sumOfFirstSixColumns,
-            ]; // Mantener solo las primeras 6 columnas y agregar la suma como la séptima columna
+            ];
         });
 
         // Calcular la suma de cada columna, incluida la columna adicional que representa la suma de las primeras 6 columnas
-        const columnSums = Array(wastesColumns.length + 1).fill(0);
+        const columnSums = Array(wastesColumns.length + 2).fill(0);
         allValuesWithSums.forEach((row) => {
             row.forEach((value, index) => {
                 columnSums[index] += value;
             });
         });
 
-        // Calcular la suma total de la columna "Peso Total"
+        // Asegurarse de que la suma de la primera columna incluye los valores de totalsArray
+        columnSums[0] = totalsArray.reduce((acc, val) => acc + val, 0);
+
+        // Asegurarse de que la suma de la última columna incluye los valores de totalsArray
+        columnSums[columnSums.length - 1] += totalsArray.reduce((acc, val) => acc + val, 0);
+
         const sumTotalWeight = allValuesWithSums
-            .map((row) => row[wastesColumns.length]) // Obtener valores de la columna "Peso Total"
+            .map((row) => row[wastesColumns.length + 1])
             .reduce((acc, val) => acc + val, 0);
 
-        setTotalWeight(sumTotalWeight); // Actualizar el estado con la suma total de la columna Peso Total
+        setTotalWeight(sumTotalWeight);
 
-        return [...allValuesWithSums, columnSums]; // Devolver las filas y la suma total de columnas
+        return [...allValuesWithSums, columnSums];
     };
 
     const sendDataToDatabase = () => {
         const dataToSend = [...getAllCellValues()]; // Incluye las filas y las sumas de las columnas
-        Inertia.post(route("operations.guardar"), {
-            allCellValues: dataToSend,
-            date: date,
-            donors: donors.id,
-            recovered: recovered,
-            weight: weight,
-        });
+        console.log(dataToSend);
+        // Inertia.post(route("operations.guardar"), {
+        //     allCellValues: dataToSend,
+        //     date: date,
+        //     donors: donors.id,
+        //     recovered: recovered,
+        //     weight: weight,
+        // });
     };
     return (
         <>
@@ -102,6 +112,7 @@ const TableControl = ({  categories, onDataChange, wastesColumns, date,
                             name={name}
                             onInputChange={handleInputChange.bind(null, index)}
                             onCellChange={handleCellChange}
+                            totalsArray={totalsArray[index]}
                         />
                     ))}
                     <tr>
@@ -129,8 +140,8 @@ const TableControl = ({  categories, onDataChange, wastesColumns, date,
     );
 };
 
-const TableRowControl = ({ name, onInputChange, onCellChange }) => {
-    const [values, setValues] = useState(Array(7).fill(0)); // Inicializar el estado con un array de 7 ceros
+const TableRowControl = ({ name, onInputChange, onCellChange, totalsArray}) => {
+    const [values, setValues] = useState([totalsArray, ...Array(9).fill(0)]); // Insert totalsArray at the first position
 
     const handleInputChange = (index, e) => {
         const { textContent } = e.target;
