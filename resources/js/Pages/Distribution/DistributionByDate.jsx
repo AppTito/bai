@@ -119,16 +119,9 @@ export default function Index(props) {
                                 Control
                             </h3>
                             <div className="overflow-x-auto">
-                                <table className="min-w-full border border-gray-300 text-center mt-5">
-                                    <thead>
-                                        <TableHeaderRow columnNames={categories} control />
-                                    </thead>
-                                    <tbody>
-                                        <TableRowControlAlt
-                                            
-                                            ></TableRowControlAlt>
-                                    </tbody>
-                                </table>
+                                <TableRowControlAlt
+                                    waste={waste}
+                                />
                             </div>
                         </div>
                     </div>
