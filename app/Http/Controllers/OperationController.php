@@ -54,7 +54,7 @@ class OperationController extends Controller
         $totals = $request->input('totals');
         $porcentaje = $request->input('totals');
         $totals = array_slice($totals, 1,17);
-        
+
         //dd($porcentaje);
         //guardar operacion
         $operation->donor_id=$donorsId;
@@ -136,6 +136,9 @@ class OperationController extends Controller
              FROM bai.operations)
         SELECT * FROM RankedOperations WHERE row_num = 1;
         */
+        $request->validate([
+            'date1' => 'required',
+        ]);
 
         $date = $request->input('date1');
         $subquery = DB::table('bai.operations')

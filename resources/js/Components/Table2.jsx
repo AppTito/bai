@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {Calendar} from "@/Components/Calendar.jsx";
 import useDateUtils from "@/hooks/useDateUtils.js";
 import {TableHead} from "@/Components/TableHead.jsx";
@@ -8,24 +8,30 @@ import {Button} from "@/Components/Button.jsx";
 import {ClientPlusIcon} from "@/Components/Icons/ClientPlusIcon.jsx";
 import {SecurityIcon} from "@/Components/Icons/SecurityIcon.jsx";
 import { router } from '@inertiajs/react'
-import {CheckCircleIcon} from "lucide-react";
 
 export function Table({ organization,donors_id ,date2 ,category }) {
 
-    const initialOrganization = { id: '', name: 'Seleccione un Donante' };
+    const initialOrganization = useMemo(() => ({ id: '', name: 'Seleccione un Donante' }), []);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const { formatDate } = useDateUtils();
 
-    const categoryNames = category.map((cat) => ({
+    const categoryNames = useCallback(category.map((cat) => ({
         [`${cat.category}`]:  cat.category.toLowerCase().replace(/,/g, "").replace(/y/g, "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, ""),
         [cat.category.toLowerCase().replace(/,/g, "").replace(/y/g, "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, "")]:0,
-    }));
+    })), [category]);
 
     const firstOtherNames = [ { Organización: "organization" }, { "Porcentaje (%)": "percentage" }, ];
     const lastOtherNames = [ { Total: "totalKg" }, { "Kg Pendientes": "pendingKg" }, { Nota: "nota" }, ];
-    const categoryData = categoryNames.reduce((acc, cat) => ({ ...acc, [Object.keys(cat)[1]]: 0 }), {});
 
-    const [pesoGavetas, setPesoGavetas] = useState("");
+    const categoryData = useMemo(() => categoryNames.reduce((acc, cat) => {
+        const keys = Object.keys(cat);
+        if (keys.length >= 2) {
+            return { ...acc, [keys[1]]: 0 };
+        } else {
+            return acc;
+        }
+    }, {}), [categoryNames]);
+
     const [pesoProcesado, setPesoProcesado] = useState("");
     const [pesoTotal, setPesoTotal] = useState("");
     const [totalKg, setTotalKg] = useState(0);
@@ -52,17 +58,23 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         }
     }, []);
 
-    const onChangeOrganization = useCallback((e,rowId) => {
+    const onChangeOrganization = useCallback((e, rowId) => {
         const selectedOrganization = findOrganizationById(organization, Number(e.target.value));
-        const id = rowId-1;
 
-        setEditedData(prevState =>  ({
-            ...prevState, [id ]: { ...prevState[id], organization: { id: selectedOrganization.id, name: selectedOrganization.name } }, }));
-
-        setData(prevData => {
-            const newData = [...prevData];
-            newData[id].organization = { id: selectedOrganization.id, name: selectedOrganization.name };
+        setData((prevData) => {
+            const newData = prevData.map((row) => {
+                if (row.id === rowId) {
+                    return { ...row, organization: { id: selectedOrganization.id, name: selectedOrganization.name } };
+                }
+                return row;
+            });
             return newData;
+        });
+
+        setEditedData((prevState) => {
+            const newState = { ...prevState };
+            newState[rowId] = { ...newState[rowId], organization: { id: selectedOrganization.id, name: selectedOrganization.name } };
+            return newState;
         });
     }, [findOrganizationById, organization]);
 
@@ -112,9 +124,9 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         }
 
         return { totalPercentage, totalValues, totalPendingKg, totalKg };
-    }, [editedData, calculatePendingKg, displayTotalKg]);
+    }, [calculatePendingKg, displayTotalKg, data, categoryData]);
 
-    const handleAddRow = () => {
+    const handleAddRow = useCallback(() => {
         const newRow = {
             id: data.length + 1, organization: initialOrganization, percentage: 0, ...categoryData, pendingKg: 0,
         };
@@ -125,33 +137,20 @@ export function Table({ organization,donors_id ,date2 ,category }) {
             newData[newRow.id - 1] = newRow;
             return newData;
         });
-    };
+    }, [categoryData, initialOrganization, data.length]);
 
-    const handleDeleteRow = (id) => {
+    const handleDeleteRow = useCallback((id) => {
         setData((prevData) => prevData.filter((row) => row.id !== id));
-    };
+    }, []);
 
     const handleSubmit2 = (e,id) => {
         e.preventDefault();
         const selectedRow = data.find((row) => row.id === id);
-        console.log("selectedRow",selectedRow);
-        router.post('/factura', selectedRow);
+        router.get('/factura', selectedRow);
     }
-
-    // function handleSubmit(e) {
-    //     e.preventDefault()
-    //         const formData = {
-    //             donors_id: donors_id.id,
-    //             date: date2,
-    //             totals: calculateTotals(),
-    //         };
-    //         console.log("formData",formData);
-    //     router.post('/operations/control', formData)
-    // }
 
     function handleSubmitSave(e) {
         e.preventDefault()
-
         if (pesoProcesado > 0) {
             const formData = {
                 donors_id: donors_id.id,
@@ -161,7 +160,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                 pesoRecuperado: pesoProcesado,
                 pesoFinal: pesoTotal,
             };
-            console.log("formData",formData);
             router.post('/operations/control', formData)
         } else {
             alert("Por favor, ingrese un valor para Peso Recuperado");
@@ -169,9 +167,9 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         }
     }
 
-    const totals = calculateTotals();
+    const totals = useMemo(() => calculateTotals(), [calculateTotals]);
 
-    const handleLoadData = async () => {
+    const handleLoadData = useCallback(async () => {
         try {
             // const url = new URL('http://localhost/bai/public/distribution/load');
             const url = new URL('http://bai.test/distribution/load');
@@ -186,7 +184,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
             });
 
             const data = await response.json();
-            console.log("data",data);
             const organizationMap = organization.reduce((acc, org) => {
                 acc[org.id] = org;
                 return acc;
@@ -211,10 +208,11 @@ export function Table({ organization,donors_id ,date2 ,category }) {
             setEditedData(newData);
         } catch (error) {
             console.error('Error al cargar datos:', error.message);
+            alert('Error al cargar datos: ' + error.message);
         }
-    };
+    }, [formatDate, selectedDate, organization, donors_id.id, categoryData]);
 
-    const handlePesoProcesadoChange = (event) => {
+    const handlePesoProcesadoChange = useCallback((event) => {
         const value = parseFloat(event.target.value);
         if (value > displayTotalKg) {
             alert("Peso Recuperado no puede ser mayor que Peso Total");
@@ -223,7 +221,7 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         setPesoProcesado(value);
         const total = displayTotalKg - value;
         setPesoTotal(isNaN(total) ? "" : total);
-    };
+    }, [displayTotalKg]);
 
     return (
         <>
@@ -310,10 +308,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                         <SecurityIcon/>
                         <span className="inline-block mx-2"> Guardar </span>
                     </Button>
-                    {/*<form onSubmit={handleSubmit}>*/}
-                    {/*    <button type="submit" className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title ">*/}
-                    {/*        <CheckCircleIcon/> Control</button>*/}
-                    {/*</form>*/}
                 </div>
             </div>
         </>
