@@ -74,14 +74,6 @@ export default function Index(props) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
-                        {/* volver operaciones por fecha */}
-                        {/* <Link
-                            href={route("operations.operationsbydate")}
-                            className="text-green-700 font-bold bg"
-                        >
-                            Volver
-                        </Link> */}
-
                         {/* Titulo */}
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-2xl font-bold text-start text-green-700 p-2">
