@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback,useEffect,useMemo, useState } from 'react';
 import {Calendar} from "@/Components/Calendar.jsx";
 import useDateUtils from "@/hooks/useDateUtils.js";
 import {TableHead} from "@/Components/TableHead.jsx";
@@ -117,7 +117,7 @@ export function Table({ organization,donors_id ,date2 ,category }) {
             return data.reduce((acc, row) => acc + row[key] || 0, 0)
         });
         const totalPendingKg = data.reduce((acc, row) => acc + parseFloat(row.pendingKg) ||   0, 0);
-        const totalKg = calculatePendingKg(...totalValues);
+        const totalKg = calculateTotalKg(...totalValues);
 
         if (totalKg > displayTotalKg) {
             setDisplayTotalKg(totalKg);
@@ -355,7 +355,7 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                                 organizations={organization}
                                 onSelectChangeOrganization={onChangeOrganization}
                                 onInputChange={onInputChange}
-                                calculatePendingKg={calculatePendingKg}
+                                calculateTotalKg={calculateTotalKg}
                                 handleDeleteRow={handleDeleteRow}
                                 handleSubmit2={handleSubmit2}
                                 editedData={editedData}
