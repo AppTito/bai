@@ -131,6 +131,7 @@ class OperationController extends Controller
             'date1' => 'required',
         ]);
 
+
         $date = $request->input('date1');
         $subquery = DB::table('bai.operations')
             ->select('*', DB::raw('ROW_NUMBER() OVER (PARTITION BY donor_id ORDER BY created_at DESC) AS row_num'))
