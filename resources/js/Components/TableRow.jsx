@@ -10,7 +10,7 @@ const renderEditableCell = ({ id, name, value, onChange, editedData }) => (
     </div>
 );
 
-export function TableRow({ row, onSelectChangeOrganization, onInputChange, handleDeleteRow,handleSubmit2, organizations,editedData,calculatePendingKg }) {
+export function TableRow({ row, onSelectChangeOrganization, onInputChange, handleDeleteRow,handleSubmit2, organizations,editedData,calculateTotalKg }) {
 
     const { id, organization, percentage, fruver, lacteos, panaderia,  granos, embutidos,
         huevos,cereales, reposteria, carbohidratoprocesado, salsaaderezocondimentos, proteinaprocesada, jugosbebidas,
@@ -41,7 +41,7 @@ export function TableRow({ row, onSelectChangeOrganization, onInputChange, handl
                     })}
                 </td>
             ))}
-            <td className="px-2 py-2 border-b">{ calculatePendingKg(fruver, lacteos, panaderia,  granos, embutidos,
+            <td className="px-2 py-2 border-b">{ calculateTotalKg(fruver, lacteos, panaderia,  granos, embutidos,
                 huevos,cereales, reposteria, carbohidratoprocesado, salsaaderezocondimentos, proteinaprocesada, jugosbebidas,
                 carbohidrato,floristeria, enlatadosconservas, proteinakfc, alimentoprocesadokfc)}
             </td>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Donors;
 use App\Models\Estimate;
+use App\Models\EstimateDistribution;
 use App\Models\Operation;
 use App\Models\Waste;
 use Inertia\Inertia;
@@ -45,6 +46,55 @@ class DistributionController extends Controller
         $totalKilos = $estimates->sum('kilos_total');
 
         return response()->json(['orgLength' => $orgLength, 'totalKilos' => $totalKilos, 'estimates' => $estimates]);
+    }
+
+    public function saveAll(Request $request): JsonResponse
+    {
+        $request->validate([
+            'donors_id' => 'required|integer',
+            'date' => 'required|date',
+            'data' => 'required|array',
+            'data.*.id' => 'required|integer',
+            'data.*.organization.id' => 'required|integer',
+            'data.*.percentage' => 'required|numeric',
+            'data.*.pendingKg' => 'required|numeric',
+        ]);
+
+        $donors_id = $request->input('donors_id');
+        $date = $request->input('date');
+        $data = $request->input('data');
+
+        // Mapping array
+        $mapping = [
+            'carbohidratoprocesado' => 'procesados',
+            'carbohidrato' => 'carbohidratos',
+            'salsaaderezocondimentos' => 'salsas',
+            'proteinaprocesada' => 'proteina',
+            'jugosbebidas' => 'jugos',
+            'enlatadosconservas' => 'enlatados',
+            'alimentoprocesadokfc' => 'procesado_kfc',
+            'proteinakfc' => 'proteina_kfc'
+        ];
+
+        foreach ($data as $item) {
+            $estimateDistribution = new EstimateDistribution();
+            $estimateDistribution->date = $date;
+            $estimateDistribution->donor_id = $donors_id;
+            $estimateDistribution->organization_id = $item['organization']['id'];
+
+            // Assuming that the keys of the remaining properties in the $item array are the category names
+            foreach ($item as $key => $value) {
+                if (!in_array($key, ['id', 'organization', 'percentage', 'pendingKg','totalKg'])) {
+                    // Use the mapping array to get the correct column name
+                    $columnName = $mapping[$key] ?? $key;
+                    $estimateDistribution->$columnName = $value;
+                }
+            }
+
+            $estimateDistribution->save();
+        }
+//        return redirect()->route('operations.index')->with('successMsg','Producto correctamente Guardado');
+        return response()->json(['message' => 'Estimate Distributions saved successfully']);
     }
 
     public function distributionbydate(Request $request): Response

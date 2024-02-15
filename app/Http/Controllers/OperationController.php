@@ -12,7 +12,7 @@ use App\Models\Distribution;
 use App\Models\Organization;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
-
+use App\Models\Control;
 
 use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Role;
@@ -54,7 +54,7 @@ class OperationController extends Controller
         $totals = $request->input('totals');
         $porcentaje = $request->input('totals');
         $totals = array_slice($totals, 1,17);
-        
+
         //dd($porcentaje);
         //guardar operacion
         $operation->donor_id=$donorsId;
@@ -95,35 +95,26 @@ class OperationController extends Controller
     public function guardar(Request $request): RedirectResponse
     {
         $allCellValues = $request->input('allCellValues');
-
         $donors = $request->input('donors');
-        $weight = $request->input('weight');
-        $recovered = $request->input('recovered');
         $date = $request->input('date');
 
-        $operation = new Operation();
-        $operation->donor_id = $donors;
-        $operation->total_weight = $weight;
-        $operation->recovered = $recovered;
-        $operation->percentage = 0; //ACTUALIZAR DE ACUERDO AL TOTAL DE LOS KILOS
-        $operation->date = $date;
-        $operation->user_id = 1;
-        $operation->save();
-
-        $ultimoRegistro = Operation::orderBy('id', 'desc')->first();
         $longitud = count($allCellValues);
-        $longitudColumnas = count($allCellValues[0]);
+        $control = new Control;
+        $control->donor_id = $donors;
+        $control->date = $date;
+        $longFin = $longitud - 1;
 
-        for ($fila = 0; $fila < $longitud - 1; $fila++) {
-            for ($columna = 0; $columna < $longitudColumnas - 1; $columna++) {
-                $opWasteCat = new OperationWastesCategory();
-                $opWasteCat->waste_id = ($columna + 1);
-                $opWasteCat->category_id = ($fila + 1);
-                $opWasteCat->operation_id = $ultimoRegistro['id'];
-                $opWasteCat->amount = $allCellValues[$fila][$columna];
-                $opWasteCat->save();
-            }
-        }
+        $control->recuperado = $allCellValues[$longFin][0];
+        $control->c_animal = $allCellValues[$longFin][1];
+        $control->compostaje = $allCellValues[$longFin][2];
+        $control->basura = $allCellValues[$longFin][3];
+        $control->refrigerio = $allCellValues[$longFin][4];
+        $control->c_inmediato = $allCellValues[$longFin][5];
+        $control->r_papel = $allCellValues[$longFin][6];
+        $control->r_carton = $allCellValues[$longFin][7];
+        $control->r_plastico = $allCellValues[$longFin][8];
+        $control->total = $allCellValues[$longFin][10];
+        $control->save();
         return redirect()->route('operations.index');
     }
 
@@ -136,6 +127,9 @@ class OperationController extends Controller
              FROM bai.operations)
         SELECT * FROM RankedOperations WHERE row_num = 1;
         */
+        $request->validate([
+            'date1' => 'required',
+        ]);
 
         $date = $request->input('date1');
         $subquery = DB::table('bai.operations')

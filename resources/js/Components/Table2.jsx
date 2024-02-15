@@ -1,49 +1,29 @@
-import { useCallback, useState } from "react";
-import { Calendar } from "@/Components/Calendar.jsx";
+import { useCallback, useState } from 'react';
+import {Calendar} from "@/Components/Calendar.jsx";
 import useDateUtils from "@/hooks/useDateUtils.js";
-import { TableHead } from "@/Components/TableHead.jsx";
-import { TableRow } from "@/Components/TableRow.jsx";
-import { CompanyIcon } from "@/Components/Icons/CompanyIcon.jsx";
-import { Button } from "@/Components/Button.jsx";
-import { ClientPlusIcon } from "@/Components/Icons/ClientPlusIcon.jsx";
-import { SecurityIcon } from "@/Components/Icons/SecurityIcon.jsx";
-import { router } from "@inertiajs/react";
+import {TableHead} from "@/Components/TableHead.jsx";
+import {TableRow} from "@/Components/TableRow.jsx";
+import {CompanyIcon} from "@/Components/Icons/CompanyIcon.jsx";
+import {Button} from "@/Components/Button.jsx";
+import {ClientPlusIcon} from "@/Components/Icons/ClientPlusIcon.jsx";
+import {SecurityIcon} from "@/Components/Icons/SecurityIcon.jsx";
+import { router } from '@inertiajs/react'
+import {CheckCircleIcon} from "lucide-react";
 
-export function Table({ organization, donors_id, date2, category }) {
-    const initialOrganization = { id: "", name: "Seleccione un Donante" };
+export function Table({ organization,donors_id ,date2 ,category }) {
+
+    const initialOrganization = { id: '', name: 'Seleccione un Donante' };
     const [selectedDate, setSelectedDate] = useState(new Date());
     const { formatDate } = useDateUtils();
 
     const categoryNames = category.map((cat) => ({
-        [`${cat.category}`]: cat.category
-            .toLowerCase()
-            .replace(/,/g, "")
-            .replace(/y/g, "")
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/\s/g, ""),
-        [cat.category
-            .toLowerCase()
-            .replace(/,/g, "")
-            .replace(/y/g, "")
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .replace(/\s/g, "")]: 0,
+        [`${cat.category}`]:  cat.category.toLowerCase().replace(/,/g, "").replace(/y/g, "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, ""),
+        [cat.category.toLowerCase().replace(/,/g, "").replace(/y/g, "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, "")]:0,
     }));
 
-    const firstOtherNames = [
-        { Organización: "organization" },
-        { "Porcentaje (%)": "percentage" },
-    ];
-    const lastOtherNames = [
-        { Total: "totalKg" },
-        { "Kg Pendientes": "pendingKg" },
-        { Nota: "nota" },
-    ];
-    const categoryData = categoryNames.reduce(
-        (acc, cat) => ({ ...acc, [Object.keys(cat)[1]]: 0 }),
-        {}
-    );
+    const firstOtherNames = [ { Organización: "organization" }, { "Porcentaje (%)": "percentage" }, ];
+    const lastOtherNames = [ { Total: "totalKg" }, { "Kg Pendientes": "pendingKg" }, { Nota: "nota" }, ];
+    const categoryData = categoryNames.reduce((acc, cat) => ({ ...acc, [Object.keys(cat)[1]]: 0 }), {});
 
     const [pesoGavetas, setPesoGavetas] = useState("");
     const [pesoProcesado, setPesoProcesado] = useState("");
@@ -84,36 +64,19 @@ export function Table({ organization, donors_id, date2, category }) {
         }
     }, []);
 
-    const onChangeOrganization = useCallback(
-        (e, rowId) => {
-            const selectedOrganization = findOrganizationById(
-                organization,
-                Number(e.target.value)
-            );
-            const id = rowId - 1;
+    const onChangeOrganization = useCallback((e,rowId) => {
+        const selectedOrganization = findOrganizationById(organization, Number(e.target.value));
+        const id = rowId-1;
 
-            setEditedData((prevState) => ({
-                ...prevState,
-                [id]: {
-                    ...prevState[id],
-                    organization: {
-                        id: selectedOrganization.id,
-                        name: selectedOrganization.name,
-                    },
-                },
-            }));
+        setEditedData(prevState =>  ({
+            ...prevState, [id ]: { ...prevState[id], organization: { id: selectedOrganization.id, name: selectedOrganization.name } }, }));
 
-            setData((prevData) => {
-                const newData = [...prevData];
-                newData[id].organization = {
-                    id: selectedOrganization.id,
-                    name: selectedOrganization.name,
-                };
-                return newData;
-            });
-        },
-        [findOrganizationById, organization]
-    );
+        setData(prevData => {
+            const newData = [...prevData];
+            newData[id].organization = { id: selectedOrganization.id, name: selectedOrganization.name };
+            return newData;
+        });
+    }, [findOrganizationById, organization]);
 
     function onInputChange(event) {
         const targetId = event.target.id;
@@ -144,22 +107,16 @@ export function Table({ organization, donors_id, date2, category }) {
         setSendData("date", formatDate(date));
     };
 
-    const calculatePendingKg = useCallback((...values) => {
+    const calculateTotalKg = useCallback((...values) => {
         return values.reduce((acc, value) => acc + value, 0);
     }, []);
 
     const calculateTotals = useCallback(() => {
-        const totalPercentage = data.reduce(
-            (acc, row) => acc + parseFloat(row.percentage) || 0,
-            0
-        );
+        const totalPercentage = data.reduce((acc, row) => acc + parseFloat(row.percentage) || 0, 0);
         const totalValues = Object.keys(categoryData).map((key) => {
-            return data.reduce((acc, row) => acc + row[key] || 0, 0);
+            return data.reduce((acc, row) => acc + row[key] || 0, 0)
         });
-        const totalPendingKg = data.reduce(
-            (acc, row) => acc + parseFloat(row.pendingKg) || 0,
-            0
-        );
+        const totalPendingKg = data.reduce((acc, row) => acc + parseFloat(row.pendingKg) ||   0, 0);
         const totalKg = calculatePendingKg(...totalValues);
 
         if (totalKg > displayTotalKg) {
@@ -167,9 +124,9 @@ export function Table({ organization, donors_id, date2, category }) {
         }
 
         return { totalPercentage, totalValues, totalPendingKg, totalKg };
-    }, [editedData, calculatePendingKg, displayTotalKg]);
+    }, [calculateTotalKg, displayTotalKg, data, categoryData]);
 
-    const handleAddRow = () => {
+    const handleAddRow = useCallback(() => {
         const newRow = {
             id: data.length + 1,
             organization: initialOrganization,
@@ -187,21 +144,29 @@ export function Table({ organization, donors_id, date2, category }) {
             newData[newRow.id - 1] = newRow;
             return newData;
         });
-    };
+    }, [categoryData, initialOrganization, data.length]);
 
-    const handleDeleteRow = (id) => {
+    const handleDeleteRow = useCallback((id) => {
         setData((prevData) => prevData.filter((row) => row.id !== id));
-    };
+    }, []);
 
-    const handleSubmit2 = (e,id) => {
+    useEffect(() => {
+        const tableData = JSON.parse(localStorage.getItem('tableData'));
+        if (tableData) {
+            setData(tableData);
+            localStorage.removeItem('tableData');
+        }
+    }, []);
+
+    const handleSubmit2 = (e, id) => {
         e.preventDefault();
+        localStorage.setItem('tableData', JSON.stringify(data));
         const selectedRow = data.find((row) => row.id === id);
-        console.log("selectedRow",selectedRow);
-        router.post('/factura', selectedRow);
+        router.get('/factura', selectedRow);
     }
 
     function handleSubmitSave(e) {
-        e.preventDefault();
+        e.preventDefault()
 
         if (pesoProcesado > 0) {
             const formData = {
@@ -212,17 +177,33 @@ export function Table({ organization, donors_id, date2, category }) {
                 pesoRecuperado: pesoProcesado,
                 pesoFinal: pesoTotal,
             };
-            console.log("formData", formData);
-            router.post("/operations/control", formData);
+            console.log("formData",formData);
+            router.post('/operations/control', formData)
         } else {
             alert("Por favor, ingrese un valor para Peso Recuperado");
             setPesoProcesado(0);
         }
     }
 
-    const totals = calculateTotals();
+    function handleSubmitSaveAll(e) {
+        e.preventDefault()
+            const formData = {
+                donors_id: donors_id.id,
+                date: date2,
+                data: data,
+            };
+        axios.post('/distribution/guardar', formData)
+            .then(function (response) {
+                // console.log(response.data);
+            })
+            .catch(function (error) {
+                // console.log(error);
+            });
+    }
 
-    const handleLoadData = async () => {
+    const totals = useMemo(() => calculateTotals(), [calculateTotals]);
+
+    const handleLoadData = useCallback(async () => {
         try {
             /* const url = new URL('http://localhost/bai/public/distribution/load'); */
             const url = new URL("http://bai.test/distribution/load");
@@ -237,7 +218,7 @@ export function Table({ organization, donors_id, date2, category }) {
             });
 
             const data = await response.json();
-            console.log("data", data);
+            console.log("data",data);
             const organizationMap = organization.reduce((acc, org) => {
                 acc[org.id] = org;
                 return acc;
@@ -252,7 +233,7 @@ export function Table({ organization, donors_id, date2, category }) {
                 percentage: parseFloat(estimate.percentage),
                 ...categoryData,
                 totalKg: 0,
-                pendingKg: parseFloat(estimate.kilos_pending),
+                pendingKg: parseFloat(parseFloat(estimate.kilos_pending).toFixed(2)),
             }));
             const totalKg = data.totalKilos;
             setTotalKg(totalKg);
@@ -261,11 +242,11 @@ export function Table({ organization, donors_id, date2, category }) {
             setData(newData);
             setEditedData(newData);
         } catch (error) {
-            console.error("Error al cargar datos:", error.message);
+            console.error('Error al cargar datos:', error.message);
         }
-    };
+    }, [formatDate, selectedDate, organization, donors_id.id, categoryData]);
 
-    const handlePesoProcesadoChange = (event) => {
+    const handlePesoProcesadoChange = useCallback((event) => {
         const value = parseFloat(event.target.value);
         if (value > displayTotalKg) {
             alert("Peso Recuperado no puede ser mayor que Peso Total");
@@ -274,7 +255,7 @@ export function Table({ organization, donors_id, date2, category }) {
         setPesoProcesado(value);
         const total = displayTotalKg - value;
         setPesoTotal(isNaN(total) ? "" : total);
-    };
+    }, [displayTotalKg]);
 
     return (
         <>
@@ -367,22 +348,20 @@ export function Table({ organization, donors_id, date2, category }) {
                             />
                         </thead>
                         <tbody>
-                            {data.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    row={row}
-                                    organizations={organization}
-                                    onSelectChangeOrganization={
-                                        onChangeOrganization
-                                    }
-                                    onInputChange={onInputChange}
-                                    calculatePendingKg={calculatePendingKg}
-                                    handleDeleteRow={handleDeleteRow}
-                                    handleSubmit2={handleSubmit2}
-                                    editedData={editedData}
-                                    setEditedData={setEditedData}
-                                />
-                            ))}
+                        {data.map((row) => (
+                            <TableRow
+                                key={row.id}
+                                row={row}
+                                organizations={organization}
+                                onSelectChangeOrganization={onChangeOrganization}
+                                onInputChange={onInputChange}
+                                calculatePendingKg={calculatePendingKg}
+                                handleDeleteRow={handleDeleteRow}
+                                handleSubmit2={handleSubmit2}
+                                editedData={editedData}
+                                setEditedData={setEditedData}
+                            />
+                        ))}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -405,14 +384,14 @@ export function Table({ organization, donors_id, date2, category }) {
                     </table>
                 </div>
                 <div className="flex flex-row justify-between">
+                    <Button size="sm" onClick={handleSubmitSaveAll}>
+                        <SecurityIcon/>
+                        <span className="inline-block mx-2"> Guardar Distribución </span>
+                    </Button>
                     <Button size="sm" onClick={handleSubmitSave}>
                         <SecurityIcon />
                         <span className="inline-block mx-2"> Guardar </span>
                     </Button>
-                    {/*<form onSubmit={handleSubmit}>*/}
-                    {/*    <button type="submit" className="flex flex-row items-center justify-center p-1 my-2 text-white bg-gray-400 rounded-xl font-title ">*/}
-                    {/*        <CheckCircleIcon/> Control</button>*/}
-                    {/*</form>*/}
                 </div>
             </div>
         </>

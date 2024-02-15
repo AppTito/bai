@@ -11,25 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        /*
         Schema::create('distributions', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->foreignId('donor_id')->constrained();
-            $table->foreignId('organization_id')->constrained();
-            $table->decimal('percentage', 8, 2)->default(0);
-            $table->decimal('kilos', 8, 2)->default(0);
-            $table->decimal('total', 8, 2)->default(0);
-            $table->decimal('pending_kilos', 8, 2);
-            $table->boolean('status')->default(true);
-            $table->foreignId('user_id')->constrained();
-            $table->timestamps();
-        });
-        */
-        Schema::create('distributions', function (Blueprint $table) {
-            $table->id();
-            $table->date('date');
-            $table->foreignId('donor_id')->constrained();            
             $table->double('porcentaje');
             $table->double('fruver');
             $table->double('lacteos');
