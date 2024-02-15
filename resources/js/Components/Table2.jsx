@@ -1,4 +1,4 @@
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import {Calendar} from "@/Components/Calendar.jsx";
 import useDateUtils from "@/hooks/useDateUtils.js";
 import {TableHead} from "@/Components/TableHead.jsx";
@@ -107,24 +107,24 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         setSendData("date", formatDate(date));
     };
 
-    const calculatePendingKg = useCallback((...values) => {
+    const calculateTotalKg = useCallback((...values) => {
         return values.reduce((acc, value) => acc + value, 0);
     }, []);
 
     const calculateTotals = useCallback(() => {
-        const totalPercentage = data.reduce((acc, row) => acc + parseFloat(row.percentage) || 0, 0);
+        const totalPercentage = parseFloat((data.reduce((acc, row) => acc + parseFloat(row.percentage) || 0, 0)).toFixed(2));
         const totalValues = Object.keys(categoryData).map((key) => {
-            return data.reduce((acc, row) => acc + row[key] || 0, 0)
+            return parseFloat((data.reduce((acc, row) => acc + row[key] || 0, 0)).toFixed(2));
         });
-        const totalPendingKg = data.reduce((acc, row) => acc + parseFloat(row.pendingKg) ||   0, 0);
-        const totalKg = calculatePendingKg(...totalValues);
+        const totalPendingKg = parseFloat((data.reduce((acc, row) => acc + parseFloat(row.pendingKg) || 0, 0)).toFixed(2));
+        const totalKg = parseFloat((calculateTotalKg(...totalValues)).toFixed(2));
 
         if (totalKg > displayTotalKg) {
             setDisplayTotalKg(totalKg);
         }
 
         return { totalPercentage, totalValues, totalPendingKg, totalKg };
-    }, [calculatePendingKg, displayTotalKg, data, categoryData]);
+    }, [calculateTotalKg, displayTotalKg, data, categoryData]);
 
     const handleAddRow = useCallback(() => {
         const newRow = {
@@ -143,8 +143,17 @@ export function Table({ organization,donors_id ,date2 ,category }) {
         setData((prevData) => prevData.filter((row) => row.id !== id));
     }, []);
 
-    const handleSubmit2 = (e,id) => {
+    useEffect(() => {
+        const tableData = JSON.parse(localStorage.getItem('tableData'));
+        if (tableData) {
+            setData(tableData);
+            localStorage.removeItem('tableData');
+        }
+    }, []);
+
+    const handleSubmit2 = (e, id) => {
         e.preventDefault();
+        localStorage.setItem('tableData', JSON.stringify(data));
         const selectedRow = data.find((row) => row.id === id);
         router.get('/factura', selectedRow);
     }
@@ -165,6 +174,22 @@ export function Table({ organization,donors_id ,date2 ,category }) {
             alert("Por favor, ingrese un valor para Peso Recuperado");
             setPesoProcesado(0);
         }
+    }
+
+    function handleSubmitSaveAll(e) {
+        e.preventDefault()
+            const formData = {
+                donors_id: donors_id.id,
+                date: date2,
+                data: data,
+            };
+        axios.post('/distribution/guardar', formData)
+            .then(function (response) {
+                // console.log(response.data);
+            })
+            .catch(function (error) {
+                // console.log(error);
+            });
     }
 
     const totals = useMemo(() => calculateTotals(), [calculateTotals]);
@@ -198,7 +223,7 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                 percentage: parseFloat(estimate.percentage),
                 ...categoryData,
                 totalKg: 0,
-                pendingKg: parseFloat(estimate.kilos_pending),
+                pendingKg: parseFloat(parseFloat(estimate.kilos_pending).toFixed(2)),
             }));
             const totalKg = data.totalKilos;
             setTotalKg(totalKg);
@@ -275,17 +300,11 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                         </thead>
                         <tbody>
                         {data.map((row) => (
-                            <TableRow
-                                key={row.id}
-                                row={row}
-                                organizations={organization}
+                            <TableRow  key={row.id}  row={row} organizations={organization}
                                 onSelectChangeOrganization={onChangeOrganization}
-                                onInputChange={onInputChange}
-                                calculatePendingKg={calculatePendingKg}
-                                handleDeleteRow={handleDeleteRow}
-                                handleSubmit2={handleSubmit2}
-                                editedData={editedData}
-                                setEditedData={setEditedData}
+                                onInputChange={onInputChange}  calculateTotalKg={calculateTotalKg}
+                                handleDeleteRow={handleDeleteRow}  handleSubmit2={handleSubmit2}
+                                editedData={editedData} setEditedData={setEditedData}
                             />
                         ))}
                         </tbody>
@@ -304,6 +323,10 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                     </table>
                 </div>
                 <div className="flex flex-row justify-between">
+                    <Button size="sm" onClick={handleSubmitSaveAll}>
+                        <SecurityIcon/>
+                        <span className="inline-block mx-2"> Guardar Distribución </span>
+                    </Button>
                     <Button size="sm" onClick={handleSubmitSave}>
                         <SecurityIcon/>
                         <span className="inline-block mx-2"> Guardar </span>

@@ -72,6 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::match(['get', 'post'], '/distribution', [DistributionController::class, 'index'])->name('distribution.distribution');
     Route::get('/distribution/distributionbydate', [DistributionController::class, 'distributionbydate'])->name('distribution.distributionbydate');
     Route::get('/distribution/load', [DistributionController::class, 'loadData']) ->name('distribution.load');
+    Route::post('/distribution/guardar', [DistributionController::class, 'saveAll'])->name('distribution.guardar');
 
     /* Factura */
     Route::get('/factura', [FacturaController::class, 'Factura'])->name('factura.index');
