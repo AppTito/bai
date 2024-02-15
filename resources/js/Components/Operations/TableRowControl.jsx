@@ -3,7 +3,7 @@ import { Inertia } from "@inertiajs/inertia";
 import TableHeaderRow from "@/Components/Operations/TableTheadControl.jsx";
 
 const TableControl = ({  categories, onDataChange, wastesColumns, date,
-    donors,  recovered, weight,  waste,totals }) => {
+    donors,  waste,totals }) => {
     let totalsArray = Object.values(totals.totalValues);
     const sum = totalsArray.reduce((a, b) => a + b, 0);
     totalsArray.push(sum);
@@ -89,15 +89,13 @@ const TableControl = ({  categories, onDataChange, wastesColumns, date,
     };
 
     const sendDataToDatabase = () => {
-        const dataToSend = [...getAllCellValues()]; // Incluye las filas y las sumas de las columnas
-        console.log(dataToSend);
-        // Inertia.post(route("operations.guardar"), {
-        //     allCellValues: dataToSend,
-        //     date: date,
-        //     donors: donors.id,
-        //     recovered: recovered,
-        //     weight: weight,
-        // });
+        const dataToSend = [...getAllCellValues()];
+
+        Inertia.post(route("operations.guardar"), {
+            allCellValues: dataToSend,
+            date: date,
+            donors: donors.id,
+        });
     };
     return (
         <>
