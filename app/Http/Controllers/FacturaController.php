@@ -28,7 +28,7 @@ class FacturaController extends Controller
         }
 
         $categories = array_filter($categories, function($category) {
-            return $category['product'] > 0;
+            return $category['product'] >  0;
         });
 
         return Inertia::render('FacturaBAI/Factura', [
