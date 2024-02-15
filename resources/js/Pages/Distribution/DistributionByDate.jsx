@@ -5,6 +5,7 @@ import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import TableRowControlAlternative from "@/Components/Distribution/TableRowControlAlternative";
 import TableHeaderRow from "@/Components/TableTheadControl";
 import TableRowControl from "@/Components/Operations/TableRowControl";
+import TableRowControlAlt from "@/Components/Distribution/TableRowControlAlt";
 
 /* Columnas */
 const columnNames = [
@@ -73,14 +74,6 @@ export default function Index(props) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
-                        {/* volver operaciones por fecha */}
-                        {/* <Link
-                            href={route("operations.operationsbydate")}
-                            className="text-green-700 font-bold bg"
-                        >
-                            Volver
-                        </Link> */}
-
                         {/* Titulo */}
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-2xl font-bold text-start text-green-700 p-2">
@@ -118,15 +111,8 @@ export default function Index(props) {
                                 Control
                             </h3>
                             <div className="overflow-x-auto">
-                                <TableRowControl
+                                <TableRowControlAlt
                                     waste={waste}
-                                    date={date}
-                                    donors={donor_id}
-                                    categories={categories}
-                                    onDataChange={handleTableChange}
-                                    wastesColumns={waste}
-                                    recovered={""}
-                                    weight={""}
                                 />
                             </div>
                         </div>
