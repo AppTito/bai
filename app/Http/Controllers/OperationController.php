@@ -131,6 +131,7 @@ class OperationController extends Controller
             'date1' => 'required',
         ]);
 
+
         $date = $request->input('date1');
         $subquery = DB::table('bai.operations')
             ->select('*', DB::raw('ROW_NUMBER() OVER (PARTITION BY donor_id ORDER BY created_at DESC) AS row_num'))
@@ -152,22 +153,6 @@ class OperationController extends Controller
         $donors_id = $request->input('donors_id');
         $date = $request->input('date');
         $donors_id = Donors::find($donors_id);
-
-        //Sentencia para recuperar la operación de la fecha y el donante seleccionado en ControlByDate
-        //modificar según sea necesario porque trae todo lo de la tabla donors y operations
-
-        /*
-        SELECT  * from bai.operations  inner join bai.donors on operations.donor_id = donors.id where operations.donor_id = 1 AND date = "2024-01-17" order by operations.id desc LIMIT 1;
-        */
-
-        /*
-        $operation = Operation::join('bai.donors', 'operations.donor_id', '=', 'donors.id')
-        ->where('operations.donor_id', $donorId)
-        ->where('operations.date', $date)
-        ->orderByDesc('operations.id')
-        ->limit(1)
-        ->get();
-        */
 
         return Inertia::render('Operations/ControlByDate', ['categories' => $categories, 'donors_id' => $donors_id, 'date' => $date, 'waste' => $wastes]);
     }
