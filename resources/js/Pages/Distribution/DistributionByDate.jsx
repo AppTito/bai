@@ -9,20 +9,21 @@ import TableRowControlAlt from "@/Components/Distribution/TableRowControlAlt";
 
 /* Columnas */
 const columnNames = [
-    { Organización: "organization" },
     { "Porcentaje (%)": "percentage" },
     { Fruver: "fruver" },
     { Lacteos: "lacteos" },
     { Panaderia: "panaderia" },
     { Granos: "granos" },
     { Embutidos: "embutidos" },
-    { Huevos: "huevos" },
+    { Huevos: "huevos" }, 
+    { Cereales: "cereales" }, 
     { Reposteria: "reposteria" },
     { Procesados: "procesados" },
     { Salsas: "salsas" },
     { Proteina: "proteina" },
     { Jugos: "jugos" },
     { Carbohidratos: "carbohidratos" },
+    { Floristeria: "floristeria" },
     { Enlatados: "enlatados" },
     { "Proteina (KFC)": "proteina-kfc" },
     { "Procesado (KFC)": "procesado-kfc" },
@@ -32,8 +33,9 @@ const columnNames = [
 
 export default function Index(props) {
 
-    const { organization, date, donor_name, donor_id, waste, categories } =
+    const { organization, date, donor_name, donor_id, waste, distribution, control } =
         usePage().props;
+
     const [tableRows, setTableRows] = React.useState([
         [null, ...Array(columnNames.length - 2).fill(0), null],
     ]);
@@ -42,6 +44,7 @@ export default function Index(props) {
         const newRow = [null, ...Array(columnNames.length - 2).fill(0), null];
         setTableRows((prevRows) => [...prevRows, newRow]);
     };
+
 
     const formData = {
         donors_id: donor_id,
@@ -100,7 +103,7 @@ export default function Index(props) {
                                         organization={organization}
                                         waste={waste}
                                         wastesColumns={waste}
-                                        
+                                        distribution = {distribution}
                                     />
                                 </tbody>
                             </table>
@@ -113,6 +116,7 @@ export default function Index(props) {
                             <div className="overflow-x-auto">
                                 <TableRowControlAlt
                                     waste={waste}
+                                    control={control}
                                 />
                             </div>
                         </div>

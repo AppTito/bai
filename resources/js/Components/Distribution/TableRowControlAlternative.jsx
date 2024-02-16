@@ -2,10 +2,36 @@ import React, { useState } from "react";
 import { Link } from "@inertiajs/react";
 import { Icon } from "@iconify/react";
 
-const TableRowControlAlt = ({ tableRows, organization }) => {
+//const TableRowControlAlt = ({ tableRows, organization }) => {
+    /*const [columnTotals, setColumnTotals] = useState([
+        null,
+        ...Array(18).fill(0), 
+        // aqui se llenan los datos 
+    ]);*/
+
+    const TableRowControlAlt = ({ tableRows, organization, distribution }) =>{
     const [columnTotals, setColumnTotals] = useState([
         null,
-        ...Array(18).fill(0), /* aqui se llenan los datos */
+        distribution.porcentaje,
+        distribution.fruver,
+        distribution.lacteos,
+        distribution.panaderia,
+        distribution.granos,
+        distribution.embutidos,
+        distribution.huevos,
+        distribution.cereales,
+        distribution.reposteria,
+        distribution.procesados,
+        distribution.salsas,
+        distribution.proteina,
+        distribution.jugos,
+        distribution.carbohidratos,
+        distribution.floristeria,
+        distribution.enlatados,
+        distribution.proteina_kfc,
+        distribution.procesado_kfc,
+        distribution.total,
+        distribution.kg_pendientes,
     ]);
 
     const handleTotalChange = (index, e) => {
@@ -32,7 +58,7 @@ const TableRowControlAlt = ({ tableRows, organization }) => {
                 />
             ))}
             <tr>
-                {columnTotals.map((total, index) => (
+                {columnTotals.slice(1).map((total, index) => (
                     <td
                         key={index}
                         className="bg-lime-100 p-2 border hover:bg-gray-100 cursor-pointer"

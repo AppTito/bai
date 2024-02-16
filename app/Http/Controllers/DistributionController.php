@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Donors;
-use App\Models\Estimate;
-use App\Models\EstimateDistribution;
-use App\Models\Operation;
-use App\Models\Waste;
 use Inertia\Inertia;
+use App\Models\Waste;
 use Inertia\Response;
-use Illuminate\Http\JsonResponse;
+use App\Models\Donors;
+use App\Models\Control;
+use App\Models\Category;
+use App\Models\Estimate;
+use App\Models\Operation;
 use App\Models\Distribution;
 use App\Models\Organization;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use App\Models\EstimateDistribution;
 
 
 class DistributionController extends Controller
@@ -37,11 +38,11 @@ class DistributionController extends Controller
     {
         $date = $request->input('date');
         $donor_id = $request->input('donors_id');
-        $estimates = Estimate::select('organization_id', 'percentage','donor_id', 'kilos_total' , 'kilos_pending')
-        ->where('date', $date)
-        ->where('percentage', '!=', 0)
-        ->where('donor_id', '=', $donor_id)
-        ->get();
+        $estimates = Estimate::select('organization_id', 'percentage', 'donor_id', 'kilos_total', 'kilos_pending')
+            ->where('date', $date)
+            ->where('percentage', '!=', 0)
+            ->where('donor_id', '=', $donor_id)
+            ->get();
         $orgLength = $estimates->count();
         $totalKilos = $estimates->sum('kilos_total');
 
@@ -84,7 +85,7 @@ class DistributionController extends Controller
 
             // Assuming that the keys of the remaining properties in the $item array are the category names
             foreach ($item as $key => $value) {
-                if (!in_array($key, ['id', 'organization', 'percentage', 'pendingKg','totalKg'])) {
+                if (!in_array($key, ['id', 'organization', 'percentage', 'pendingKg', 'totalKg'])) {
                     // Use the mapping array to get the correct column name
                     $columnName = $mapping[$key] ?? $key;
                     $estimateDistribution->$columnName = $value;
@@ -93,7 +94,7 @@ class DistributionController extends Controller
 
             $estimateDistribution->save();
         }
-//        return redirect()->route('operations.index')->with('successMsg','Producto correctamente Guardado');
+        //        return redirect()->route('operations.index')->with('successMsg','Producto correctamente Guardado');
         return response()->json(['message' => 'Estimate Distributions saved successfully']);
     }
 
@@ -114,18 +115,34 @@ class DistributionController extends Controller
             ->where('id', $donor_id)
             ->value('name');
 
-        //Sentencia para buscar la distribución en la fecha y donante seleccionado en la tabla de OperationsByDate
-        //modificar si es necesario
-
+        //Sentencia para buscar la distribución en la fecha y donante seleccionado en la tabla de DistributionsByDate
         /*SELECT * FROM bai.distributions where donor_id = 1 AND date = "2024-01-16" order by id desc LIMIT 1;*/
 
-        /* $distribution = Distribution::join('donors', 'distributions.donor_id', '=', 'donors.id')
-             ->where('distributions.donor_id', $donor_id)
-             ->where('distributions.date', $date)
-             ->orderByDesc('distributions.id')
-             ->select('distributions.*', 'donors.name')
-             ->first();
-         */
+        $distribution = Distribution::join('donors', 'distributions.donor_id', '=', 'donors.id')
+            ->where('distributions.donor_id', $donor_id)
+            ->where('distributions.date', $date)
+            ->orderByDesc('distributions.id')
+            ->select('distributions.*', 'donors.name')
+            ->first();
+
+        //Sentencia para buscar el control en la fecha y donante seleccionado en la tabla de ControlsByDate
+        /*SELECT * FROM bai.controls where donor_id = 1 AND date = "2024-02-15" order by id desc LIMIT 1;*/
+        
+        $control = Control::join('donors', 'controls.donor_id', '=', 'donors.id')
+            ->where('controls.donor_id', $donor_id)
+            ->where('controls.date', $date)
+            ->orderByDesc('controls.id')
+            ->select('controls.recuperado',
+            'controls.c_animal',
+            'controls.compostaje',
+            'controls.basura',
+            'controls.refrigerio',
+            'controls.c_inmediato',
+            'controls.r_papel',
+            'controls.r_carton',
+            'controls.r_plastico',
+            'controls.total',)
+            ->first();
 
         return Inertia::render(
             'Distribution/DistributionByDate',
@@ -135,7 +152,9 @@ class DistributionController extends Controller
                 'date' => $date,
                 'organization' => $organization,
                 'categories' => $categories,
-                'waste' => $wastes
+                'waste' => $wastes,
+                'distribution' => $distribution,
+                'control' => $control
             ]
         );
     }

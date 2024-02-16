@@ -7,7 +7,7 @@ export default function Index(props) {
     const { organization, donors_id, date, category } = usePage().props;
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
-            <Head title="Control" />
+            <Head title="Distribución" />
             <div className="py-12">
                 <div className=" mx-auto sm:px-6 lg:px-7">
                     <div className="flex items-center mb-4">
