@@ -22,7 +22,6 @@ export function Sidebar({ children, user }) {
     return (
         <div className={"flex "}>
             <aside className="h-screen ">
-                {/*<nav className="h-full max-h-screen flex flex-col bg-itemSA border-r shadow-sm">*/}
                     <nav className="h-full flex flex-col bg-itemSA border-r shadow-sm">
                         <div className="py-5 pr-4  flex justify-around ">
                             <img src={logo} alt=""
@@ -34,9 +33,8 @@ export function Sidebar({ children, user }) {
                                 {expanded ? <ChevronFirst/> : <ChevronLast/>}
                             </button>
                         </div>
-                        <SidebarContext.Provider value={{expanded}}>
-                            <ul className="flex-1 px-4 overflow-y-auto">{children}</ul>
-                            {/*<ul className="flex-1 px-4">{children}</ul>*/}
+                        <SidebarContext.Provider value={{ expanded, setExpanded }}>
+                            <ul className="flex-1 px-3">{children}</ul>
                         </SidebarContext.Provider>
                         <div className="flex w-full py-2 pr-0.5 mb-2 items-start justify-around">
                             <Link className="flex items-center" text="Cerrar Sesión" href={route("logout")}
@@ -44,8 +42,8 @@ export function Sidebar({ children, user }) {
                                 <Icon icon="mdi:logout" className={"text-primary"}/>
                                 <span
                                     className={`overflow-hidden transition-all text-primary ${expanded ? "w-52 ml-3" : "w-0"}`}>
-                                Cerrar Sesión
-                             </span>
+                                    Cerrar Sesión
+                                 </span>
                             </Link>
                         </div>
                         <div className="border-t  flex w-full py-2 pr-1.5 items-center justify-around">
@@ -66,6 +64,6 @@ export function Sidebar({ children, user }) {
                     </nav>
             </aside>
         </div>
-);
+    );
 }
 

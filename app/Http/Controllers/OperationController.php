@@ -121,12 +121,6 @@ class OperationController extends Controller
 
     public function operationsbydate(Request $request): Response
     {
-        /*
-        WITH RankedOperations AS (
-            SELECT *, ROW_NUMBER() OVER (PARTITION BY donor_id ORDER BY created_at DESC) AS row_num
-             FROM bai.operations)
-        SELECT * FROM RankedOperations WHERE row_num = 1;
-        */
         $request->validate([
             'date1' => 'required',
         ]);

@@ -3,11 +3,15 @@ import { Link } from "@inertiajs/react";
 import SidebarContext from "@/context/sidebarContext.jsx";
 
 export function SidebarItem({ icon, text, active, alert, href, method, children, as, categoryIcon }) {
-    const { expanded } = useContext(SidebarContext);
+    const { expanded, setExpanded } = useContext(SidebarContext);
     const [isOpen, setIsOpen] = useState(false);
 
     const handleToggle = () => {
-        setIsOpen(!isOpen);
+        if (!expanded) {
+            setExpanded(true);
+        } else {
+            setIsOpen(!isOpen);
+        }
     };
 
     const renderLink = () => {
@@ -40,7 +44,7 @@ export function SidebarItem({ icon, text, active, alert, href, method, children,
             style={{ zIndex: isOpen ? 2 : 1 }}>
             {renderLink()}
             {alert && (
-                <div className={`absolute 2 w-2 h-2 rounded bg-primary ${expanded ? "" : "top-2 "}`} />
+                <div className={`absolute right-2 w-2 h-2 rounded bg-primary ${expanded ? "" : "top-2 "}`} />
             )}
             {!expanded && (
                 <div className={` absolute left-full rounded-md px-2 py-1 ml-6 bg-primary text-white text-sm
