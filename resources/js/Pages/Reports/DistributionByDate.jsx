@@ -1,24 +1,24 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head, usePage } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import TableRowControlAlt from "@/Components/Distribution/TableRowControlAlt";
 import Chart from "react-google-charts";
 
 export default function Index(props) {
-    const { auth, errors, startDate, endDate, donor_name, waste, distribution, control } = props;
+    const { auth, errors, startDate, endDate, donor_name, waste, control } = props;
 
     // Organizar datos para el gráfico
     const chartData = [
         ['Categoría', 'Valor'],
         ['Recuperado', control.recuperado],
-        ['C Animal', control.c_animal],
+        ['Consumo Animal', control.c_animal],
         ['Compostaje', control.compostaje],
         ['Basura', control.basura],
         ['Refrigerio', control.refrigerio],
-        ['C Inmediato', control.c_inmediato],
-        ['R Papel', control.r_papel],
-        ['R Carton', control.r_carton],
-        ['R Plástico', control.r_plastico],
+        ['Consumo Inmediato', control.c_inmediato],
+        ['Reciclaje Papel', control.r_papel],
+        ['Reciclaje Carton', control.r_carton],
+        ['Reciclaje Plástico', control.r_plastico],
      
     ];
 
@@ -28,7 +28,7 @@ export default function Index(props) {
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
-                        {/* Titulo */}
+                   
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-2xl font-bold text-start text-green-700 p-2">
                                 Fecha de Inicio: {startDate}
@@ -51,7 +51,7 @@ export default function Index(props) {
                                 />
                             </div>
                         </div>
-                        {/* Agregar el gráfico */}
+                        {/* Gráfico */}
                         <div className="mb-6">
                             <Chart
                                 width={'100%'}
