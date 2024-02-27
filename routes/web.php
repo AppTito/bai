@@ -66,8 +66,7 @@ Route::middleware('auth')->group(function () {
 
     /* Reportes */
     Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
-    Route::post('/reports/operationsByDate', [ReportsController::class, 'operationsByDate'])->name('reports.operationsByDate');
-    
+    Route::get('/reports/distributionbydate', [DistributionController::class, 'reportsbydate'])->name('reports.distributionbydate');
 
     /*Estimacion*/
     Route::get('/estimation', [EstimateController::class, 'index'])->name('estimations.index');

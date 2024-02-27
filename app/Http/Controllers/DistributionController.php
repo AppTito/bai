@@ -158,4 +158,80 @@ class DistributionController extends Controller
             ]
         );
     }
+
+    public function reportsbydate(Request $request): Response
+{
+    $startDate = $request->input('startDate');
+    $endDate = $request->input('endDate');
+    $donor_id = $request->input('donor_id');
+
+    $organization = Organization::all();
+    $categories = Category::all();
+    $wastes = Waste::all();
+    
+    // Obtener el nombre del donante
+    $donor_name = Donors::where('id', $donor_id)->value('name');
+
+    // Consulta para obtener la distribución en el rango de fechas para el donante seleccionado
+    $distribution = Distribution::join('donors', 'distributions.donor_id', '=', 'donors.id')
+        ->where('distributions.donor_id', $donor_id)
+        ->whereBetween('distributions.date', [$startDate, $endDate])
+        ->orderByDesc('distributions.id')
+        ->select('distributions.*', 'donors.name')
+        ->first();
+
+    // Consulta para obtener el control en el rango de fechas para el donante seleccionado
+
+$control = DB::table('controls')
+    ->join('donors', 'controls.donor_id', '=', 'donors.id')
+    ->where('controls.donor_id', $donor_id)
+    ->whereBetween('controls.date', [$startDate, $endDate])
+    ->orderByDesc('controls.id')
+    ->groupBy('donors.name') // Ajusta esta línea según tus necesidades
+    ->select(
+        DB::raw('SUM(controls.recuperado) as recuperado'),
+        DB::raw('SUM(controls.c_animal) as c_animal'),
+        DB::raw('SUM(controls.compostaje) as compostaje'),
+        DB::raw('SUM(controls.basura) as basura'),
+        DB::raw('SUM(controls.refrigerio) as refrigerio'),
+        DB::raw('SUM(controls.c_inmediato) as c_inmediato'),
+        DB::raw('SUM(controls.r_papel) as r_papel'),
+        DB::raw('SUM(controls.r_carton) as r_carton'),
+        DB::raw('SUM(controls.r_plastico) as r_plastico'),
+        DB::raw('SUM(controls.total) as total')
+    )
+    ->first();
+
+    // Calcular la sumatoria de cada columna
+    $totals = [
+        'recuperado' => Control::whereBetween('date', [$startDate, $endDate])->sum('recuperado'),
+        'c_animal' => Control::whereBetween('date', [$startDate, $endDate])->sum('c_animal'),
+        'compostaje' => Control::whereBetween('date', [$startDate, $endDate])->sum('compostaje'),
+        'basura' => Control::whereBetween('date', [$startDate, $endDate])->sum('basura'),
+        'refrigerio' => Control::whereBetween('date', [$startDate, $endDate])->sum('refrigerio'),
+        'c_inmediato' => Control::whereBetween('date', [$startDate, $endDate])->sum('c_inmediato'),
+        'r_papel' => Control::whereBetween('date', [$startDate, $endDate])->sum('r_papel'),
+        'r_carton' => Control::whereBetween('date', [$startDate, $endDate])->sum('r_carton'),
+        'r_plastico' => Control::whereBetween('date', [$startDate, $endDate])->sum('r_plastico'),
+        'total' => Control::whereBetween('date', [$startDate, $endDate])->sum('total'),
+    ];
+
+    return Inertia::render(
+        'Reports/DistributionByDate',
+        [
+            'donor_id' => $donor_id,
+            'donor_name' => $donor_name,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'organization' => $organization,
+            'categories' => $categories,
+            'waste' => $wastes,
+            'distribution' => $distribution,
+            'control' => $control,
+            'totals' => $totals,
+        ]
+    );
+}
+
+
 }
