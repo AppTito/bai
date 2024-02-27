@@ -63,9 +63,14 @@ export default function Authenticated({ user, header, children }) {
                     <SidebarItem icon={<Icon icon="mdi:percent"/>} text="Estimación"
                                  href={route('estimations.index')} active={route().current('estimations.index')}/>
                 )}
+                
                 {(hasRole("super-admin") || hasPermission("organizations-list")) && (
                     <SidebarItem icon={<Icon icon="ic:outline-food-bank" fontSize={20}/>} text="Operación"
                                     href={route('operations.index')} active={route().current('operations.index')}/>
+                )}
+                {(hasRole("super-admin")) && (
+                    <SidebarItem icon={<Icon icon="carbon:document" />} text="Reportes"
+                                 href={route('reports.index')} active={route().current('reports.index')}/>
                 )}
             </Sidebar>
             {header && (

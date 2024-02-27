@@ -22,6 +22,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportsController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -63,6 +64,10 @@ Route::middleware('auth')->group(function () {
     Route::match(['get', 'post'],'/operations/operationsbydate', [OperationController::class, 'operationsbydate'])->name('operations.operationsbydate');
     Route::get('/operations/controlbydate', [OperationController::class, 'controlbydate'])->name('operations.controlbydate');
 
+    /* Reportes */
+    Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
+    Route::get('/reports/distributionbydate', [DistributionController::class, 'reportsbydate'])->name('reports.distributionbydate');
+
     /*Estimacion*/
     Route::get('/estimation', [EstimateController::class, 'index'])->name('estimations.index');
     Route::match(['get', 'post'],'/estimation/distribution', [EstimateController::class, 'distribution'])->name('estimations.distribution');
@@ -77,6 +82,7 @@ Route::middleware('auth')->group(function () {
     /* Factura */
     Route::get('/factura', [FacturaController::class, 'Factura'])->name('factura.index');
 
+    /* APIS */
     Route::get('/api/categories-list', [ApiCategoriaController::class, 'index']);
     Route::get('/api/categoriesValues-list', [ApiCategoryValueController::class, 'index']);
     Route::get('/api/organizations-list', [ApiOrganizationsController::class, 'index']);

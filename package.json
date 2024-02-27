@@ -26,6 +26,7 @@
         "@inertiajs/inertia": "^0.11.1",
         "@react-icons/all-files": "^4.1.0",
         "@uidotdev/usehooks": "^2.4.1",
+        "date-fns": "^3.3.1",
         "flowbite-react": "^0.7.2",
         "html2canvas": "^1.4.1",
         "jspdf": "^2.5.1",
@@ -33,6 +34,7 @@
         "primereact": "^10.3.0",
         "react-countup": "^6.5.0",
         "react-datepicker": "^4.25.0",
+        "react-google-charts": "^4.0.1",
         "react-hot-toast": "^2.4.1",
         "react-icons": "^4.12.0",
         "react-responsive-carousel": "^3.2.23"
