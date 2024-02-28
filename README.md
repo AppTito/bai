@@ -86,4 +86,6 @@ Para cualquier pregunta o comentario, no dudes en ponerte en contacto con nosotr
 ## Authors
 
 - [@isnotcristhianr](https://github.com/Isnotcristhianr)
+- [@np646](https://github.com/np646)
+
 
