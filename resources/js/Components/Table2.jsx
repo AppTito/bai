@@ -177,7 +177,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
                 pesoRecuperado: pesoProcesado,
                 pesoFinal: pesoTotal,
             };
-            console.log("formData",formData);
             router.post('/operations/control', formData)
         } else {
             alert("Por favor, ingrese un valor para Peso Recuperado");
@@ -194,10 +193,8 @@ export function Table({ organization,donors_id ,date2 ,category }) {
             };
         axios.post('/distribution/guardar', formData)
             .then(function (response) {
-                // console.log(response.data);
             })
             .catch(function (error) {
-                // console.log(error);
             });
     }
 
@@ -218,7 +215,6 @@ export function Table({ organization,donors_id ,date2 ,category }) {
             });
 
             const data = await response.json();
-            console.log("data",data);
             const organizationMap = organization.reduce((acc, org) => {
                 acc[org.id] = org;
                 return acc;

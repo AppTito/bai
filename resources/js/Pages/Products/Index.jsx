@@ -24,8 +24,8 @@ export default function Index(props) {
     const [openModalDelete, setOpenModalDelete] = useState(false);
     const [openModalInsert, setOpenModalInsert] = useState(false);
     const [openModalUpdate, setOpenModalUpdate] = useState(false);
-    
-    
+
+
     /* Valor ID */
     const [valorID, setValorID] = useState(null);
 
@@ -68,7 +68,8 @@ export default function Index(props) {
 
     const openUpdateModal = (id) => {
         setValorID(id);
-        console.log(id);
+
+
         setOpenModalUpdate(true);
     };
 

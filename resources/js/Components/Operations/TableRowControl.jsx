@@ -7,7 +7,6 @@ const TableControl = ({  categories, onDataChange, wastesColumns, date,
     let totalsArray = Object.values(totals.totalValues);
     const sum = totalsArray.reduce((a, b) => a + b, 0);
     totalsArray.push(sum);
-    console.log('totalsArray',totalsArray);
 
     const [totalWeight, setTotalWeight] = useState(0);
     const names = categories.map((category) => category.category);

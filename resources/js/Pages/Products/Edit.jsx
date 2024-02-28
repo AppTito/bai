@@ -45,7 +45,7 @@ export default function Edit({ onClose, id }) {
 
         put(route("products.update", product.id), {
             onSuccess: () => {
-                console.log("Producto actualizado con éxito");
+                xconsole.log("Producto actualizado con éxito");
             },
             onError: (errors) => {
                 console.error("Error al actualizar el producto:", errors);

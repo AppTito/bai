@@ -15,8 +15,8 @@ const columnNames = [
     { Panaderia: "panaderia" },
     { Granos: "granos" },
     { Embutidos: "embutidos" },
-    { Huevos: "huevos" }, 
-    { Cereales: "cereales" }, 
+    { Huevos: "huevos" },
+    { Cereales: "cereales" },
     { Reposteria: "reposteria" },
     { Procesados: "procesados" },
     { Salsas: "salsas" },
@@ -49,26 +49,6 @@ export default function Index(props) {
     const formData = {
         donors_id: donor_id,
         date: date,
-    };
-
-    /* control */
-    // Función para manejar el cambio en los valores de la tabla
-    const handleTableChange = (newAllCellValues) => {
-        // Actualizar el estado con todos los valores de las celdas
-        const columnSums = Array(7).fill(0);
-        newAllCellValues.forEach((row) => {
-            row.forEach((value, index) => {
-                columnSums[index] += value;
-            });
-        });
-
-        // Actualizar los estados solo si hay cambios
-        setPesoGavetas(newAllCellValues[17][6].toString());
-        setPesoProcesado(newAllCellValues[17][0].toString());
-        const valueGavetas = parseFloat(pesoGavetas);
-        const valueProcesado = parseFloat(pesoProcesado);
-        const total = valueGavetas - valueProcesado;
-        setPesoTotal(total.toString());
     };
 
     return (

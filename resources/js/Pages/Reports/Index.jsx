@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Head, usePage, useForm, Link } from "@inertiajs/react";
+import { Head, usePage, useForm } from "@inertiajs/react";
 import "react-datepicker/dist/react-datepicker.css";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import CalendarSection from "@/Components/Operations/CalendarSection";
@@ -31,21 +31,19 @@ export default function Index(props) {
 
     const handleSubmit = (e, routeName, formData) => {
         e.preventDefault();
-        console.log("Start Date:", formData.startDate);
-        console.log("End Date:", formData.endDate);
-        console.log("Donors ID:", formData.donors_id);
         post(route(routeName), formData);
     };
 
     return (
         <AuthenticatedLayout user={props.auth.user} errors={props.errors}>
             <Head title="Operaciones" />
-            <div className="container mx-auto mt-8 py-12 max-w-7xl sm:px-6 lg:px-7 flex items-center justify-center h-screen">
+            <div
+                className="container mx-auto mt-8 py-12 max-w-7xl sm:px-6 lg:px-7 flex items-center justify-center h-screen">
                 <div className="flex flex-col items-center">
                     <form
                         className="bg-white rounded-lg overflow-hidden shadow-md w-96 mb-8"
                         onSubmit={(e) =>
-                            handleSubmit(e, "reports.operationsByDate", {
+                            handleSubmit(e, "reports.distributionbydate", {
                                 startDate: formatDate(startDate),
                                 endDate: formatDate(endDate),
                                 donors_id: data.donors_id,
@@ -75,24 +73,20 @@ export default function Index(props) {
                                 />
                             </div>
                             <div className="mb-6">
-                                <label className="block text-green-700 text-sm font-bold mb-2">
-                                    Donante
+                                <label className="block text-green-700 text-sm font-bold mb-2" htmlFor="donors_id_o">
+                                    Seleccione el Donante
                                 </label>
-                                <select
-                                    name="donors_id"
-                                    id="donors_id"
-                                    className="w-full border border-gray-300 rounded-md p-2"
-                                    value={data.donors_id}
-                                    onChange={(e) =>
-                                        setData("donors_id", e.target.value)
-                                    }
-                                >
+                                <select className="w-full px-4 py-2 rounded-md" id="donors_id_o" name="donors_id"
+                                        value={data.donors_id}
+                                        onChange={(event) =>
+                                            setData("donors_id", event.target.value)
+                                        }>
                                     <option value="">
-                                        Selecciona un donante
+                                        Seleccione el donante
                                     </option>
-                                    {donors.map((donor) => (
-                                        <option key={donor.id} value={donor.id}>
-                                            {donor.name}
+                                    {donors.map(({id, name}) => (
+                                        <option key={id} value={id}>
+                                            {name}
                                         </option>
                                     ))}
                                 </select>
@@ -101,19 +95,11 @@ export default function Index(props) {
                                 </span>
                             </div>
                             <div className="flex justify-end">
-                                <Link
-                                    href={route("reports.distributionbydate", {
-                                        donor_id: data.donors_id,
-                                        startDate: formatDate(startDate),
-                                        endDate: formatDate(endDate),
-                                    })}
-                                    method="get"
-                                    as="button"
-                                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                                <button type="submit"
+                                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                                 >
                                     Buscar
-                                </Link>
-                            
+                                </button>
                             </div>
                         </div>
                     </form>

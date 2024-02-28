@@ -54,7 +54,8 @@ export default function Index(props) {
 
     const openUpdateModal = (id) => {
         setValorID(id);
-        console.log(id);
+
+
         setOpenModalUpdate(true);
     };
     const actions = ["", (id) => openUpdateModal(id), destroy];

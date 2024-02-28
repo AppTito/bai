@@ -1,13 +1,4 @@
 import React, { useState } from "react";
-import { Link } from "@inertiajs/react";
-import { Icon } from "@iconify/react";
-
-//const TableRowControlAlt = ({ tableRows, organization }) => {
-    /*const [columnTotals, setColumnTotals] = useState([
-        null,
-        ...Array(18).fill(0), 
-        // aqui se llenan los datos 
-    ]);*/
 
     const TableRowControlAlt = ({ tableRows, organization, distribution }) =>{
     const [columnTotals, setColumnTotals] = useState([
@@ -37,7 +28,7 @@ import { Icon } from "@iconify/react";
     const handleTotalChange = (index, e) => {
         const newColumnTotals = [...columnTotals];
         const parsedValue = parseFloat(e.target.textContent);
-        
+
         if (!isNaN(parsedValue)) {
             newColumnTotals[index] = parsedValue;
             setColumnTotals(newColumnTotals);

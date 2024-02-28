@@ -115,9 +115,6 @@ class DistributionController extends Controller
             ->where('id', $donor_id)
             ->value('name');
 
-        //Sentencia para buscar la distribución en la fecha y donante seleccionado en la tabla de DistributionsByDate
-        /*SELECT * FROM bai.distributions where donor_id = 1 AND date = "2024-01-16" order by id desc LIMIT 1;*/
-
         $distribution = Distribution::join('donors', 'distributions.donor_id', '=', 'donors.id')
             ->where('distributions.donor_id', $donor_id)
             ->where('distributions.date', $date)
@@ -125,9 +122,6 @@ class DistributionController extends Controller
             ->select('distributions.*', 'donors.name')
             ->first();
 
-        //Sentencia para buscar el control en la fecha y donante seleccionado en la tabla de ControlsByDate
-        /*SELECT * FROM bai.controls where donor_id = 1 AND date = "2024-02-15" order by id desc LIMIT 1;*/
-        
         $control = Control::join('donors', 'controls.donor_id', '=', 'donors.id')
             ->where('controls.donor_id', $donor_id)
             ->where('controls.date', $date)
@@ -159,20 +153,23 @@ class DistributionController extends Controller
         );
     }
 
-    public function reportsbydate(Request $request): Response
+    public function reportsbydate(Request $request)
 {
+    $request->validate([
+        'startDate' => 'required|date',
+        'endDate' => 'required|date',
+        'donors_id' => 'required',
+    ]);
+
     $startDate = $request->input('startDate');
     $endDate = $request->input('endDate');
-    $donor_id = $request->input('donor_id');
+    $donor_id = $request->input('donors_id');
 
     $organization = Organization::all();
     $categories = Category::all();
     $wastes = Waste::all();
-    
-    // Obtener el nombre del donante
-    $donor_name = Donors::where('id', $donor_id)->value('name');
 
-    // Consulta para obtener la distribución en el rango de fechas para el donante seleccionado
+    $donor_name = Donors::where('id', $donor_id)->value('name');
     $distribution = Distribution::join('donors', 'distributions.donor_id', '=', 'donors.id')
         ->where('distributions.donor_id', $donor_id)
         ->whereBetween('distributions.date', [$startDate, $endDate])
@@ -180,27 +177,24 @@ class DistributionController extends Controller
         ->select('distributions.*', 'donors.name')
         ->first();
 
-    // Consulta para obtener el control en el rango de fechas para el donante seleccionado
-
-$control = DB::table('controls')
-    ->join('donors', 'controls.donor_id', '=', 'donors.id')
-    ->where('controls.donor_id', $donor_id)
-    ->whereBetween('controls.date', [$startDate, $endDate])
-    ->orderByDesc('controls.id')
-    ->groupBy('donors.name') // Ajusta esta línea según tus necesidades
-    ->select(
-        DB::raw('SUM(controls.recuperado) as recuperado'),
-        DB::raw('SUM(controls.c_animal) as c_animal'),
-        DB::raw('SUM(controls.compostaje) as compostaje'),
-        DB::raw('SUM(controls.basura) as basura'),
-        DB::raw('SUM(controls.refrigerio) as refrigerio'),
-        DB::raw('SUM(controls.c_inmediato) as c_inmediato'),
-        DB::raw('SUM(controls.r_papel) as r_papel'),
-        DB::raw('SUM(controls.r_carton) as r_carton'),
-        DB::raw('SUM(controls.r_plastico) as r_plastico'),
-        DB::raw('SUM(controls.total) as total')
-    )
-    ->first();
+    $control = DB::table('controls')
+        ->join('donors', 'controls.donor_id', '=', 'donors.id')
+        ->where('controls.donor_id', $donor_id)
+        ->whereBetween('controls.date', [$startDate, $endDate])
+        ->groupBy('donors.name')
+        ->select(
+            DB::raw('SUM(controls.recuperado) as recuperado'),
+            DB::raw('SUM(controls.c_animal) as c_animal'),
+            DB::raw('SUM(controls.compostaje) as compostaje'),
+            DB::raw('SUM(controls.basura) as basura'),
+            DB::raw('SUM(controls.refrigerio) as refrigerio'),
+            DB::raw('SUM(controls.c_inmediato) as c_inmediato'),
+            DB::raw('SUM(controls.r_papel) as r_papel'),
+            DB::raw('SUM(controls.r_carton) as r_carton'),
+            DB::raw('SUM(controls.r_plastico) as r_plastico'),
+            DB::raw('SUM(controls.total) as total')
+        )
+        ->first();
 
     // Calcular la sumatoria de cada columna
     $totals = [
@@ -216,6 +210,9 @@ $control = DB::table('controls')
         'total' => Control::whereBetween('date', [$startDate, $endDate])->sum('total'),
     ];
 
+    if ($control === null ) {
+        return redirect()->route('reports.index')->with('errorMsg', 'No se encontraron registros para el rango de fechas seleccionado');
+    }
     return Inertia::render(
         'Reports/DistributionByDate',
         [
@@ -232,6 +229,5 @@ $control = DB::table('controls')
         ]
     );
 }
-
 
 }

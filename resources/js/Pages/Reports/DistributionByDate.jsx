@@ -1,13 +1,12 @@
 import React from "react";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
+import {Head, Link} from "@inertiajs/react";
 import TableRowControlAlt from "@/Components/Distribution/TableRowControlAlt";
 import Chart from "react-google-charts";
 
 export default function Index(props) {
     const { auth, errors, startDate, endDate, donor_name, waste, control } = props;
 
-    // Organizar datos para el gráfico
     const chartData = [
         ['Categoría', 'Valor'],
         ['Recuperado', control.recuperado],
@@ -19,7 +18,7 @@ export default function Index(props) {
         ['Reciclaje Papel', control.r_papel],
         ['Reciclaje Carton', control.r_carton],
         ['Reciclaje Plástico', control.r_plastico],
-     
+
     ];
 
     return (
@@ -27,8 +26,16 @@ export default function Index(props) {
             <Head title="Distribución por fecha" />
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-7">
+                    <div className="flex items-center mb-4">
+                        <Link
+                            href={route("reports.index")}
+                            className="px-4 py-2 font-bold text-white bg-green-600 rounded hover:bg-green-700"
+                        >
+                            Volver
+                        </Link>
+                    </div>
                     <div className="bg-white overflow-auto shadow-sm sm:rounded-lg p-6">
-                   
+
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-2xl font-bold text-start text-green-700 p-2">
                                 Fecha de Inicio: {startDate}
@@ -57,14 +64,12 @@ export default function Index(props) {
                                 width={'100%'}
                                 height={'400px'}
                                 chartType="PieChart"
-                               
                                 loader={<div>Cargando Gráfico...</div>}
                                 data={chartData}
                                 options={{
-                                   
-                                    hAxis: { title: 'Categoría' },
-                                    vAxis: { title: 'Valor' },
-                                    is3D:true,
+                                    hAxis: {title: 'Categoría'},
+                                    vAxis: {title: 'Valor'},
+                                    is3D: true,
                                 }}
                             />
                         </div>
