@@ -98,10 +98,7 @@ Para cualquier pregunta o comentario, no dudes en ponerte en contacto con nosotr
 - [@np646](https://github.com/np646)
 - [@marco-mz9](https://github.com/marco-mz9) 
  
-  
-=======
-.[!Important].
-### React correctly on mac with Laravel
+
 
 
 
