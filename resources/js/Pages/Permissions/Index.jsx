@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head, usePage } from "@inertiajs/react";
 import { Inertia } from "@inertiajs/inertia";
 import Pagination from "@/Components/Pagination";
-import Table from "@/Components/Table";
+import Table from "@/Components/Table3.jsx";
 
 export default function Index(props) {
     const { permissions } = usePage().props;
