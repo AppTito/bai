@@ -66,6 +66,14 @@ php artisan serve
 ```
 
 ### Run
+=======
+### You can now access the server at http://localhost:8000
+
+.[!Note].
+Solo para Mac
+
+### Laravel Log Error
+
 ```bash
 npm run dev
 ```
@@ -83,6 +91,7 @@ Este proyecto está bajo la [Licencia MIT](LICENSE).
 Para cualquier pregunta o comentario, no dudes en ponerte en contacto con nosotros a través de [correo electrónico](cdrecalde@pucesi.edu.ec).
 
 
+
 ## Authors
 
 - [@isnotcristhianr](https://github.com/Isnotcristhianr)
@@ -90,5 +99,9 @@ Para cualquier pregunta o comentario, no dudes en ponerte en contacto con nosotr
 - [@marco-mz9](https://github.com/marco-mz9) 
  
   
+=======
+.[!Important].
+### React correctly on mac with Laravel
+
 
 
