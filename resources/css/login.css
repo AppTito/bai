@@ -1,0 +1,14 @@
+body{
+    background-color: #00553f;
+    min-height: 100vh;
+}
+
+/* Estilos para autocompletar */
+input:-webkit-autofill{
+    -webkit-text-fill-color: #FF9F14 !important;
+    background-color: transparent !important;
+}
+
+.bg-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+}

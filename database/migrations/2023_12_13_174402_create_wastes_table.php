@@ -13,10 +13,7 @@ return new class extends Migration
     {
         Schema::create('wastes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained();
-            $table->integer('item');
-            $table->date('waste_date');
-            $table->foreignId('user_id')->constrained();
+            $table->string('item');
             $table->timestamps();
         });
     }

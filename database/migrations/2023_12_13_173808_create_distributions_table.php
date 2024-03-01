@@ -13,16 +13,29 @@ return new class extends Migration
     {
         Schema::create('distributions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('organization_id')->constrained();
-            $table->integer('percentage')->default(0);
-            $table->decimal('kilos_delivery')->default(0);
-            $table->decimal('total', 8, 2);
-            $table->decimal('pending_kilos', 8, 2);
-            $table->date('date_estimated');
-            $table->date('date_ini');
+            $table->date('date');
+            $table->foreignId('donor_id')->constrained();
+            $table->double('porcentaje');
+            $table->double('fruver');
+            $table->double('lacteos');
+            $table->double('panaderia');
+            $table->double('granos');
+            $table->double('embutidos');
+            $table->double('huevos');
+            $table->double('cereales');
+            $table->double('reposteria');
+            $table->double('procesados');
+            $table->double('salsas');
+            $table->double('proteina');
+            $table->double('jugos');
+            $table->double('carbohidratos');
+            $table->double('floristeria');
+            $table->double('enlatados');
+            $table->double('proteina_kfc');
+            $table->double('procesado_kfc');
+            $table->double('total');
+            $table->double('kg_pendientes');
             $table->boolean('status')->default(true);
-            $table->decimal('kilos_total', 8, 2)->default(0);
-            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

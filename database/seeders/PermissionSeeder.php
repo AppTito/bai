@@ -16,7 +16,17 @@ class PermissionSeeder extends Seeder
         $permissions = [
             'user-list', 'user-create', 'user-edit', 'user-delete',
             'role-list', 'role-create', 'role-edit', 'role-delete',
-            'permission-list', 'permission-create', 'permission-edit', 'permission-delete'
+            'permission-list', 'permission-create', 'permission-edit', 'permission-delete',
+            'donor-list', 'donor-create', 'donor-edit', 'donor-delete',
+            'category-list', 'category-create', 'category-edit', 'category-delete',
+            'organizations-list', 'organizations-create', 'organizations-edit', 'organizations-delete',
+            'product-list', 'product-create', 'product-edit', 'product-delete',
+            'bank-list', 'bank-create', 'bank-edit', 'bank-delete',
+            'attention-list', 'attention-create', 'attention-edit', 'attention-delete',
+            'estimation-list',
+            'operation-list',
+            'report-list',
+
         ];
 
         foreach ($permissions as $permission) {

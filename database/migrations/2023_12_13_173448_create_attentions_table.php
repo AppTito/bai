@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('attentions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id')->constrained();
-            $table->string('dni',10);
+            $table->string('name');
+            $table->string('dni', 10);
             $table->string('phone');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

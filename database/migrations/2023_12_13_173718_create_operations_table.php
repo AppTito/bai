@@ -18,7 +18,6 @@ return new class extends Migration
             $table->decimal('recovered', 8, 2);
             $table->integer('percentage');
             $table->date('date');
-            $table->foreignId('user_id')->constrained();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

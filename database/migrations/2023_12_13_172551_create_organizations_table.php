@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
+            $table->string('name', 100);
             $table->string('code', 20);
             $table->string('address');
-            $table->unsignedBigInteger('ruc');
+            $table->unsignedBigInteger('ruc')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

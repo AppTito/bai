@@ -15,6 +15,16 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            CategoriesTableSeeder::class,
+            BankTableSeeder::class,
+            OrganizationSeeder::class,
+            CategoryValuesTableSeeder::class,
+            WastesSeeder::class,
+            DonorsSeeder::class,
+            CategoryValuesTableSeeder::class,
+            ControlSeeder::class,
+            DistributionSeeder::class,
+            OperationSeeder::class
         ]);
     }
 }
