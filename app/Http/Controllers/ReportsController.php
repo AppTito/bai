@@ -16,12 +16,9 @@ class ReportsController extends Controller
     public function __construct()
     {
         $this->middleware(
-            'permission:operation-list|operation-create|operation-edit|operation-delete',
-            ['only' => ['index', 'show']]
+            'permission:report-list|report-create|report-edit|report-delete',
+            ['only' => ['index']]
         );
-        $this->middleware('permission:operation-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:operation-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:operation-delete', ['only' => ['destroy']]);
     }
 
     public function index(): Response

@@ -17,11 +17,8 @@ class EstimateController extends Controller
     {
         $this->middleware(
             'permission:estimation-list|estimation-create|estimation-edit|estimation-delete',
-            ['only' => ['index', 'show']]
+            ['only' => ['index']]
         );
-        $this->middleware('permission:estimation-create', ['only' => ['create', 'store']]);
-        $this->middleware('permission:estimation-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:estimation-delete', ['only' => ['destroy']]);
     }
 
     public function index(): Response

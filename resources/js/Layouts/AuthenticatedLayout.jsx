@@ -63,19 +63,20 @@ export default function Authenticated({ user, header, children }) {
                     <SidebarItem icon={<Icon icon="mdi:percent"/>} text="Estimación"
                                  href={route('estimations.index')} active={route().current('estimations.index')}/>
                 )}
-                
-                {(hasRole("super-admin") || hasPermission("organizations-list")) && (
+
+                {(hasRole("super-admin") || hasPermission("operation-list")) && (
                     <SidebarItem icon={<Icon icon="ic:outline-food-bank" fontSize={20}/>} text="Operación"
                                     href={route('operations.index')} active={route().current('operations.index')}/>
                 )}
-                {(hasRole("super-admin")) && (
+
+                {(hasRole("super-admin")|| hasPermission("report-list")) && (
                     <SidebarItem icon={<Icon icon="carbon:document" />} text="Reportes"
                                  href={route('reports.index')} active={route().current('reports.index')}/>
                 )}
             </Sidebar>
             {header && (
                 <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8  text-primary">{header}</div>
+                    <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8 text-primary">{header}</div>
                 </header>
             )}
             <main className="flex-grow overflow-x-hidden overflow-y-auto bg-gray-200">
